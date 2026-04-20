@@ -40,6 +40,7 @@ global expense_lines
 expense_lines = []
 days = []
 expenses = []
+exp = {}
 
 ########################################################################################################
 
@@ -86,12 +87,16 @@ def expenses_graph():
     plt.xlabel("Days")
     plt.ylabel("Expenses(Euros)")
 
-    count = 0
+    num = 0
     for x in expense_lines:
-        count += 1
-        expenses.append(float(x[0]))
-        days.append(count)
+        if exp.get(x[2]):
+            num = float(exp.get(x[2])) + float(x[0])
+            exp.update({x[2]: num})
+        else:
+            exp.update({x[2]: float(x[0])})
     
+    days = list(exp.keys())
+    expenses = list(exp.values())
     plt.plot(days, expenses)
     plt.show()
 
