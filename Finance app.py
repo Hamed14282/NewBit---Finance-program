@@ -34,17 +34,6 @@ years = 0
 annual_rate = 0
 periods = 0
 
-
-#read at retrieve main data
-file = open("data.txt", "r")
-lines = file.readlines()
-file.close()
-
-#read at retrieve expense data
-expense_file = open(f"{current_month}_expenses", "r")
-expense_lines = expense_file.readlines()
-expense_file.close()
-
 ########################################################################################################
 
 def accumulation():
@@ -107,8 +96,6 @@ def change_spendings():
     lines[2] = str(spendings) + "\n"
 
 def add_expense():
-    check_expense_file()
-
     expense = input("Input an expense(euros): ")
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
@@ -117,6 +104,20 @@ def add_expense():
     expense_file = open(f"{current_month}_expenses", "w")
     expense_file.writelines(expense_lines)
     expense_file.close()
+
+########################################################################################################
+
+check_expense_file()
+
+#read at retrieve main data
+file = open("data.txt", "r")
+lines = file.readlines()
+file.close()
+
+#read at retrieve expense data
+expense_file = open(f"{current_month}_expenses", "r")
+expense_lines = expense_file.readlines()
+expense_file.close()
 
 ########################################################################################################
 
@@ -139,6 +140,7 @@ else:
     spendings = float(lines[2].strip())
 
 save_data()
+
 ########################################################################################################
 
 print_data()
