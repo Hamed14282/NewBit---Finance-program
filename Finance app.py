@@ -2,12 +2,13 @@
 TODO
 UI
 Track real date and time to know when the month is over
-Create file for every month to store expense list (January_expenses)
+Graph total expenses in the month (get the total daily expenses for 1 value, then graph with days as x value)
 Display expenses in a list in ui
 
 """
 
-totalData = 3 #Number of constant variables in file
+#Number of constant variables in file
+totalData = 3 
 
 #Constant variables
 """
@@ -19,12 +20,14 @@ totalData = 3 #Number of constant variables in file
 ########################################################################################################
 
 import os
+import csv
+from matplotlib import pyplot as plt
 
 from datetime import datetime
 now = datetime.now()
 
 current_month = now.strftime("%m-%Y")
-current_day = now.strftime("%d-%m-%Y")
+current_day = now.strftime("%d")
 
 ########################################################################################################
 
@@ -33,6 +36,10 @@ months = 0
 years = 0
 annual_rate = 0
 periods = 0
+global expense_lines
+expense_lines = []
+days = []
+expenses = []
 
 ########################################################################################################
 
@@ -57,27 +64,37 @@ def print_data():
     print(f"Spendings: {lines[2]}")
 
 def check_expense_file():
-    if not os.path.exists(f"{current_month}_expenses"):
-        file = open(f"{current_month}_expenses", "x")
+    if not os.path.exists(f"{current_month}_expenses.csv"):
+        file = open(f"{current_month}_expenses.csv", "x")
+        file.close()
+
+def check_data_file():
+    if not os.path.exists("data.txt"):
+        file = open("data.txt", "x")
         file.close()
     
 def total_monthly_expenses():
-    parts = []
     total = 0
 
     for x in expense_lines:
-        parts = x.split(", ")
-        total += float(parts[0])
+        total += float(x[0])
 
     print(f"Total expenses this month {total}\n")
 
-def save_data():
-    with open("data.txt", "w") as file:
-        lines[0] = str(income) + "\n"
-        lines[1] = str(savings) + "\n"
-        lines[2] = str(spendings) + "\n"
-        file.writelines(lines)
+def expenses_graph():
+    plt.title("Monthly expenses")
+    plt.xlabel("Days")
+    plt.ylabel("Expenses(Euros)")
+
+    count = 0
+    for x in expense_lines:
+        count += 1
+        expenses.append(float(x[0]))
+        days.append(count)
     
+    plt.plot(days, expenses)
+    plt.show()
+
 ########################################################################################################
 
 def change_income():
@@ -99,25 +116,35 @@ def add_expense():
     expense = input("Input an expense(euros): ")
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
-    expense_lines.append(f"{expense}, {current_time}, {current_day}\n")
 
-    expense_file = open(f"{current_month}_expenses", "w")
-    expense_file.writelines(expense_lines)
-    expense_file.close()
+    global expense_lines
+    expense_lines.append([expense, current_time, current_day])
+
+    with open(f"{current_month}_expenses.csv", "w", newline="") as expense_file:
+        writer = csv.writer(expense_file)
+        writer.writerows(expense_lines)
+
+def save_data():
+    with open("data.txt", "w") as file:
+        lines[0] = str(income) + "\n"
+        lines[1] = str(savings) + "\n"
+        lines[2] = str(spendings) + "\n"
+        file.writelines(lines)
 
 ########################################################################################################
 
+check_data_file()
 check_expense_file()
 
 #read at retrieve main data
-file = open("data.txt", "r")
-lines = file.readlines()
-file.close()
+with open("data.txt", "r") as file:
+    lines = file.readlines()
 
 #read at retrieve expense data
-expense_file = open(f"{current_month}_expenses", "r")
-expense_lines = expense_file.readlines()
-expense_file.close()
+with open(f"{current_month}_expenses.csv", "r") as expense_file:
+    reader = csv.reader(expense_file)
+    for row in reader:
+        expense_lines.append(row)
 
 ########################################################################################################
 
@@ -153,7 +180,8 @@ print("5.Change savings value")
 print("6.Change spendings value")
 print("7.Add expense")
 print("8.Total expenses this month")
-print("9.-")
+print("9.Graph expenses (current month)")
+print("10.-")
 
 option = -1
 while option != 0:
@@ -184,6 +212,8 @@ while option != 0:
             add_expense()
         case 8: 
             total_monthly_expenses()
+        case 9: 
+            expenses_graph()
 
 ########################################################################################################
 
