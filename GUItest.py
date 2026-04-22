@@ -1,17 +1,10 @@
-import tkinter as tk
+import customtkinter
 
-window = tk.Tk()
+customtkinter.set_appearance_mode("dark")
+customtkinter.set_default_color_theme("dark-blue")
 
- 
-window.title("GUI test")
-window.geometry("800x600")
+root = customtkinter.CTk()
+root.geometry("500x350")
 
-label = tk.Label(window, text="GUI app", font=('Arial', 19))
-label.pack()
-
-frame = tk.Frame(window)
-frame.pack()
-
-
-
-window.mainloop() 
+frame = customtkinter.CTkFrame(master=root)
+frame.pack(pady=20, padx=60, fill="both", expand=True)
