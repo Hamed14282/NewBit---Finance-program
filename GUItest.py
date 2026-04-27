@@ -37,6 +37,10 @@ combobox.grid(row=1, column=1, pady=10, padx=10)
 ###############################################################################################################
 
 def select():
+    # Clear all widgets in frame2 before adding new ones
+    for widget in frame2.winfo_children():
+        widget.destroy()
+    
     case = combobox.get()
     match case:
         # case "Change income value":
