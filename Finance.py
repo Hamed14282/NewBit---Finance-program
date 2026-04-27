@@ -169,6 +169,21 @@ def save_data():
         lines[2] = str(spendings) + "\n"
         file.writelines(lines)
 
+def save_income():
+    with open("data/data.txt", "w") as file:
+        lines[0] = str(income) + "\n"
+        file.writelines(lines)
+    
+def save_savings():
+    with open("data/data.txt", "w") as file:
+        lines[1] = str(savings) + "\n"
+        file.writelines(lines)
+
+def save_spendings():
+    with open("data/data.txt", "w") as file:
+        lines[2] = str(spendings) + "\n"
+        file.writelines(lines)
+
 ########################################################################################################
 
 check_data_file()
@@ -213,9 +228,9 @@ print("0.End program")
 #print("1.Projection calculations")
 print("2.Interest")
 print("3.Print all saved data")
-print("4.Change income value")
-print("5.Change savings value")
-print("6.Change spendings value")
+# print("4.Change income value")
+# print("5.Change savings value")
+# print("6.Change spendings value")
 print("7.Add expense")
 print("8.Total expenses this month")
 print("9.Graph expenses (current month)")
@@ -229,7 +244,7 @@ while option != 0:
         case 0:
             break
         case 1:
-            accumulation()
+            projection()
             
         case 2:
             print("1.Simple interest\n2.Compound interest")

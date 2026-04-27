@@ -42,13 +42,9 @@ def select():
         widget.destroy()
     
     case = combobox.get()
+
     match case:
-        # case "Change income value":
-        #     pass
-        # case "Change savings value":
-        #     pass
-        # case "Change spendings value":
-        #     pass
+
         case "Change values":
             label3 = customtkinter.CTkLabel(master=frame2, text="Change values: Income, Savings, Spendings", font=("Roboto", 16))
             label3.grid(row=0, column=1, pady=10, padx=10)
@@ -68,13 +64,19 @@ def select():
             def change_value():
                 value = combobox2.get()
                 new_value = float(entry1.get())
+                
                 match value:
                     case "Income":
                         Finance.income = new_value
+                        Finance.save_income()
+                        
                     case "Savings":
                         Finance.savings = new_value
+                        Finance.save_savings()
+                        
                     case "Spendings":
                         Finance.spendings = new_value
+                        Finance.save_spendings()
 
                 label6 = customtkinter.CTkLabel(master=frame2, text="Values updated: Income: €" + str(Finance.income) + " / Savings: €" + str(Finance.savings) + " / Spendings: €" + str(Finance.spendings), font=("Roboto", 16))
                 label6.grid(row=4, column=1, pady=10, padx=10)
