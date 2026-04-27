@@ -24,6 +24,8 @@ totalData = 3
 import os
 import csv
 import glob
+
+import customtkinter
 from matplotlib import pyplot as plt
 
 from datetime import datetime
@@ -60,11 +62,6 @@ def compound_interest():
     years = float(input("Projected months: "))/12
     periods = int(input("Compounding periods per year: "))
     print(f"After {years} years of compound interest at a rate of {annual_rate}%, the total savings amount to {savings * (1 + (annual_rate/100)/periods) ** (periods * years)}€ (interest withuot income)")
-
-def print_data():
-    print(f"Income: {lines[0]}")
-    print(f"Savings: {lines[1]}")
-    print(f"Spendings: {lines[2]}")
 
 def check_expense_file():
     if not os.path.exists(f"data/{current_month}_expenses.csv"):
@@ -206,38 +203,101 @@ with open(f"data/{current_month}_expenses.csv", "r") as expense_file:
 while len(lines) < totalData:
     lines.append("\n")
 
+window = customtkinter.CTk()
+window.title("Missing data")
+
+frame1 = customtkinter.CTkFrame(master=window)
+frame1.grid(row=0, column=0, pady=20, padx=60)
+
+row = 0  # keep track of rows
+
+def save1():
+    global income
+    income = float(entry1.get())
+    save_income()
+
+def save2():
+    global savings
+    savings = float(entry2.get())
+    save_savings()
+
+def save3():
+    global spendings
+    spendings = float(entry3.get())
+    save_spendings()
+
+def save_all():
+    if 'entry1' in globals():
+        save1()
+    if 'entry2' in globals():
+        save2()
+    if 'entry3' in globals():
+        save3()
+    window.destroy()
+
+
+# ---- income ----
 if lines[0].strip() == "":
-    income = float(input("Initial income missing, enter initial income: "))
+    label1 = customtkinter.CTkLabel(master=frame1, text="Initial income:", font=("Roboto", 24))
+    label1.grid(row=row, column=0, pady=10, padx=10)
+
+    entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter initial income")
+    entry1.grid(row=row, column=1, pady=10, padx=10)
+
+    row += 1
 else:
     income = float(lines[0].strip())
 
+
+# ---- savings ----
 if lines[1].strip() == "":
-    savings = float(input("Initial savings missing, enter initial savings: "))
+    label2 = customtkinter.CTkLabel(master=frame1, text="Initial savings:", font=("Roboto", 24))
+    label2.grid(row=row, column=0, pady=10, padx=10)
+
+    entry2 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter initial savings")
+    entry2.grid(row=row, column=1, pady=10, padx=10)
+
+    row += 1
 else:
     savings = float(lines[1].strip())
 
+
+# ---- spendings ----
 if lines[2].strip() == "":
-    spendings = float(input("Initial spendings missing, enter initial spendings: "))
+    label3 = customtkinter.CTkLabel(master=frame1, text="Initial spendings:", font=("Roboto", 24))
+    label3.grid(row=row, column=0, pady=10, padx=10)
+
+    entry3 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter initial spendings")
+    entry3.grid(row=row, column=1, pady=10, padx=10)
+
+    row += 1
 else:
     spendings = float(lines[2].strip())
 
-save_data()
+
+# ---- one button at the end ----
+if row > 0:  # means at least one field was missing
+    button = customtkinter.CTkButton(master=frame1, text="Save", command=save_all)
+    button.grid(row=row, column=0, columnspan=2, pady=10, padx=10)
+
+
+window.mainloop()
 
 ########################################################################################################
 
-print_data()
-print("0.End program")
-#print("1.Projection calculations")
-print("2.Interest")
-print("3.Print all saved data")
-# print("4.Change income value")
-# print("5.Change savings value")
-# print("6.Change spendings value")
-print("7.Add expense")
-print("8.Total expenses this month")
-print("9.Graph expenses (current month)")
-print("10.Graph expenses (all months)")
-print("11.-")
+# print_data()
+# print("0.End program")
+# #print("1.Projection calculations")
+# print("2.Interest")
+# print("3.Print all saved data")
+# # print("4.Change income value")
+# # print("5.Change savings value")
+# # print("6.Change spendings value")
+# print("7.Add expense")
+# print("8.Total expenses this month")
+# print("9.Graph expenses (current month)")
+# print("10.Graph expenses (all months)")
+# print("11.-")
 
 option = -1
 # while option != 0:
@@ -275,8 +335,4 @@ option = -1
 
 ########################################################################################################
 
-save_data()
-
-########################################################################################################
-
-print("End of program")
+# print("End of program")

@@ -8,7 +8,6 @@ customtkinter.set_default_color_theme("dark-blue")
 
 window = customtkinter.CTk()
 window.title("Finance app")
-#window.geometry("800x450")
 
 ###############################################################################################################
 
