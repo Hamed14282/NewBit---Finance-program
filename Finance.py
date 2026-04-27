@@ -46,7 +46,7 @@ expenses = []
 
 ########################################################################################################
 
-def accumulation(months):
+def projection(months):
     result = savings + (income * months) - (spendings * months)
     return result
 
@@ -210,7 +210,7 @@ save_data()
 
 print_data()
 print("0.End program")
-print("1.Projection calculations")
+#print("1.Projection calculations")
 print("2.Interest")
 print("3.Print all saved data")
 print("4.Change income value")
