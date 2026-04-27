@@ -46,10 +46,9 @@ expenses = []
 
 ########################################################################################################
 
-def accumulation():
-    months = float(input("Projected months: "))
+def accumulation(months):
     result = savings + (income * months) - (spendings * months)
-    print(f"Total savings of {result} after {months} months")
+    return result
 
 def simple_interest():
     annual_rate = float(input("Annual interest rate(percentage): "))
