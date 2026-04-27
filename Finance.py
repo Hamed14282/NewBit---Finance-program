@@ -240,38 +240,38 @@ print("10.Graph expenses (all months)")
 print("11.-")
 
 option = -1
-while option != 0:
-    option = int(input("Select an option: "))
-    match (option):
-        case 0:
-            break
-        case 1:
-            projection()
+# while option != 0:
+#     option = int(input("Select an option: "))
+#     match (option):
+#         case 0:
+#             break
+#         case 1:
+#             projection()
             
-        case 2:
-            print("1.Simple interest\n2.Compound interest")
-            option = int(input("Select the interest type: "))
-            match (option):
-                case 1:
-                    simple_interest()
-                case 2:
-                    compound_interest()
-        case 3:
-            print_data()
-        case 4:
-            change_income()
-        case 5:
-            change_savings()
-        case 6:
-            change_spendings()
-        case 7:
-            add_expense()
-        case 8: 
-            total_monthly_expenses()
-        case 9: 
-            expenses_graph()
-        case 10: 
-            monthly_expenses_graph()
+#         case 2:
+#             print("1.Simple interest\n2.Compound interest")
+#             option = int(input("Select the interest type: "))
+#             match (option):
+#                 case 1:
+#                     simple_interest()
+#                 case 2:
+#                     compound_interest()
+#         case 3:
+#             print_data()
+#         case 4:
+#             change_income()
+#         case 5:
+#             change_savings()
+#         case 6:
+#             change_spendings()
+#         case 7:
+#             add_expense()
+#         case 8: 
+#             total_monthly_expenses()
+#         case 9: 
+#             expenses_graph()
+#         case 10: 
+#             monthly_expenses_graph()
 
 ########################################################################################################
 

@@ -1,5 +1,4 @@
 import Finance
-
 import customtkinter
 
 # from Finance import save_data
