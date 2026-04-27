@@ -2,7 +2,7 @@ import Finance
 
 import customtkinter
 
-#from Finance import save_data
+# from Finance import save_data
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
@@ -64,7 +64,7 @@ def select():
             def change_value():
                 value = combobox2.get()
                 new_value = float(entry1.get())
-                
+
                 match value:
                     case "Income":
                         Finance.income = new_value
@@ -89,23 +89,23 @@ def select():
             label3.grid(row=0, column=1, pady=10, padx=10)
 
             label4 = customtkinter.CTkLabel(master=frame2, text="Projected months:", font=("Roboto", 16))
-            label4.grid(row=1, column=0, pady=10, padx=10)
+            label4.grid(row=2, column=0, pady=10, padx=10)
 
+            label5 = customtkinter.CTkLabel(master=frame2, text=f"Income: €{Finance.income:.2f} / Savings: €{Finance.savings:.2f} / Spendings: €{Finance.spendings:.2f}", font=("Roboto", 16))
+            label5.grid(row=1, column=1, pady=10, padx=10)
+            
             entry1 = customtkinter.CTkEntry(master=frame2, placeholder_text="Enter projected months")
-            entry1.grid(row=1, column=1, pady=10, padx=10)
+            entry1.grid(row=2, column=1, pady=10, padx=10)
 
             def calculate_projection():
                 months = int(entry1.get())
                 result = Finance.projection(months)
 
-                label5 = customtkinter.CTkLabel(master=frame2, text=f"Income: €{Finance.income:.2f} / Savings: €{Finance.savings:.2f} / Spendings: €{Finance.spendings:.2f}", font=("Roboto", 16))
-                label5.grid(row=2, column=1, pady=10, padx=10)
-
                 label6 = customtkinter.CTkLabel(master=frame2, text="Total savings of €" + str(result) + " after " + str(months) + " months", font=("Roboto", 16))
                 label6.grid(row=3, column=1, pady=10, padx=10)
 
             button3 = customtkinter.CTkButton(master=frame2, text="Calculate", command=calculate_projection)
-            button3.grid(row=1, column=2, pady=10, padx=10)
+            button3.grid(row=2, column=2, pady=10, padx=10)
 
 
         case "Interest":
@@ -117,10 +117,12 @@ def select():
             pass
         case "Total expenses this month":
             pass
+        
         case "Graph expenses (current month)":
-            pass
+            Finance.expenses_graph()
+
         case "Graph expenses (all months)":
-            pass
+            Finance.monthly_expenses_graph()
             
 ###############################################################################################################
 

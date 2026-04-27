@@ -88,6 +88,7 @@ def total_monthly_expenses():
     print(f"Total expenses this month {total}\n")
 
 def expenses_graph():
+    plt.close('all')
     plt.title(f"{current_month} expenses")
     plt.xlabel("Days")
     plt.ylabel("Expenses(Euros)")
@@ -108,6 +109,7 @@ def expenses_graph():
     plt.show()
 
 def monthly_expenses_graph():
+    plt.close('all')
     plt.title("Monthly expenses")
     plt.xlabel("Month")
     plt.ylabel("Expenses (Euros)")
