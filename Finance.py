@@ -275,7 +275,6 @@ else:
     spendings = float(lines[2].strip())
 
 
-# ---- one button at the end ----
 if row > 0:  # means at least one field was missing
     button = customtkinter.CTkButton(master=frame1, text="Save", command=save_all)
     button.grid(row=row, column=0, columnspan=2, pady=10, padx=10)
@@ -299,7 +298,7 @@ window.mainloop()
 # print("10.Graph expenses (all months)")
 # print("11.-")
 
-option = -1
+# option = -1
 # while option != 0:
 #     option = int(input("Select an option: "))
 #     match (option):
