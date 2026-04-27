@@ -1,12 +1,6 @@
 ('C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance '
  'program\\build\\Finance\\PYZ-00.pyz',
- [('Finance',
-   'C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance program\\Finance.py',
-   'PYMODULE'),
-  ('GUItest',
-   'C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance program\\GUItest.py',
-   'PYMODULE'),
-  ('PIL',
+ [('PIL',
    'C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance '
    'program\\.venv\\Lib\\site-packages\\PIL\\__init__.py',
    'PYMODULE'),

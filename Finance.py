@@ -275,12 +275,10 @@ else:
     spendings = float(lines[2].strip())
 
 
-if row > 0:  # means at least one field was missing
+if row > 0:  #at least one field was missing
     button = customtkinter.CTkButton(master=frame1, text="Save", command=save_all)
     button.grid(row=row, column=0, columnspan=2, pady=10, padx=10)
-
-
-window.mainloop()
+    window.mainloop()
 
 ########################################################################################################
 
