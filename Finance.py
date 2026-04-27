@@ -248,7 +248,6 @@ if lines[0].strip() == "":
 else:
     income = float(lines[0].strip())
 
-
 # ---- savings ----
 if lines[1].strip() == "":
     label2 = customtkinter.CTkLabel(master=frame1, text="Initial savings:", font=("Roboto", 24))
@@ -260,7 +259,6 @@ if lines[1].strip() == "":
     row += 1
 else:
     savings = float(lines[1].strip())
-
 
 # ---- spendings ----
 if lines[2].strip() == "":
@@ -274,10 +272,11 @@ if lines[2].strip() == "":
 else:
     spendings = float(lines[2].strip())
 
+button = customtkinter.CTkButton(master=frame1, text="Save", command=save_all)
+button.grid(row=row, column=0, columnspan=2, pady=10, padx=10)
 
 if row > 0:  #at least one field was missing
-    button = customtkinter.CTkButton(master=frame1, text="Save", command=save_all)
-    button.grid(row=row, column=0, columnspan=2, pady=10, padx=10)
+    
     window.mainloop()
 
 ########################################################################################################
