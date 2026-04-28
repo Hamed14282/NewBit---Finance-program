@@ -1,4 +1,4 @@
-#pyinstaller Finance.py --onefile --noconsole
+#pyinstaller GUI.py --onefile --noconsole
 
 """ 
 TODO
@@ -24,6 +24,7 @@ totalData = 3
 import os
 import csv
 import glob
+from unittest import result
 
 import customtkinter
 from matplotlib import pyplot as plt
@@ -52,10 +53,9 @@ def projection(months):
     result = savings + (income * months) - (spendings * months)
     return result
 
-def simple_interest():
-    annual_rate = float(input("Annual interest rate(percentage): "))
-    years = float(input("Projected months: "))/12
-    print(f"After {years} years of simple interest at a rate of {annual_rate}%, the total savings amount to {savings + (savings * annual_rate/100 * years)}€ (interest withuot income)")
+def simple_interest(annual_rate, years, interest_money):
+    result = savings + (interest_money * annual_rate/100 * years)
+    return result
 
 def compound_interest():
     annual_rate = float(input("Annual interest rate(percentage): "))

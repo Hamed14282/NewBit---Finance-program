@@ -86,12 +86,13 @@ def select():
             label3 = customtkinter.CTkLabel(master=frame2, text="Projection calculations: Total savings after projected months", font=("Roboto", 16))
             label3.grid(row=0, column=1, pady=10, padx=10)
 
-            label4 = customtkinter.CTkLabel(master=frame2, text="Projected months:", font=("Roboto", 16))
-            label4.grid(row=2, column=0, pady=10, padx=10)
-
-            label5 = customtkinter.CTkLabel(master=frame2, text=f"Income: €{Finance.income:.2f} / Savings: €{Finance.savings:.2f} / Spendings: €{Finance.spendings:.2f}", font=("Roboto", 16))
-            label5.grid(row=1, column=1, pady=10, padx=10)
             
+            label4 = customtkinter.CTkLabel(master=frame2, text=f"Income: €{Finance.income:.2f} / Savings: €{Finance.savings:.2f} / Spendings: €{Finance.spendings:.2f}", font=("Roboto", 16))
+            label4.grid(row=1, column=1, pady=10, padx=10)
+            
+            label5 = customtkinter.CTkLabel(master=frame2, text="Projected months:", font=("Roboto", 16))
+            label5.grid(row=2, column=0, pady=10, padx=10)
+
             entry1 = customtkinter.CTkEntry(master=frame2, placeholder_text="Enter projected months")
             entry1.grid(row=2, column=1, pady=10, padx=10)
 
@@ -107,7 +108,62 @@ def select():
 
 
         case "Interest":
-            pass
+            label3 = customtkinter.CTkLabel(master=frame2, text="Select the type of interest calculation:", font=("Roboto", 16))
+            label3.grid(row=0, column=0, pady=10, padx=10)
+
+            def interest_selection(choice):
+                match choice:
+                    case "Simple Interest":
+                        label4 = customtkinter.CTkLabel(master=frame2, text="Simple interest: Total savings after projected years with simple interest", font=("Roboto", 16))
+                        label4.grid(row=1, column=1, pady=10, padx=10)
+
+                        label5 = customtkinter.CTkLabel(master=frame2, text=f"Savings: €{Finance.savings:.2f}", font=("Roboto", 16))
+                        label5.grid(row=2, column=1, pady=10, padx=10)
+
+                        label6 = customtkinter.CTkLabel(master=frame2, text=f"Portion of savings affected by interest", font=("Roboto", 16))
+                        label6.grid(row=3, column=0, pady=10, padx=10)
+
+                        entry1 = customtkinter.CTkEntry(master=frame2, placeholder_text="Enter portion of savings affected by interest")
+                        entry1.grid(row=3, column=1, pady=10, padx=10)
+
+                        label7 = customtkinter.CTkLabel(master=frame2, text="Annual interest rate(percentage):", font=("Roboto", 16))
+                        label7.grid(row=4, column=0, pady=10, padx=10)
+
+                        entry2 = customtkinter.CTkEntry(master=frame2, placeholder_text="Enter annual interest rate")
+                        entry2.grid(row=4, column=1, pady=10, padx=10)
+
+                        label8 = customtkinter.CTkLabel(master=frame2, text="Projected months:", font=("Roboto", 16))
+                        label8.grid(row=5, column=0, pady=10, padx=10)
+
+                        entry3 = customtkinter.CTkEntry(master=frame2, placeholder_text="Enter projected months")
+                        entry3.grid(row=5, column=1, pady=10, padx=10)
+
+                        def calculate_simple_interest():
+                            annual_rate = float(entry2.get())
+                            years = int(entry3.get())/12
+                            interest_money = float(entry1.get())
+                            result = Finance.simple_interest(annual_rate, years, interest_money)
+
+                            for widget in frame2.grid_slaves(row=6, column=1):
+                                widget.destroy()  # Clear previous result if exists
+
+                            if interest_money > Finance.savings or interest_money <= 0:
+                                label9 = customtkinter.CTkLabel(master=frame2, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Finance.savings), font=("Roboto", 16))
+                                label9.grid(row=6, column=1, pady=10, padx=10)
+                            else:
+                                label9 = customtkinter.CTkLabel(master=frame2, text="Total savings of €" + str(result) + " after " + str(years) + " years with simple interest", font=("Roboto", 16))
+                                label9.grid(row=6, column=1, pady=10, padx=10)
+
+                        button4 = customtkinter.CTkButton(master=frame2, text="Calculate", command=calculate_simple_interest)
+                        button4.grid(row=5, column=2, pady=10, padx=10)
+
+                    case "Compound Interest":
+                        Finance.compound_interest()
+            
+            combobox2 = customtkinter.CTkComboBox(master=frame2, values=["-", "Simple Interest", "Compound Interest"], command=interest_selection)
+            combobox2.grid(row=0, column=1, pady=10, padx=10)
+
+
         case "Print all saved data":
             pass
         
