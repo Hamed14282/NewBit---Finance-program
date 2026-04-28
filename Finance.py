@@ -283,12 +283,19 @@ if row > 0:  #at least one field was missing
 # print("0.End program")
 # #print("1.Projection calculations")
 # print("2.Interest")
-# print("3.Print all saved data")
+
+
 # # print("4.Change income value")
 # # print("5.Change savings value")
 # # print("6.Change spendings value")
+
+
+#### table of expenses with all the data (amount, time, day) and a total of all the data for current month (also include the option to select other months in the future)
 # print("7.Add expense")
 # print("8.Total expenses this month")
+# print("3.Print all saved data")
+
+
 # print("9.Graph expenses (current month)")
 # print("10.Graph expenses (all months)")
 # print("11.-")
