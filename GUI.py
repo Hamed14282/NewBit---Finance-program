@@ -3,8 +3,6 @@ from matplotlib.pylab import choice
 import Finance
 import customtkinter
 
-# from Finance import save_data
-
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
@@ -16,8 +14,13 @@ window.title("Finance app")
 frame1 = customtkinter.CTkFrame(master=window)
 frame1.grid(row=0, column=0, pady=20, padx=60)
 
-frame2 = customtkinter.CTkFrame(master=window)
-frame2.grid(row=1, column=0, pady=20, padx=60)
+frame2 = None
+frame3 = None
+
+def create_frame2():
+    global frame2
+    frame2 = customtkinter.CTkFrame(master=window)
+    frame2.grid(row=1, column=0, pady=20, padx=60)
 
 def create_frame3():
     global frame3
@@ -39,15 +42,21 @@ combobox.grid(row=1, column=1, pady=10, padx=10)
 ###############################################################################################################
 
 def select():
-    # Clear all widgets in frame2 before adding new ones
-    for widget in frame2.winfo_children():
-        widget.destroy()
-    
+    global frame2, frame3
+
+    if frame2 is not None and frame2.winfo_exists():
+        frame2.destroy()
+
+    if frame3 is not None and frame3.winfo_exists():
+        frame3.destroy()
+
     case = combobox.get()
 
     match case:
 
         case "Change values":
+            create_frame2()
+
             label3 = customtkinter.CTkLabel(master=frame2, text="Change values: Income, Savings, Spendings", font=("Roboto", 16))
             label3.grid(row=0, column=1, pady=10, padx=10)
 
@@ -87,6 +96,8 @@ def select():
             button3.grid(row=3, column=2, pady=10, padx=10)
 
         case "Projection calculations":
+            create_frame2()
+
             label3 = customtkinter.CTkLabel(master=frame2, text="Projection calculations: Total savings after projected months", font=("Roboto", 16))
             label3.grid(row=0, column=1, pady=10, padx=10)
 
@@ -112,17 +123,19 @@ def select():
 
 
         case "Interest":
+            create_frame2()
+
             label3 = customtkinter.CTkLabel(master=frame2, text="Select the type of interest calculation:", font=("Roboto", 16))
             label3.grid(row=0, column=0, pady=10, padx=10)
 
             def interest_selection(choice):
-                create_frame3()
-                # Clear all widgets in frame3 before adding new ones
-                for widget in frame3.winfo_children():
-                    widget.destroy()
+                if frame3 is not None and frame3.winfo_exists():
+                    frame3.destroy()
                 
                 match choice:
                     case "Simple Interest":
+                        create_frame3()
+
                         label4 = customtkinter.CTkLabel(master=frame3, text="Simple interest: Total savings after projected years with simple interest", font=("Roboto", 16))
                         label4.grid(row=1, column=1, pady=10, padx=10)
 
@@ -168,6 +181,8 @@ def select():
                         button4.grid(row=5, column=2, pady=10, padx=10)
 
                     case "Compound Interest":
+                        create_frame3()
+
                         label4 = customtkinter.CTkLabel(master=frame3, text="Compound interest: Total savings after projected years with compound interest", font=("Roboto", 16))
                         label4.grid(row=1, column=1, pady=10, padx=10)
 
