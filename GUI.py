@@ -36,7 +36,7 @@ label.grid(row=0, column=1, pady=10, padx=10)
 label2 = customtkinter.CTkLabel(master=frame1, text="Select an option:", font=("Roboto", 16))
 label2.grid(row=1, column=0, pady=10, padx=10)
 
-combobox = customtkinter.CTkComboBox(master=frame1, values=["Change values", "Projection calculations", "Interest", "Print all saved data", "Add expense", "Total expenses this month", "Graph expenses (current month)", "Graph expenses (all months)"])
+combobox = customtkinter.CTkComboBox(master=frame1, values=["Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses (current month)", "Graph expenses (all months)"])
 combobox.grid(row=1, column=1, pady=10, padx=10)
 
 ###############################################################################################################
