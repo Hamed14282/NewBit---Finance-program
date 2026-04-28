@@ -57,11 +57,9 @@ def simple_interest(annual_rate, years, interest_money):
     result = savings + (interest_money * annual_rate/100 * years)
     return result
 
-def compound_interest():
-    annual_rate = float(input("Annual interest rate(percentage): "))
-    years = float(input("Projected months: "))/12
-    periods = int(input("Compounding periods per year: "))
-    print(f"After {years} years of compound interest at a rate of {annual_rate}%, the total savings amount to {savings * (1 + (annual_rate/100)/periods) ** (periods * years)}€ (interest withuot income)")
+def compound_interest(annual_rate, years, interest_money, periods):
+    result = (savings - interest_money) + (interest_money * (1 + (annual_rate/100)/periods) ** (periods * years))
+    return result
 
 def check_expense_file():
     if not os.path.exists(f"data/{current_month}_expenses.csv"):
