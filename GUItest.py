@@ -165,28 +165,28 @@ def select(case):
                         create_frame3(1, 0)
 
                         label4 = customtkinter.CTkLabel(master=frame3, text="Simple interest: Total savings after projected years with simple interest", font=("Roboto", 24))
-                        label4.grid(row=1, column=1, pady=10, padx=0)
+                        label4.grid(row=1, column=1, pady=10, padx=10)
 
                         label5 = customtkinter.CTkLabel(master=frame3, text=f"Savings: €{Finance.savings:.2f}", font=("Roboto", 16))
-                        label5.grid(row=2, column=1, pady=10, padx=0)
+                        label5.grid(row=2, column=1, pady=10, padx=10)
 
                         label6 = customtkinter.CTkLabel(master=frame3, text=f"Portion of savings affected by interest", font=("Roboto", 16))
-                        label6.grid(row=3, column=0, pady=10, padx=0)
+                        label6.grid(row=3, column=0, pady=10, padx=10)
 
                         entry1 = customtkinter.CTkEntry(master=frame3, placeholder_text="Enter portion of savings affected by interest")
-                        entry1.grid(row=3, column=1, pady=10, padx=0)
+                        entry1.grid(row=3, column=1, pady=10, padx=10)
 
                         label7 = customtkinter.CTkLabel(master=frame3, text="Annual interest rate(percentage):", font=("Roboto", 16))
-                        label7.grid(row=4, column=0, pady=10, padx=0)
+                        label7.grid(row=4, column=0, pady=10, padx=10)
 
                         entry2 = customtkinter.CTkEntry(master=frame3, placeholder_text="Enter annual interest rate")
-                        entry2.grid(row=4, column=1, pady=10, padx=0)
+                        entry2.grid(row=4, column=1, pady=10, padx=10)
 
                         label8 = customtkinter.CTkLabel(master=frame3, text="Projected months:", font=("Roboto", 16))
-                        label8.grid(row=5, column=0, pady=10, padx=0)
+                        label8.grid(row=5, column=0, pady=10, padx=10)
 
                         entry3 = customtkinter.CTkEntry(master=frame3, placeholder_text="Enter projected months")
-                        entry3.grid(row=5, column=1, pady=10, padx=0)
+                        entry3.grid(row=5, column=1, pady=10, padx=10)
 
 
                         def calculate_simple_interest():
