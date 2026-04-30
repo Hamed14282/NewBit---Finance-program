@@ -27,8 +27,9 @@ import glob
 
 import customtkinter
 from matplotlib import pyplot as plt
-
+import numpy as np
 from datetime import datetime
+from matplotlib.figure import Figure
 now = datetime.now()
 
 current_month = now.strftime("%m-%Y")
@@ -82,11 +83,6 @@ def total_monthly_expenses():
     print(f"Total expenses this month {total}\n")
 
 def expenses_graph():
-    plt.close('all')
-    plt.title(f"{current_month} expenses")
-    plt.xlabel("Days")
-    plt.ylabel("Expenses(Euros)")
-
     exp = {}    
     num = 0
     
@@ -99,15 +95,19 @@ def expenses_graph():
     
     days = list(exp.keys())
     expenses = list(exp.values())
-    plt.plot(days, expenses)
-    plt.show()
+
+    fig = Figure(figsize=(5, 4), dpi=100)
+    ax = fig.add_subplot(111)
+    ax.plot(days, expenses, marker='o')
+    
+    ax.set_title(f"{current_month} expenses")
+    ax.set_xlabel("Days")
+    ax.set_ylabel("Expenses (Euros)")
+    ax.grid(True)
+
+    return fig
 
 def monthly_expenses_graph():
-    plt.close('all')
-    plt.title("Monthly expenses")
-    plt.xlabel("Month")
-    plt.ylabel("Expenses (Euros)")
-
     exp = {}
 
     files = glob.glob("data/*_expenses.csv")
@@ -126,8 +126,16 @@ def monthly_expenses_graph():
     months = sorted(exp.keys())
     values = [exp[m] for m in months]
 
-    plt.plot(months, values)
-    plt.show()
+    fig = Figure(figsize=(6, 4), dpi=100)
+    ax = fig.add_subplot(111)
+    ax.plot(months, values, marker='o')
+
+    ax.set_title("Monthly expenses")
+    ax.set_xlabel("Month")
+    ax.set_ylabel("Expenses (Euros)")
+    ax.grid(True)
+
+    return fig
 
 ########################################################################################################
 

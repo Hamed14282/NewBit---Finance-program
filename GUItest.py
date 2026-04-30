@@ -1,5 +1,8 @@
-import Finance
+import Financetest
 import customtkinter
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
@@ -90,7 +93,7 @@ def select(case):
             label3 = customtkinter.CTkLabel(master=frame2, text="Change values: Income, Savings, Spendings", font=("Roboto", 24))
             label3.grid(row=0, column=1, pady=10, padx=10)
 
-            label4 = customtkinter.CTkLabel(master=frame2, text="Current values: Income: €" + str(Finance.income) + " / Savings: €" + str(Finance.savings) + " / Spendings: €" + str(Finance.spendings), font=("Roboto", 16))
+            label4 = customtkinter.CTkLabel(master=frame2, text="Current values: Income: €" + str(Financetest.income) + " / Savings: €" + str(Financetest.savings) + " / Spendings: €" + str(Financetest.spendings), font=("Roboto", 16))
             label4.grid(row=1, column=1, pady=10, padx=10)
 
             label5 = customtkinter.CTkLabel(master=frame2, text="Select value to change:", font=("Roboto", 16))
@@ -108,18 +111,18 @@ def select(case):
 
                 match value:
                     case "Income":
-                        Finance.income = new_value
-                        Finance.save_income()
+                        Financetest.income = new_value
+                        Financetest.save_income()
                         
                     case "Savings":
-                        Finance.savings = new_value
-                        Finance.save_savings()
+                        Financetest.savings = new_value
+                        Financetest.save_savings()
                         
                     case "Spendings":
-                        Finance.spendings = new_value
-                        Finance.save_spendings()
+                        Financetest.spendings = new_value
+                        Financetest.save_spendings()
 
-                label6 = customtkinter.CTkLabel(master=frame2, text="Values updated: Income: €" + f"{Finance.income:.2f}" + " / Savings: €" + f"{Finance.savings:.2f}" + " / Spendings: €" + f"{Finance.spendings:.2f}", font=("Roboto", 16))
+                label6 = customtkinter.CTkLabel(master=frame2, text="Values updated: Income: €" + f"{Financetest.income:.2f}" + " / Savings: €" + f"{Financetest.savings:.2f}" + " / Spendings: €" + f"{Financetest.spendings:.2f}", font=("Roboto", 16))
                 label6.grid(row=4, column=1, pady=10, padx=10)
             
             button3 = customtkinter.CTkButton(master=frame2, text="Change", command=change_value)
@@ -132,7 +135,7 @@ def select(case):
             label3.grid(row=0, column=1, pady=10, padx=10)
 
             
-            label4 = customtkinter.CTkLabel(master=frame2, text=f"Income: €{Finance.income:.2f} / Savings: €{Finance.savings:.2f} / Spendings: €{Finance.spendings:.2f}", font=("Roboto", 16))
+            label4 = customtkinter.CTkLabel(master=frame2, text=f"Income: €{Financetest.income:.2f} / Savings: €{Financetest.savings:.2f} / Spendings: €{Financetest.spendings:.2f}", font=("Roboto", 16))
             label4.grid(row=1, column=1, pady=10, padx=10)
             
             label5 = customtkinter.CTkLabel(master=frame2, text="Projected months:", font=("Roboto", 16))
@@ -143,7 +146,7 @@ def select(case):
 
             def calculate_projection():
                 months = int(entry1.get())
-                result = Finance.projection(months)
+                result = Financetest.projection(months)
 
                 label6 = customtkinter.CTkLabel(master=frame2, text="Total savings of €" + f"{result:.2f}" + " after " + str(months) + " months", font=("Roboto", 16))
                 label6.grid(row=3, column=1, pady=10, padx=10)
@@ -175,7 +178,7 @@ def select(case):
                         label4 = customtkinter.CTkLabel(master=frame4, text="Simple interest: Total savings after projected years with simple interest", font=("Roboto", 24))
                         label4.grid(row=0, column=0, pady=10, padx=10)
 
-                        label5 = customtkinter.CTkLabel(master=frame4, text=f"Savings: €{Finance.savings:.2f}", font=("Roboto", 16))
+                        label5 = customtkinter.CTkLabel(master=frame4, text=f"Savings: €{Financetest.savings:.2f}", font=("Roboto", 16))
                         label5.grid(row=1, column=0, pady=10, padx=10)
 
                         label6 = customtkinter.CTkLabel(master=frame5, text="Portion of savings affected by interest:", font=("Roboto", 16))
@@ -201,7 +204,7 @@ def select(case):
                             interest_money = float(entry1.get())
                             annual_rate = float(entry2.get())
                             years = int(entry3.get())/12
-                            result = Finance.simple_interest(annual_rate, years, interest_money)
+                            result = Financetest.simple_interest(annual_rate, years, interest_money)
 
                             global frame6
                             if frame6 is None or not frame6.winfo_exists():
@@ -212,8 +215,8 @@ def select(case):
                             for widget in frame6.grid_slaves(row=0, column=0):
                                 widget.destroy()
                             
-                            if interest_money > Finance.savings or interest_money <= 0:
-                                label10 = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Finance.savings), font=("Roboto", 16))
+                            if interest_money > Financetest.savings or interest_money <= 0:
+                                label10 = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), font=("Roboto", 16))
                                 label10.grid(row=0, column=0, pady=10, padx=10)
                             else:
                                 label9 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + str(years) + " years with simple interest", font=("Roboto", 16))
@@ -222,7 +225,6 @@ def select(case):
                         button4 = customtkinter.CTkButton(master=frame5, text="Calculate", command=calculate_simple_interest)
                         button4.grid(row=2, column=2, pady=10, padx=10)
 
-#NEEDS WORK##################################################################################################
                     case "Compound Interest":
                         create_frame3(1, 0)
                         
@@ -236,7 +238,7 @@ def select(case):
                         label4 = customtkinter.CTkLabel(master=frame4, text="Compound interest: Total savings after projected years with compound interest", font=("Roboto", 24))
                         label4.grid(row=0, column=1, pady=10, padx=10)
 
-                        label5 = customtkinter.CTkLabel(master=frame4, text=f"Savings: €{Finance.savings:.2f}", font=("Roboto", 16))
+                        label5 = customtkinter.CTkLabel(master=frame4, text=f"Savings: €{Financetest.savings:.2f}", font=("Roboto", 16))
                         label5.grid(row=1, column=1, pady=10, padx=10)
                         
                         label6 = customtkinter.CTkLabel(master=frame5, text="Portion of savings affected by interest:", font=("Roboto", 16))
@@ -268,7 +270,7 @@ def select(case):
                             annual_rate = float(entry2.get())
                             years = int(entry3.get())/12
                             periods = int(entry4.get())
-                            result = Finance.compound_interest(annual_rate, years, interest_money, periods)
+                            result = Financetest.compound_interest(annual_rate, years, interest_money, periods)
 
                             global frame6
                             if frame6 is None or not frame6.winfo_exists():
@@ -278,8 +280,8 @@ def select(case):
                             for widget in frame6.grid_slaves(row=0, column=0):
                                 widget.destroy()  # Clear previous result if exists  
                             
-                            if interest_money > Finance.savings or interest_money <= 0:
-                                label10 = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Finance.savings), font=("Roboto", 16))
+                            if interest_money > Financetest.savings or interest_money <= 0:
+                                label10 = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), font=("Roboto", 16))
                                 label10.grid(row=0, column=0, pady=10, padx=10)
                             else:
                                 label10 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + str(years) + " years with compound interest", font=("Roboto", 16))
@@ -301,11 +303,20 @@ def select(case):
             pass
         
         case "Graph expenses (current month)":
-            Finance.expenses_graph()
+            create_frame2(1, 0)
+            fig = Financetest.expenses_graph()
+            canvas = FigureCanvasTkAgg(fig, master=frame2)
+            canvas.draw()
+            canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
 
         case "Graph expenses (all months)":
-            Finance.monthly_expenses_graph()
-            
+            create_frame2(1, 0)
+            fig = Financetest.monthly_expenses_graph()
+            canvas = FigureCanvasTkAgg(fig, master=frame2)
+            canvas.draw()
+            canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+
+
 ###############################################################################################################
 
 combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses (current month)", "Graph expenses (all months)"], command=select)
