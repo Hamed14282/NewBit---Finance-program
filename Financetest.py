@@ -219,8 +219,8 @@ def expenses_graph(month):
     ax.plot(days, expenses, marker='o', label='Expenses')
     ax.plot(days_sav, savings, marker='s', label='Savings')
 
-    #Changes the x and y axis steps to show only multiples of 1 for x and multiples of 25 for y
-    ax.yaxis.set_major_locator(plt.MultipleLocator(25))
+    # Changes the x and y axis steps to show only multiples of 1 for x and multiples of 25 for y
+    # ax.yaxis.set_major_locator(plt.MultipleLocator(25))
 
     #Sets x axis minimum to 1
     ax.set_xlim(left=1)
@@ -274,8 +274,8 @@ def monthly_expenses_graph():
     ax.plot(months, expense_values, marker='o', label='Expenses')
     ax.plot(months, savings_values, marker='s', label='Savings')
 
-    #Changes the y axis steps to show only multiples of 25
-    ax.yaxis.set_major_locator(plt.MultipleLocator(25))
+    # Changes the y axis steps to show only multiples of 25
+    # ax.yaxis.set_major_locator(plt.MultipleLocator(25))
 
     ax.set_title("Monthly expenses")
     ax.set_xlabel("Month")

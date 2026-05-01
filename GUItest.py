@@ -681,7 +681,6 @@ def select(case):
 
         case "Graph expenses":
             create_frame2(1, 0, window)
-            Financetest.check_empty_files()
             
             label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
             label3.grid(row=3, column=0, pady=10, padx=10)
