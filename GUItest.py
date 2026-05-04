@@ -1,5 +1,6 @@
 import Financetest
 import customtkinter
+from CTkTreeview.treeview import CTkTreeview
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -294,14 +295,22 @@ def select(case):
             combobox2.grid(row=4, column=0, pady=10, padx=10)
 
 
-        case "Print all saved data":
-            pass
-        
-        case "Add expense":
-            pass
-        case "Total expenses this month":
-            pass
-        
+        case "Show expenses(table)":
+            create_frame2(1, 0)
+
+            table = CTkTreeview(frame2, 
+                                columns=("Amount", "Time", "Day"), 
+                                show="headings", 
+                                height=len(Financetest.expense_lines) if len(Financetest.expense_lines) < 15 else 15)
+            
+            table.heading("Amount", text="Amount")
+            table.heading("Time", text="Time")
+            table.heading("Day", text="Day")
+            table.grid(row=0, column=0, sticky="nsew")
+
+            for x in Financetest.expense_lines:
+                table.insert(parent="", index="end", values=(x[0], x[1], x[2]))
+
         case "Graph expenses (current month)":
             create_frame2(1, 0)
             fig = Financetest.expenses_graph()
