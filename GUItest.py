@@ -63,8 +63,6 @@ def create_frame3(x, y):
     frame3.grid_columnconfigure(1, weight=1)
 
 ###############################################################################################################
-
-###############################################################################################################
 #Frame 1
 
 label = customtkinter.CTkLabel(master=frame1, text="Finance app", font=("Roboto", 30))
@@ -357,12 +355,6 @@ def select(case):
 
 combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses (current month)", "Graph expenses (all months)"], command=select)
 combobox.grid(row=2, column=0, pady=10, padx=10)
-
-###############################################################################################################
-#Frame 2
-
-###############################################################################################################
-#Frame 3
 
 ###############################################################################################################
 
