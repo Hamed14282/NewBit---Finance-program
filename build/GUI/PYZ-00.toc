@@ -2090,6 +2090,10 @@
   ('tracemalloc', 'C:\\Python314\\Lib\\tracemalloc.py', 'PYMODULE'),
   ('tty', 'C:\\Python314\\Lib\\tty.py', 'PYMODULE'),
   ('typing', 'C:\\Python314\\Lib\\typing.py', 'PYMODULE'),
+  ('typing_extensions',
+   'C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance '
+   'program\\.venv\\Lib\\site-packages\\typing_extensions.py',
+   'PYMODULE'),
   ('unittest', 'C:\\Python314\\Lib\\unittest\\__init__.py', 'PYMODULE'),
   ('unittest._log', 'C:\\Python314\\Lib\\unittest\\_log.py', 'PYMODULE'),
   ('unittest.async_case',

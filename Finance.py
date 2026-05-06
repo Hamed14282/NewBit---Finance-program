@@ -1,4 +1,4 @@
-#pyinstaller GUI.py --onefile --noconsole
+#pyinstaller GUItest.py --onefile --noconsole
 
 """ 
 TODO

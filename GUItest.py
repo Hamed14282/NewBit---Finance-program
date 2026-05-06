@@ -1,7 +1,7 @@
 import Financetest
 import customtkinter
+from tkinter import ttk
 from CTkTreeview.treeview import CTkTreeview
-from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
@@ -10,7 +10,7 @@ customtkinter.set_default_color_theme("dark-blue")
 
 window = customtkinter.CTk()
 window.title("Finance app")
-window.minsize(700, 300)
+window.minsize(500, 300)
 window.grid_columnconfigure(0, weight=1)
 window.grid_columnconfigure(1, weight=1)
 window.grid_rowconfigure(0, weight=1)
@@ -33,7 +33,7 @@ frame6 = None
 def create_frame2():
     global frame2
     frame2 = customtkinter.CTkFrame(master=window)
-    frame2.grid(row=0, column=1, pady=15, padx=15, sticky="nse")
+    frame2.grid(row=0, column=1, pady=15, padx=15, sticky="nsew")
     frame2.grid_columnconfigure(0, weight=1)
     frame2.grid_columnconfigure(1, weight=1)
 
@@ -42,7 +42,7 @@ def create_frame2(x, y):
     frame2 = customtkinter.CTkFrame(master=window)
     frame2.grid(row=y, column=x, pady=15, padx=15, sticky="nsew")
     if x == 0 and y == 1:
-        frame2.grid(row=y, column=x, pady=15, padx=15, sticky="nsw")
+        frame2.grid(row=y, column=x, pady=15, padx=15, sticky="nsew")
         frame2.grid_columnconfigure(0, weight=0)
         frame2.grid_rowconfigure(0, weight=0)
     frame2.grid_columnconfigure(0, weight=1)
@@ -130,30 +130,51 @@ def select(case):
             button3.grid(row=3, column=2, pady=10, padx=10)
 
         case "Projection calculations":
-            create_frame2(1, 0)
+            create_frame3(1, 0)
 
-            label3 = customtkinter.CTkLabel(master=frame2, text="Projection calculations: Total savings after projected months", font=("Roboto", 24))
-            label3.grid(row=0, column=1, pady=10, padx=10)
+            frame4 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
+            frame4.grid(row=0, column=0, columnspan=2, pady=0, padx=0)
 
+            frame5 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
+            frame5.grid(row=1, column=0, columnspan=2, pady=0, padx=0)
+
+            label3 = customtkinter.CTkLabel(master=frame4, text="Projection calculations: Total savings after projected months", font=("Roboto", 24))
+            label3.grid(row=0, column=0, pady=10, padx=10)
+
+            label4 = customtkinter.CTkLabel(master=frame4, text=f"Income: €{Financetest.income:.2f} / Savings: €{Financetest.savings:.2f} / Spendings: €{Financetest.spendings:.2f}", font=("Roboto", 16))
+            label4.grid(row=1, column=0, pady=10, padx=10)
             
-            label4 = customtkinter.CTkLabel(master=frame2, text=f"Income: €{Financetest.income:.2f} / Savings: €{Financetest.savings:.2f} / Spendings: €{Financetest.spendings:.2f}", font=("Roboto", 16))
-            label4.grid(row=1, column=1, pady=10, padx=10)
-            
-            label5 = customtkinter.CTkLabel(master=frame2, text="Projected months:", font=("Roboto", 16))
-            label5.grid(row=2, column=0, pady=10, padx=10)
+            label5 = customtkinter.CTkLabel(master=frame5, text="Projected months:", font=("Roboto", 16))
+            label5.grid(row=0, column=0, pady=10, padx=10)
 
-            entry1 = customtkinter.CTkEntry(master=frame2, placeholder_text="Enter projected months")
-            entry1.grid(row=2, column=1, pady=10, padx=10)
+            entry1 = customtkinter.CTkEntry(master=frame5, placeholder_text="Enter projected months")
+            entry1.grid(row=0, column=1, pady=10, padx=10)
 
             def calculate_projection():
                 months = int(entry1.get())
                 result = Financetest.projection(months)
 
-                label6 = customtkinter.CTkLabel(master=frame2, text="Total savings of €" + f"{result:.2f}" + " after " + str(months) + " months", font=("Roboto", 16))
-                label6.grid(row=3, column=1, pady=10, padx=10)
+                global frame6
+                if frame6 is None or not frame6.winfo_exists():
+                    frame6 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
+                    frame6.grid(row=2, column=0, columnspan=2, pady=10, padx=10)
+                
+                # Clear any existing frame at this position
+                for widget in frame6.grid_slaves(row=0, column=0):
+                    widget.destroy()
 
-            button3 = customtkinter.CTkButton(master=frame2, text="Calculate", command=calculate_projection)
-            button3.grid(row=2, column=2, pady=10, padx=10)
+                label6 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + str(months) + " months", font=("Roboto", 16))
+                label6.grid(row=0, column=0, pady=10, padx=10)
+
+                def save_projection():
+                    Financetest.savings = result
+                    Financetest.save_savings()
+
+                button4 = customtkinter.CTkButton(master=frame6, text="Save value", command=save_projection)
+                button4.grid(row=0, column=1, pady=10, padx=10)
+
+            button3 = customtkinter.CTkButton(master=frame5, text="Calculate", command=calculate_projection)
+            button3.grid(row=0, column=2, pady=10, padx=10)
 
 
         case "Interest":
@@ -298,10 +319,11 @@ def select(case):
         case "Show expenses(table)":
             create_frame2(1, 0)
 
-            table = CTkTreeview(frame2, 
+            table = ttk.Treeview(frame2, 
                                 columns=("Amount", "Time", "Day"), 
                                 show="headings", 
-                                height=len(Financetest.expense_lines) if len(Financetest.expense_lines) < 15 else 15)
+                                height=len(Financetest.expense_lines) if len(Financetest.expense_lines) < 15 else 15,
+                                style="Treeview")
             
             table.heading("Amount", text="Amount")
             table.heading("Time", text="Time")
@@ -310,6 +332,11 @@ def select(case):
 
             for x in Financetest.expense_lines:
                 table.insert(parent="", index="end", values=(x[0], x[1], x[2]))
+            
+            # Configure column widths for better appearance
+            table.column("Amount", width=80)
+            table.column("Time", width=100)
+            table.column("Day", width=60)
 
         case "Graph expenses (current month)":
             create_frame2(1, 0)
