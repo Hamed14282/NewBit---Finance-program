@@ -81,28 +81,42 @@ def select(case):
 
     if frame3 is not None and frame3.winfo_exists():
         frame3.destroy()
+    
+    if frame1.grid_slaves(row=3, column=0):
+        for widget in frame1.grid_slaves(row=3, column=0):
+            widget.destroy()
+
+    if frame1.grid_slaves(row=4, column=0):
+        for widget in frame1.grid_slaves(row=4, column=0):
+            widget.destroy()
 
     case = combobox.get()
 
     match case:
 
         case "Change values":
-            create_frame2(1, 0)
+            create_frame3(1, 0)
+            
+            frame4 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
+            frame4.grid(row=0, column=0, columnspan=2, pady=0, padx=0)
 
-            label3 = customtkinter.CTkLabel(master=frame2, text="Change values: Income, Savings, Spendings", font=("Roboto", 24))
-            label3.grid(row=0, column=1, pady=10, padx=10)
+            frame5 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
+            frame5.grid(row=1, column=0, columnspan=2, pady=0, padx=0)
 
-            label4 = customtkinter.CTkLabel(master=frame2, text="Current values: Income: €" + str(Financetest.income) + " / Savings: €" + str(Financetest.savings) + " / Spendings: €" + str(Financetest.spendings), font=("Roboto", 16))
-            label4.grid(row=1, column=1, pady=10, padx=10)
+            label3 = customtkinter.CTkLabel(master=frame4, text="Change values: Income, Savings, Spendings", font=("Roboto", 24))
+            label3.grid(row=0, column=0, pady=10, padx=10)
 
-            label5 = customtkinter.CTkLabel(master=frame2, text="Select value to change:", font=("Roboto", 16))
-            label5.grid(row=2, column=0, pady=10, padx=10)
+            label4 = customtkinter.CTkLabel(master=frame4, text="Current values: Income: €" + str(Financetest.income) + " / Savings: €" + str(Financetest.savings) + " / Spendings: €" + str(Financetest.spendings), text_color="pink", font=("Roboto", 16))
+            label4.grid(row=1, column=0, pady=10, padx=10)
 
-            combobox2 = customtkinter.CTkComboBox(master=frame2, values=["Income", "Savings", "Spendings"])
-            combobox2.grid(row=3, column=0, pady=10, padx=10)
+            label5 = customtkinter.CTkLabel(master=frame5, text="Select value to change:", font=("Roboto", 17))
+            label5.grid(row=0, column=0, pady=10, padx=10)
 
-            entry1 = customtkinter.CTkEntry(master=frame2, placeholder_text="Enter new value")
-            entry1.grid(row=3, column=1, pady=10, padx=10)
+            combobox2 = customtkinter.CTkComboBox(master=frame5, values=["Income", "Savings", "Spendings"])
+            combobox2.grid(row=1, column=0, pady=10, padx=10)
+
+            entry1 = customtkinter.CTkEntry(master=frame5, placeholder_text="Enter new value")
+            entry1.grid(row=1, column=1, pady=10, padx=10)
 
             def change_value():
                 value = combobox2.get()
@@ -121,11 +135,20 @@ def select(case):
                         Financetest.spendings = new_value
                         Financetest.save_spendings()
 
-                label6 = customtkinter.CTkLabel(master=frame2, text="Values updated: Income: €" + f"{Financetest.income:.2f}" + " / Savings: €" + f"{Financetest.savings:.2f}" + " / Spendings: €" + f"{Financetest.spendings:.2f}", font=("Roboto", 16))
-                label6.grid(row=4, column=1, pady=10, padx=10)
+                global frame6
+                if frame6 is None or not frame6.winfo_exists():
+                    frame6 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
+                    frame6.grid(row=2, column=0, columnspan=2, pady=10, padx=10)
+                
+                # Clear any existing frame at this position
+                for widget in frame6.grid_slaves(row=0, column=0):
+                    widget.destroy()
+
+                label6 = customtkinter.CTkLabel(master=frame6, text="Values updated: Income: €" + f"{Financetest.income:.2f}" + " / Savings: €" + f"{Financetest.savings:.2f}" + " / Spendings: €" + f"{Financetest.spendings:.2f}", text_color="pink", font=("Roboto", 16))
+                label6.grid(row=0, column=0, pady=10, padx=10)
             
-            button3 = customtkinter.CTkButton(master=frame2, text="Change", command=change_value)
-            button3.grid(row=3, column=2, pady=10, padx=10)
+            button3 = customtkinter.CTkButton(master=frame5, text="Change", command=change_value)
+            button3.grid(row=1, column=2, pady=10, padx=10)
 
         case "Projection calculations":
             create_frame3(1, 0)
@@ -139,7 +162,7 @@ def select(case):
             label3 = customtkinter.CTkLabel(master=frame4, text="Projection calculations: Total savings after projected months", font=("Roboto", 24))
             label3.grid(row=0, column=0, pady=10, padx=10)
 
-            label4 = customtkinter.CTkLabel(master=frame4, text=f"Income: €{Financetest.income:.2f} / Savings: €{Financetest.savings:.2f} / Spendings: €{Financetest.spendings:.2f}", font=("Roboto", 16))
+            label4 = customtkinter.CTkLabel(master=frame4, text=f"Income: €{Financetest.income:.2f} / Savings: €{Financetest.savings:.2f} / Spendings: €{Financetest.spendings:.2f}", text_color="pink", font=("Roboto", 16))
             label4.grid(row=1, column=0, pady=10, padx=10)
             
             label5 = customtkinter.CTkLabel(master=frame5, text="Projected months:", font=("Roboto", 16))
@@ -161,7 +184,7 @@ def select(case):
                 for widget in frame6.grid_slaves(row=0, column=0):
                     widget.destroy()
 
-                label6 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + str(months) + " months", font=("Roboto", 16))
+                label6 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + str(months) + " months", text_color="pink", font=("Roboto", 16))
                 label6.grid(row=0, column=0, pady=10, padx=10)
 
                 def save_projection():
@@ -198,7 +221,7 @@ def select(case):
                         label4 = customtkinter.CTkLabel(master=frame4, text="Simple interest: Total savings after projected years with simple interest", font=("Roboto", 24))
                         label4.grid(row=0, column=0, pady=10, padx=10)
 
-                        label5 = customtkinter.CTkLabel(master=frame4, text=f"Savings: €{Financetest.savings:.2f}", font=("Roboto", 16))
+                        label5 = customtkinter.CTkLabel(master=frame4, text=f"Savings: €{Financetest.savings:.2f}", text_color="pink", font=("Roboto", 16))
                         label5.grid(row=1, column=0, pady=10, padx=10)
 
                         label6 = customtkinter.CTkLabel(master=frame5, text="Portion of savings affected by interest:", font=("Roboto", 16))
@@ -236,10 +259,10 @@ def select(case):
                                 widget.destroy()
                             
                             if interest_money > Financetest.savings or interest_money <= 0:
-                                label10 = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), font=("Roboto", 16))
+                                label10 = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), text_color="red", font=("Roboto", 16))
                                 label10.grid(row=0, column=0, pady=10, padx=10)
                             else:
-                                label9 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + str(years) + " years with simple interest", font=("Roboto", 16))
+                                label9 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + f"{years:.2f}" + " years with simple interest", text_color="pink", font=("Roboto", 16))
                                 label9.grid(row=0, column=0, pady=10, padx=10)
 
                         button4 = customtkinter.CTkButton(master=frame5, text="Calculate", command=calculate_simple_interest)
@@ -258,7 +281,7 @@ def select(case):
                         label4 = customtkinter.CTkLabel(master=frame4, text="Compound interest: Total savings after projected years with compound interest", font=("Roboto", 24))
                         label4.grid(row=0, column=1, pady=10, padx=10)
 
-                        label5 = customtkinter.CTkLabel(master=frame4, text=f"Savings: €{Financetest.savings:.2f}", font=("Roboto", 16))
+                        label5 = customtkinter.CTkLabel(master=frame4, text=f"Savings: €{Financetest.savings:.2f}", text_color="pink", font=("Roboto", 16))
                         label5.grid(row=1, column=1, pady=10, padx=10)
                         
                         label6 = customtkinter.CTkLabel(master=frame5, text="Portion of savings affected by interest:", font=("Roboto", 16))
@@ -301,10 +324,10 @@ def select(case):
                                 widget.destroy()  # Clear previous result if exists  
                             
                             if interest_money > Financetest.savings or interest_money <= 0:
-                                label10 = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), font=("Roboto", 16))
+                                label10 = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), text_color="red", font=("Roboto", 16))
                                 label10.grid(row=0, column=0, pady=10, padx=10)
                             else:
-                                label10 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + str(years) + " years with compound interest", font=("Roboto", 16))
+                                label10 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + f"{years:.2f}" + " years with compound interest", text_color="pink", font=("Roboto", 16))
                                 label10.grid(row=0, column=0, pady=10, padx=10)
                         
                         button4 = customtkinter.CTkButton(master=frame5, text="Calculate", command=calculate_compound_interest)
