@@ -349,15 +349,18 @@ def select(case):
             table.heading("Amount", text="Amount")
             table.heading("Time", text="Time")
             table.heading("Day", text="Day")
-            table.grid(row=0, column=0, sticky="nsew")
-
-            for x in Financetest.expense_lines:
-                table.insert(parent="", index="end", values=(x[0], x[1], x[2]))
+            table.tag_configure("oddrow", background="#333333")
+            table.tag_configure("evenrow", background="#232323")
+            table.tag_configure('fg', foreground='white')
             
+            for i, x in enumerate(Financetest.expense_lines):
+                tag = "oddrow" if i % 2 == 0 else "evenrow"
+                table.insert(parent="", index=0, values=(x[0], x[1], x[2]), tags=('fg', tag))
+            table.grid(row=0, column=0, sticky="nsew")
             # Configure column widths for better appearance
-            table.column("Amount", width=80)
-            table.column("Time", width=100)
-            table.column("Day", width=60)
+            # table.column("Amount", width=80)
+            # table.column("Time", width=100)
+            # table.column("Day", width=60)
 
         case "Graph expenses (current month)":
             create_frame2(1, 0)
