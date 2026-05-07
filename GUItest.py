@@ -348,7 +348,7 @@ def select(case):
             
             table.heading("Amount", text="Amount")
             table.heading("Time", text="Time")
-            table.heading("Day", text="Day")
+            table.heading("Day", text="Day(date)")
             table.tag_configure("oddrow", background="#333333")
             table.tag_configure("evenrow", background="#232323")
             table.tag_configure('fg', foreground='white')

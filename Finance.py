@@ -4,8 +4,9 @@
 TODO
 UI
 Track real date and time to know when the month is over
-Graph total expenses in the month (get the total daily expenses for 1 value, then graph with days as x value)
 Display expenses in a list in ui
+ -Make it display all of the months and accurate dates
+ -Make the list editable (delete, edit, add)
 
 """
 
