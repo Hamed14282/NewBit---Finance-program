@@ -343,7 +343,7 @@ def select(case):
 
         case "Show expenses(table)":
             create_frame2(1, 1)
-
+            
             frame3 = customtkinter.CTkFrame(master=window, fg_color="transparent", bg_color="transparent")
             frame3.grid(row=0, column=1, pady=5, padx=5, sticky="nsew")
             frame3.grid_columnconfigure(0, weight=0)
@@ -376,7 +376,7 @@ def select(case):
             for i, x in enumerate(Financetest.all_expense_lines):
                 tag = "oddrow" if i % 2 == 0 else "evenrow"
                 table.insert(parent="", index=0, values=(x[0], x[1], x[3]), tags=('fg', tag))
-            table.grid(row=1, column=0, sticky="nsew")
+            table.grid(row=0, column=0, sticky="nsew")
 
             # Configure column widths for better appearance
             # table.column("Amount", width=80)
