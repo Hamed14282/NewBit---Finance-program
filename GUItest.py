@@ -346,15 +346,19 @@ def select(case):
 
             frame3 = customtkinter.CTkFrame(master=window, fg_color="transparent", bg_color="transparent")
             frame3.grid(row=0, column=1, pady=5, padx=5, sticky="nsew")
+            frame3.grid_columnconfigure(0, weight=0)
+            frame3.grid_columnconfigure(1, weight=0)
+            frame3.grid_columnconfigure(2, weight=1) # Empty column for spacing
+            frame3.grid_columnconfigure(3, weight=0)
 
             entry1 = customtkinter.CTkEntry(master=frame3, placeholder_text="Expense amount")
-            entry1.grid(row=0, column=0, pady=10, padx=10)
+            entry1.grid(row=0, column=0, pady=10, padx=10, sticky="w")
 
             entry2 = customtkinter.CTkEntry(master=frame3, placeholder_text=Financetest.current_date)
-            entry2.grid(row=0, column=1, pady=10, padx=10)
+            entry2.grid(row=0, column=1, pady=10, padx=10, sticky="w")
 
             button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: Financetest.add_expense(float(entry1.get()), Financetest.current_date if not entry2.get() else entry2.get()))
-            button3.grid(row=0, column=2, pady=10, padx=10)
+            button3.grid(row=0, column=3, pady=10, padx=10, sticky="e")
 
             table = ttk.Treeview(frame2, 
                                 columns=("Amount", "Time", "Day"), 
