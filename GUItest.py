@@ -18,7 +18,7 @@ window.grid_rowconfigure(1, weight=1)
 ###############################################################################################################
 
 frame1 = customtkinter.CTkFrame(master=window)
-frame1.grid(row=0, column=0, pady=15, padx=15, sticky="nsw")
+frame1.grid(row=0, column=0, pady=15, padx=15, rowspan=2, sticky="nsw")
 frame1.grid_columnconfigure(0, weight=0)
 frame1.grid_rowconfigure(0, weight=0)
 frame1.grid_rowconfigure(1, weight=0)
@@ -342,7 +342,19 @@ def select(case):
         ###############################################################################################################
 
         case "Show expenses(table)":
-            create_frame2(1, 0)
+            create_frame2(1, 1)
+
+            frame3 = customtkinter.CTkFrame(master=window, fg_color="transparent", bg_color="transparent")
+            frame3.grid(row=0, column=1, pady=5, padx=5, sticky="nsew")
+
+            entry1 = customtkinter.CTkEntry(master=frame3, placeholder_text="Expense amount")
+            entry1.grid(row=0, column=0, pady=10, padx=10)
+
+            entry2 = customtkinter.CTkEntry(master=frame3, placeholder_text=Financetest.current_date)
+            entry2.grid(row=0, column=1, pady=10, padx=10)
+
+            button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: Financetest.add_expense(float(entry1.get()), Financetest.current_date if not entry2.get() else entry2.get()))
+            button3.grid(row=0, column=2, pady=10, padx=10)
 
             table = ttk.Treeview(frame2, 
                                 columns=("Amount", "Time", "Day"), 
@@ -360,7 +372,7 @@ def select(case):
             for i, x in enumerate(Financetest.all_expense_lines):
                 tag = "oddrow" if i % 2 == 0 else "evenrow"
                 table.insert(parent="", index=0, values=(x[0], x[1], x[3]), tags=('fg', tag))
-            table.grid(row=0, column=0, sticky="nsew")
+            table.grid(row=1, column=0, sticky="nsew")
 
             # Configure column widths for better appearance
             # table.column("Amount", width=80)

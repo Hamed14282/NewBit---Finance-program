@@ -5,7 +5,10 @@ TODO
 UI
 Track real date and time to know when the month is over
 Add categores to expenses
-Display expenses in a list in ui
+Make expense table editable + scroll bar
+
+ERROR CHECKING
+-input expense (check all values)
 
 """
 
@@ -34,6 +37,7 @@ now = datetime.now()
 
 current_month = now.strftime("%m.%Y")
 current_day = now.strftime("%d")
+current_date = now.strftime("%d.%m.%Y")
 
 ########################################################################################################
 
@@ -166,13 +170,12 @@ def change_spendings():
     spendings = float(input("Spendings(euro, monthly): "))
     lines[2] = str(spendings) + "\n"
 
-def add_expense():
-    expense = input("Input an expense(euros): ")
+def add_expense(expense, date):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
 
     global expense_lines
-    expense_lines.append([expense, current_time, current_day, current_day + "." + current_month])
+    expense_lines.append([expense, current_time, date[:2], date])
 
     with open(f"data/{current_month}_expenses.csv", "w", newline="") as expense_file:
         writer = csv.writer(expense_file)
