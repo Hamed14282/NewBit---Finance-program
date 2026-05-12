@@ -10,6 +10,9 @@ Make expense table editable + scroll bar
 ERROR CHECKING
 -input expense (check all values)
 
+UPDATING
+-Table update after adding expense
+
 """
 
 #Number of constant variables in file
@@ -180,6 +183,11 @@ def add_expense(expense, date):
     with open(f"data/{current_month}_expenses.csv", "w", newline="") as expense_file:
         writer = csv.writer(expense_file)
         writer.writerows(expense_lines)
+
+def get_current_time():
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    return current_time
 
 def save_data():
     with open("data/data.txt", "w") as file:
