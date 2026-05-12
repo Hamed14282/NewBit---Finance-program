@@ -4,7 +4,7 @@
 TODO
 UI
 Track real date and time to know when the month is over
-Graph total expenses in the month (get the total daily expenses for 1 value, then graph with days as x value)
+Add categores to expenses
 Display expenses in a list in ui
 
 """
@@ -32,7 +32,7 @@ from datetime import datetime
 from matplotlib.figure import Figure
 now = datetime.now()
 
-current_month = now.strftime("%m-%Y")
+current_month = now.strftime("%m.%Y")
 current_day = now.strftime("%d")
 
 ########################################################################################################
@@ -44,6 +44,8 @@ annual_rate = 0
 periods = 0
 global expense_lines
 expense_lines = []
+global all_expense_lines
+all_expense_lines = []
 days = []
 expenses = []
 
@@ -137,6 +139,16 @@ def monthly_expenses_graph():
 
     return fig
 
+def get_all_expense_lines():
+    files = glob.glob("data/*_expenses.csv")
+
+    for file_name in files:
+        with open(file_name, "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                all_expense_lines.append(row)
+
+
 ########################################################################################################
 
 def change_income():
@@ -160,7 +172,7 @@ def add_expense():
     current_time = now.strftime("%H:%M:%S")
 
     global expense_lines
-    expense_lines.append([expense, current_time, current_day])
+    expense_lines.append([expense, current_time, current_day, current_day + "." + current_month])
 
     with open(f"data/{current_month}_expenses.csv", "w", newline="") as expense_file:
         writer = csv.writer(expense_file)
@@ -192,6 +204,7 @@ def save_spendings():
 
 check_data_file()
 check_expense_file()
+get_all_expense_lines()
 
 #read at retrieve main data
 with open("data/data.txt", "r") as file:

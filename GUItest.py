@@ -1,7 +1,6 @@
 import Financetest
 import customtkinter
 from tkinter import ttk
-from CTkTreeview.treeview import CTkTreeview
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
@@ -24,7 +23,6 @@ frame1.grid_columnconfigure(0, weight=0)
 frame1.grid_rowconfigure(0, weight=0)
 frame1.grid_rowconfigure(1, weight=0)
 frame1.grid_rowconfigure(2, weight=0)
-
 
 frame2 = None
 frame3 = None
@@ -63,7 +61,6 @@ def create_frame3(x, y):
     frame3.grid_columnconfigure(1, weight=1)
 
 ###############################################################################################################
-#Frame 1
 
 label = customtkinter.CTkLabel(master=frame1, text="Finance app", font=("Roboto", 30))
 label.grid(row=0, column=0, pady=10, padx=10)
@@ -93,6 +90,9 @@ def select(case):
     case = combobox.get()
 
     match case:
+
+        case "test expense":
+            Financetest.add_expense()
 
         case "Change values":
             create_frame3(1, 0)
@@ -150,6 +150,8 @@ def select(case):
             button3 = customtkinter.CTkButton(master=frame5, text="Change", command=change_value)
             button3.grid(row=1, column=2, pady=10, padx=10)
 
+        ###############################################################################################################
+
         case "Projection calculations":
             create_frame3(1, 0)
 
@@ -197,6 +199,7 @@ def select(case):
             button3 = customtkinter.CTkButton(master=frame5, text="Calculate", command=calculate_projection)
             button3.grid(row=0, column=2, pady=10, padx=10)
 
+        ###############################################################################################################
 
         case "Interest":
 
@@ -336,6 +339,7 @@ def select(case):
             combobox2 = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Simple Interest", "Compound Interest"], command=interest_selection)
             combobox2.grid(row=4, column=0, pady=10, padx=10)
 
+        ###############################################################################################################
 
         case "Show expenses(table)":
             create_frame2(1, 0)
@@ -343,7 +347,7 @@ def select(case):
             table = ttk.Treeview(frame2, 
                                 columns=("Amount", "Time", "Day"), 
                                 show="headings", 
-                                height=len(Financetest.expense_lines) if len(Financetest.expense_lines) < 15 else 15,
+                                height=len(Financetest.all_expense_lines) if len(Financetest.all_expense_lines) < 15 else 15,
                                 style="Treeview")
             
             table.heading("Amount", text="Amount")
@@ -353,14 +357,17 @@ def select(case):
             table.tag_configure("evenrow", background="#232323")
             table.tag_configure('fg', foreground='white')
             
-            for i, x in enumerate(Financetest.expense_lines):
+            for i, x in enumerate(Financetest.all_expense_lines):
                 tag = "oddrow" if i % 2 == 0 else "evenrow"
-                table.insert(parent="", index=0, values=(x[0], x[1], x[2]), tags=('fg', tag))
+                table.insert(parent="", index=0, values=(x[0], x[1], x[3]), tags=('fg', tag))
             table.grid(row=0, column=0, sticky="nsew")
+
             # Configure column widths for better appearance
             # table.column("Amount", width=80)
             # table.column("Time", width=100)
             # table.column("Day", width=60)
+
+        ###############################################################################################################
 
         case "Graph expenses (current month)":
             create_frame2(1, 0)
@@ -369,6 +376,8 @@ def select(case):
             canvas.draw()
             canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
 
+        ###############################################################################################################
+
         case "Graph expenses (all months)":
             create_frame2(1, 0)
             fig = Financetest.monthly_expenses_graph()
@@ -376,10 +385,9 @@ def select(case):
             canvas.draw()
             canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
 
-
 ###############################################################################################################
 
-combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses (current month)", "Graph expenses (all months)"], command=select)
+combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "test expense", "Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses (current month)", "Graph expenses (all months)"], command=select)
 combobox.grid(row=2, column=0, pady=10, padx=10)
 
 ###############################################################################################################
