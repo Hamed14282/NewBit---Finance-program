@@ -1,3 +1,5 @@
+from matplotlib import style
+
 import Financetest
 import customtkinter
 from tkinter import ttk
@@ -14,6 +16,10 @@ window.grid_columnconfigure(0, weight=1)
 window.grid_columnconfigure(1, weight=1)
 window.grid_rowconfigure(0, weight=0)
 window.grid_rowconfigure(1, weight=1)
+
+style = ttk.Style()
+style.theme_use('clam')
+style.configure("TScrollbar", gripcount=0, background="lightgray", troughcolor="#232323", arrowcolor="white")
 
 ###############################################################################################################
 
@@ -367,7 +373,15 @@ def select(case):
                                 columns=("Amount", "Time", "Day"), 
                                 show="headings", 
                                 height=len(Financetest.all_expense_lines) if len(Financetest.all_expense_lines) < 15 else 15,
-                                style="Treeview")
+                                style="Treeview",
+                                selectmode='browse')
+            
+            vsb = ttk.Scrollbar(frame2, 
+                                orient="vertical", 
+                                style="TScrollbar",
+                                command=table.yview)
+            
+            table.configure(yscrollcommand=vsb.set)
             
             table.heading("Amount", text="Amount")
             table.heading("Time", text="Time")
@@ -379,7 +393,9 @@ def select(case):
             for i, x in enumerate(Financetest.all_expense_lines):
                 tag = "oddrow" if i % 2 == 0 else "evenrow"
                 table.insert(parent="", index=0, values=(x[0], x[1], x[3]), tags=('fg', tag))
+            
             table.grid(row=0, column=0, sticky="nsew")
+            vsb.grid(row=0, column=1, sticky="ns")
 
             # Configure column widths for better appearance
             # table.column("Amount", width=80)

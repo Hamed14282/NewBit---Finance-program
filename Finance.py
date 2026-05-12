@@ -3,11 +3,6 @@
 """ 
 TODO
 UI
-Track real date and time to know when the month is over
-Display expenses in a list in ui
- -Make it display all of the months and accurate dates
- -Make the list editable (delete, edit, add)
-
 """
 
 #Number of constant variables in file
