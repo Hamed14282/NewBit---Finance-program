@@ -12,7 +12,7 @@ window.title("Finance app")
 window.minsize(500, 300)
 window.grid_columnconfigure(0, weight=1)
 window.grid_columnconfigure(1, weight=1)
-window.grid_rowconfigure(0, weight=1)
+window.grid_rowconfigure(0, weight=0)
 window.grid_rowconfigure(1, weight=1)
 
 ###############################################################################################################
@@ -343,13 +343,16 @@ def select(case):
 
         case "Show expenses(table)":
             create_frame2(1, 1)
+            frame2.grid_rowconfigure(0, weight=1)
+            frame2.grid_columnconfigure(0, weight=1)   
             
             frame3 = customtkinter.CTkFrame(master=window, fg_color="transparent", bg_color="transparent")
-            frame3.grid(row=0, column=1, pady=5, padx=5, sticky="nsew")
+            frame3.grid(row=0, column=1, pady=5, padx=5, sticky="new")
             frame3.grid_columnconfigure(0, weight=0)
             frame3.grid_columnconfigure(1, weight=0)
             frame3.grid_columnconfigure(2, weight=1) # Empty column for spacing
             frame3.grid_columnconfigure(3, weight=0)
+            frame3.grid_rowconfigure(0, weight=0)
 
             entry1 = customtkinter.CTkEntry(master=frame3, placeholder_text="Expense amount")
             entry1.grid(row=0, column=0, pady=10, padx=10, sticky="w")
