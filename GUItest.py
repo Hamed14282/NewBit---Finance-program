@@ -24,7 +24,7 @@ style.configure("TScrollbar", gripcount=0, background="lightgray", troughcolor="
 ###############################################################################################################
 
 frame1 = customtkinter.CTkFrame(master=window)
-frame1.grid(row=0, column=0, pady=15, padx=15, rowspan=2, sticky="nsw")
+frame1.grid(row=0, column=0, pady=15, padx=15, rowspan=3, sticky="nsw")
 frame1.grid_columnconfigure(0, weight=0)
 frame1.grid_rowconfigure(0, weight=0)
 frame1.grid_rowconfigure(1, weight=0)
@@ -32,6 +32,7 @@ frame1.grid_rowconfigure(2, weight=0)
 
 frame2 = None
 frame3 = None
+frame4 = None
 frame6 = None
 
 def create_frame2():
@@ -66,6 +67,14 @@ def create_frame3(x, y):
     frame3.grid_columnconfigure(0, weight=1)
     frame3.grid_columnconfigure(1, weight=1)
 
+def create_frame4(x, y):
+    global frame4
+    frame4 = customtkinter.CTkFrame(master=window)
+    frame4.grid(row=y, column=x, pady=5, padx=5, sticky="new")
+    frame4.grid_columnconfigure(0, weight=1)
+    frame4.grid_rowconfigure(0, weight=0)
+    frame4.grid_rowconfigure(1, weight=0)
+
 ###############################################################################################################
 
 label = customtkinter.CTkLabel(master=frame1, text="Finance app", font=("Roboto", 30))
@@ -84,6 +93,10 @@ def select(case):
 
     if frame3 is not None and frame3.winfo_exists():
         frame3.destroy()
+    
+    global frame4
+    if frame4 is not None and frame4.winfo_exists():
+        frame4.destroy()
     
     if frame1.grid_slaves(row=3, column=0):
         for widget in frame1.grid_slaves(row=3, column=0):
@@ -357,15 +370,60 @@ def select(case):
             frame3.grid_columnconfigure(3, weight=0)
             frame3.grid_rowconfigure(0, weight=0)
 
+
+
             entry1 = customtkinter.CTkEntry(master=frame3, placeholder_text="Expense amount")
             entry1.grid(row=0, column=0, pady=10, padx=10, sticky="w")
 
             entry2 = customtkinter.CTkEntry(master=frame3, placeholder_text=Financetest.current_date)
             entry2.grid(row=0, column=1, pady=10, padx=10, sticky="w")
 
+###################dfffffffffffffffffffffffffffffff#####################################
+            def string_to_num(s):
+                try:
+                    if float(s).is_integer():
+                        return int(float(s))
+                    else:
+                        return float(s)
+                except ValueError:
+                    return False
+
             def add_expense():
-                amount = float(entry1.get())
+                global frame4
+
+                if frame4 is not None and frame4.winfo_exists():
+                    frame4.destroy()
+
+                if entry1.get():
+                    if string_to_num(entry1.get()) is False or string_to_num(entry1.get()) <= 0:
+                        if frame4 is None or not frame4.winfo_exists():
+                            create_frame4(1, 2)
+                        error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
+                        error_label.grid(row=1, column=0, pady=10, padx=10)
+                    else:
+                        amount = string_to_num(entry1.get())
+
+                elif not entry1.get():
+                    if frame4 is None or not frame4.winfo_exists():
+                        create_frame4(1, 2)
+                    error_label = customtkinter.CTkLabel(master=frame4, text="No expense amount entered.", text_color="pink", font=("Roboto", 16))
+                    error_label.grid(row=1, column=0, pady=10, padx=10)
+
+                if entry2.get():
+                    if not Financetest.validate_date(entry2.get()):
+                        if frame4 is None or not frame4.winfo_exists():
+                            create_frame4(1, 2)
+
+                        error_label = customtkinter.CTkLabel(master=frame4, text="Invalid date format. Please enter date as DD.MM.YYYY.", text_color="pink", font=("Roboto", 16))
+                        error_label.grid(row=0, column=0, pady=10, padx=10)
+                elif not entry2.get():
+                    if frame4 is None or not frame4.winfo_exists():
+                        create_frame4(1, 2)
+                    error_label = customtkinter.CTkLabel(master=frame4, text="No date entered. Using current date: " + Financetest.current_date, text_color="pink", font=("Roboto", 16))
+                    error_label.grid(row=0, column=0, pady=10, padx=10)
+
                 date = Financetest.current_date if not entry2.get() else entry2.get()
+######################fffffffffffffffffffffffffffffffffff###############################
 
                 Financetest.add_expense(amount, date)
                 

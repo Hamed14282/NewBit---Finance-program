@@ -212,6 +212,13 @@ def save_spendings():
         lines[2] = str(spendings) + "\n"
         file.writelines(lines)
 
+def validate_date(date_str):
+    try:
+        datetime.strptime(date_str, "%d.%m.%Y")
+        return True
+    except ValueError:
+        return False
+
 ########################################################################################################
 
 check_data_file()
