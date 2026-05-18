@@ -97,9 +97,6 @@ def select(case):
 
     match case:
 
-        case "test expense":
-            Financetest.add_expense()
-
         case "Change values":
             create_frame3(1, 0)
             
@@ -371,6 +368,7 @@ def select(case):
                 date = Financetest.current_date if not entry2.get() else entry2.get()
 
                 Financetest.add_expense(amount, date)
+                
 
                 table.insert(parent="", index=0, values=(amount, Financetest.get_current_time(), date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
 
@@ -430,7 +428,7 @@ def select(case):
 
 ###############################################################################################################
 
-combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "test expense", "Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses (current month)", "Graph expenses (all months)"], command=select)
+combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses (current month)", "Graph expenses (all months)"], command=select)
 combobox.grid(row=2, column=0, pady=10, padx=10)
 
 ###############################################################################################################

@@ -1,11 +1,11 @@
-#pyinstaller GUI.py --onefile --noconsole
+#pyinstaller GUItest.py --onefile --noconsole
 
 """ 
 TODO
 UI
-Track real date and time to know when the month is over
+Ability to change themes
 Add categores to expenses
-Make expense table editable + scroll bar
+Make expense table editable
 
 ERROR CHECKING
 -input expense (check all values)
@@ -179,6 +179,7 @@ def add_expense(expense, date):
 
     global expense_lines
     expense_lines.append([expense, current_time, date[:2], date])
+    all_expense_lines.append([expense, current_time, date[:2], date])
 
     with open(f"data/{current_month}_expenses.csv", "w", newline="") as expense_file:
         writer = csv.writer(expense_file)
