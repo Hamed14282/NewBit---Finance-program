@@ -366,27 +366,28 @@ def select(case):
             frame3.grid(row=0, column=1, pady=5, padx=5, sticky="new")
             frame3.grid_columnconfigure(0, weight=0)
             frame3.grid_columnconfigure(1, weight=0)
-            frame3.grid_columnconfigure(2, weight=1) # Empty column for spacing
+            frame3.grid_columnconfigure(2, weight=0)
             frame3.grid_columnconfigure(3, weight=0)
             frame3.grid_rowconfigure(0, weight=0)
 
-
-
             entry1 = customtkinter.CTkEntry(master=frame3, placeholder_text="Expense amount")
-            entry1.grid(row=0, column=0, pady=10, padx=10, sticky="w")
+            entry1.grid(row=0, column=0, pady=10, padx=10)
 
             entry2 = customtkinter.CTkEntry(master=frame3, placeholder_text=Financetest.current_date)
-            entry2.grid(row=0, column=1, pady=10, padx=10, sticky="w")
+            entry2.grid(row=0, column=1, pady=10, padx=10)
 
-###################dfffffffffffffffffffffffffffffff#####################################
+            entry3 = customtkinter.CTkEntry(master=frame3, placeholder_text="Category")
+            entry3.grid(row=0, column=2, pady=10, padx=10)
+
             def string_to_num(s):
                 try:
                     if float(s).is_integer():
-                        return int(float(s))
+                        return int(s)
                     else:
                         return float(s)
                 except ValueError:
                     return False
+
 
             def add_expense():
                 global frame4
@@ -399,7 +400,7 @@ def select(case):
                         if frame4 is None or not frame4.winfo_exists():
                             create_frame4(1, 2)
                         error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
-                        error_label.grid(row=1, column=0, pady=10, padx=10)
+                        error_label.grid(row=0, column=0, pady=10, padx=10)
                     else:
                         amount = string_to_num(entry1.get())
 
@@ -407,7 +408,7 @@ def select(case):
                     if frame4 is None or not frame4.winfo_exists():
                         create_frame4(1, 2)
                     error_label = customtkinter.CTkLabel(master=frame4, text="No expense amount entered.", text_color="pink", font=("Roboto", 16))
-                    error_label.grid(row=1, column=0, pady=10, padx=10)
+                    error_label.grid(row=0, column=0, pady=10, padx=10)
 
                 if entry2.get():
                     if not Financetest.validate_date(entry2.get()):
@@ -415,26 +416,34 @@ def select(case):
                             create_frame4(1, 2)
 
                         error_label = customtkinter.CTkLabel(master=frame4, text="Invalid date format. Please enter date as DD.MM.YYYY.", text_color="pink", font=("Roboto", 16))
-                        error_label.grid(row=0, column=0, pady=10, padx=10)
+                        error_label.grid(row=1, column=0, pady=10, padx=10)
                 elif not entry2.get():
                     if frame4 is None or not frame4.winfo_exists():
                         create_frame4(1, 2)
                     error_label = customtkinter.CTkLabel(master=frame4, text="No date entered. Using current date: " + Financetest.current_date, text_color="pink", font=("Roboto", 16))
-                    error_label.grid(row=0, column=0, pady=10, padx=10)
+                    error_label.grid(row=1, column=0, pady=10, padx=10)
+
+                if entry3.get():
+                    category = entry3.get().lower()
+                elif not entry3.get():
+                    if frame4 is None or not frame4.winfo_exists():
+                        create_frame4(1, 2)
+                    error_label = customtkinter.CTkLabel(master=frame4, text="No category entered. Using default category: null", text_color="pink", font=("Roboto", 16))
+                    error_label.grid(row=2, column=0, pady=10, padx=10)
+
+                    category = "null"
 
                 date = Financetest.current_date if not entry2.get() else entry2.get()
-######################fffffffffffffffffffffffffffffffffff###############################
+                Financetest.add_expense(amount, date, category)            
 
-                Financetest.add_expense(amount, date)
-                
+                table.insert(parent="", index=0, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
 
-                table.insert(parent="", index=0, values=(amount, Financetest.get_current_time(), date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
 
             button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: add_expense())
             button3.grid(row=0, column=3, pady=10, padx=10, sticky="e")
 
             table = ttk.Treeview(frame2, 
-                                columns=("Amount", "Time", "Day"), 
+                                columns=("Category", "Amount", "Day"), 
                                 show="headings", 
                                 height=len(Financetest.all_expense_lines) if len(Financetest.all_expense_lines) < 15 else 15,
                                 style="Treeview",
@@ -447,8 +456,8 @@ def select(case):
             
             table.configure(yscrollcommand=vsb.set)
             
+            table.heading("Category", text="Category")
             table.heading("Amount", text="Amount")
-            table.heading("Time", text="Time")
             table.heading("Day", text="Day(date)")
             table.tag_configure("oddrow", background="#333333")
             table.tag_configure("evenrow", background="#232323")
@@ -456,7 +465,7 @@ def select(case):
             
             for i, x in enumerate(Financetest.all_expense_lines):
                 tag = "oddrow" if i % 2 == 0 else "evenrow"
-                table.insert(parent="", index=0, values=(x[0], x[1], x[3]), tags=('fg', tag))
+                table.insert(parent="", index=0, values=(x[4], x[0], x[3]), tags=('fg', tag))
             
             table.grid(row=0, column=0, sticky="nsew")
             vsb.grid(row=0, column=1, sticky="ns")

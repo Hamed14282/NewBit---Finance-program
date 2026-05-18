@@ -173,13 +173,13 @@ def change_spendings():
     spendings = float(input("Spendings(euro, monthly): "))
     lines[2] = str(spendings) + "\n"
 
-def add_expense(expense, date):
+def add_expense(expense, date, category):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
 
     global expense_lines
-    expense_lines.append([expense, current_time, date[:2], date])
-    all_expense_lines.append([expense, current_time, date[:2], date])
+    expense_lines.append([expense, current_time, date[:2], date, category])
+    all_expense_lines.append([expense, current_time, date[:2], date, category])
 
     with open(f"data/{current_month}_expenses.csv", "w", newline="") as expense_file:
         writer = csv.writer(expense_file)
