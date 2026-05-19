@@ -1,5 +1,6 @@
 from matplotlib import style
 
+import AddExpense
 import Financetest
 import customtkinter
 from tkinter import ttk
@@ -370,15 +371,6 @@ def select(case):
             frame3.grid_columnconfigure(3, weight=0)
             frame3.grid_rowconfigure(0, weight=0)
 
-            entry1 = customtkinter.CTkEntry(master=frame3, placeholder_text="Expense amount")
-            entry1.grid(row=0, column=0, pady=10, padx=10)
-
-            entry2 = customtkinter.CTkEntry(master=frame3, placeholder_text=Financetest.current_date)
-            entry2.grid(row=0, column=1, pady=10, padx=10)
-
-            entry3 = customtkinter.CTkEntry(master=frame3, placeholder_text="Category")
-            entry3.grid(row=0, column=2, pady=10, padx=10)
-
             def string_to_num(s):
                 try:
                     if float(s).is_integer():
@@ -388,58 +380,58 @@ def select(case):
                 except ValueError:
                     return False
 
-
-            def add_expense():
+            def add_expense(category, amount, date):
                 global frame4
 
                 if frame4 is not None and frame4.winfo_exists():
                     frame4.destroy()
 
-                if entry1.get():
-                    if string_to_num(entry1.get()) is False or string_to_num(entry1.get()) <= 0:
+                if amount is not None and amount != "":
+                    if string_to_num(amount) is False or string_to_num(amount) <= 0:
                         if frame4 is None or not frame4.winfo_exists():
                             create_frame4(1, 2)
                         error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                         error_label.grid(row=0, column=0, pady=10, padx=10)
+                        return
                     else:
-                        amount = string_to_num(entry1.get())
+                        amount = string_to_num(amount)
 
-                elif not entry1.get():
+                elif amount is None:
                     if frame4 is None or not frame4.winfo_exists():
                         create_frame4(1, 2)
                     error_label = customtkinter.CTkLabel(master=frame4, text="No expense amount entered.", text_color="pink", font=("Roboto", 16))
                     error_label.grid(row=0, column=0, pady=10, padx=10)
+                    return
 
-                if entry2.get():
-                    if not Financetest.validate_date(entry2.get()):
+                if date is not None and date != "":
+                    if not Financetest.validate_date(date):
                         if frame4 is None or not frame4.winfo_exists():
                             create_frame4(1, 2)
-
                         error_label = customtkinter.CTkLabel(master=frame4, text="Invalid date format. Please enter date as DD.MM.YYYY.", text_color="pink", font=("Roboto", 16))
                         error_label.grid(row=1, column=0, pady=10, padx=10)
-                elif not entry2.get():
+                        return
+                elif date is None or date == "":
                     if frame4 is None or not frame4.winfo_exists():
                         create_frame4(1, 2)
                     error_label = customtkinter.CTkLabel(master=frame4, text="No date entered. Using current date: " + Financetest.current_date, text_color="pink", font=("Roboto", 16))
                     error_label.grid(row=1, column=0, pady=10, padx=10)
-
-                if entry3.get():
-                    category = entry3.get().lower()
-                elif not entry3.get():
+                    
+                if category is not None and category != "":
+                    category = category.lower()
+                elif category is None or category == "":
                     if frame4 is None or not frame4.winfo_exists():
                         create_frame4(1, 2)
-                    error_label = customtkinter.CTkLabel(master=frame4, text="No category entered. Using default category: null", text_color="pink", font=("Roboto", 16))
+                    error_label = customtkinter.CTkLabel(master=frame4, text="No category entered. Using default category: misc.", text_color="pink", font=("Roboto", 16))
                     error_label.grid(row=2, column=0, pady=10, padx=10)
+                    category = "misc."
 
-                    category = "null"
-
-                date = Financetest.current_date if not entry2.get() else entry2.get()
+                date = Financetest.current_date if not date else date
                 Financetest.add_expense(amount, date, category)            
 
                 table.insert(parent="", index=0, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
 
 
-            button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: add_expense())
+            button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: open_add_expense_window())
             button3.grid(row=0, column=3, pady=10, padx=10, sticky="e")
 
             table = ttk.Treeview(frame2, 
@@ -469,12 +461,15 @@ def select(case):
             
             table.grid(row=0, column=0, sticky="nsew")
             vsb.grid(row=0, column=1, sticky="ns")
+            
+            def open_add_expense_window():
+                # Open AddExpense window and pass GUItest's take_expense_data as the save callback
+                AddExpense.main(on_save=take_expense_data)
 
-            # Configure column widths for better appearance
-            # table.column("Amount", width=80)
-            # table.column("Time", width=100)
-            # table.column("Day", width=60)
 
+            def take_expense_data():
+                add_expense(AddExpense.get_category(), AddExpense.get_amount(), AddExpense.get_date())
+                AddExpense.window.destroy()
         ###############################################################################################################
 
         case "Graph expenses (current month)":
