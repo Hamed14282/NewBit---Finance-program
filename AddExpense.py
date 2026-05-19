@@ -3,9 +3,6 @@ import customtkinter
 # Module-level references so other modules can access the window, frame and getters
 window = None
 frame1 = None
-entry_cat = None
-entry_amt = None
-entry_date = None
 
 def main(on_save=None):
     """Create and show the Add Expense window.
@@ -38,8 +35,8 @@ def main(on_save=None):
     else:
         save_cmd = lambda: window.destroy()
 
-    btn = customtkinter.CTkButton(master=frame1, text="Save", command=save_cmd)
-    btn.grid(row=0, column=3, pady=10, padx=10)
+    button1 = customtkinter.CTkButton(master=frame1, text="Save", command=save_cmd)
+    button1.grid(row=0, column=3, pady=10, padx=10)
 
     window.mainloop()
 

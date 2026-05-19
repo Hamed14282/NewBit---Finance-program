@@ -1,6 +1,10 @@
 ('C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance '
  'program\\build\\GUItest\\PYZ-00.pyz',
- [('Financetest',
+ [('AddExpense',
+   'C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance '
+   'program\\AddExpense.py',
+   'PYMODULE'),
+  ('Financetest',
    'C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance '
    'program\\Financetest.py',
    'PYMODULE'),

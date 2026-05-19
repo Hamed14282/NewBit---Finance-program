@@ -2,10 +2,16 @@
 
 """ 
 TODO
-UI
+Allow the user to select profiles (different users with different data files)
+- Data folder with different user folders (user1, user2, etc.) and inside them the data files (data.txt, month_expenses.csv)
+
 Ability to change themes
-Add categores to expenses
 Make expense table editable
+Take all of the data from all files (all_expense_lines) and reorganize it into files of different months (in case the user adds a different month expense to the current month file)
+
+CATEGORIES
+-Allow the data in the table to be categorized by user defined categories (food, transport, etc.)
+-Create a graph of expenses by category (pie chart)
 
 ERROR CHECKING
 -input expense (check all values)
