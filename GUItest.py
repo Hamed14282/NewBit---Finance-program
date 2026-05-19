@@ -1,5 +1,3 @@
-import multiprocessing
-import keyboard
 from matplotlib import style
 
 import AddExpense
@@ -432,8 +430,6 @@ def select(case):
 
                 table.insert(parent="", index=0, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
 
-            button2 = customtkinter.CTkButton(master=frame3, text="Delete row", command=lambda: delete_expense())
-            button2.grid(row=0, column=2, pady=10, padx=10)
             button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: open_add_expense_window())
             button3.grid(row=0, column=3, pady=10, padx=10, sticky="e")
 
@@ -474,19 +470,14 @@ def select(case):
                 add_expense(AddExpense.get_category(), AddExpense.get_amount(), AddExpense.get_date())
                 AddExpense.window.destroy()
             
-            def delete_expense():
-                x = table.selection()[0]
-                table.delete(x)
-                    
-            # def delete_expense():
-            #     while True:
-            #         if keyboard.read_key() == "d":
-            #             # table.delete(table.selection()[0])
-            #             AddExpense.main()
+            def delete_expense(event=None):
+                x = table.selection()
+                if not x:
+                    return
+                
+                table.delete(x[0])
             
-            
-            # process1 = multiprocessing.Process(target=delete_expense)
-            # process1.start()
+            table.bind('d', delete_expense)
 
         ###############################################################################################################
 
