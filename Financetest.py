@@ -248,7 +248,7 @@ def validate_date(date_str):
 
 check_data_file()
 check_expense_file(current_month)
-get_expense_lines(current_month, temp_expense_lines)
+get_expense_lines(current_month, expense_lines)
 get_all_expense_lines()
 
 #read at retrieve main data
