@@ -96,6 +96,16 @@ def check_data_file():
     if not os.path.exists("data/data.txt"):
         file = open("data/data.txt", "x")
         file.close()
+
+def check_empty_files():
+    files = glob.glob("data/*_expenses.csv")
+
+    for file_name in files:
+        with open(file_name, "r") as f:
+            reader = csv.reader(f)
+            is_empty = not any(reader)
+        if is_empty:
+            os.remove(file_name)
     
 def total_monthly_expenses():
     total = 0
@@ -278,7 +288,7 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
-
+check_empty_files()
 check_data_file()
 check_expense_file(current_month)
 get_all_expense_lines()
