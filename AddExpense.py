@@ -1,8 +1,13 @@
 import customtkinter
+from datetime import datetime
+import Financetest
 
 # Module-level references so other modules can access the window, frame and getters
 window = None
 frame1 = None
+
+now = datetime.now()
+current_date = now.strftime("%d.%m.%Y")
 
 def main(on_save=None):
     """Create and show the Add Expense window.
@@ -19,13 +24,13 @@ def main(on_save=None):
     frame1 = customtkinter.CTkFrame(master=window)
     frame1.grid(row=0, column=0, pady=10, padx=10)
 
-    entry_cat = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter Category")
+    entry_cat = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter Category (misc.)")
     entry_cat.grid(row=0, column=0, pady=10, padx=10)
 
     entry_amt = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter Amount")
     entry_amt.grid(row=0, column=1, pady=10, padx=10)
 
-    entry_date = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter Date (DD.MM.YYYY)")
+    entry_date = customtkinter.CTkEntry(master=frame1, placeholder_text=f"{current_date}")
     entry_date.grid(row=0, column=2, pady=10, padx=10)
 
     # Create Save button inside this window. If caller provided a callback,

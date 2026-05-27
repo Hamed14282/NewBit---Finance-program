@@ -1,10 +1,5 @@
 #pyinstaller GUItest.py --onefile --noconsole
 
-""" 
-TODO
-UI
-"""
-
 #Number of constant variables in file
 totalData = 3 
 

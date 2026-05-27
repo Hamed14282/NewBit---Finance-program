@@ -4,9 +4,11 @@
 TODO
 Allow the user to select profiles (different users with different data files)
 - Data folder with different user folders (user1, user2, etc.) and inside them the data files (data.txt, month_expenses.csv)
+- Password protection for profiles?
 
 Ability to change themes
 Make expense table editable
+Delete empty expense month files
 
 CATEGORIES
 -Allow the data in the table to be categorized by user defined categories (food, transport, etc.)
@@ -41,8 +43,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 from datetime import datetime
 from matplotlib.figure import Figure
-now = datetime.now()
 
+now = datetime.now()
 current_month = now.strftime("%m.%Y")
 current_day = now.strftime("%d")
 current_date = now.strftime("%d.%m.%Y")
