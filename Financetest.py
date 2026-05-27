@@ -102,14 +102,14 @@ def expenses_graph():
     num = 0
     
     for x in expense_lines:
-        if exp.get(x[2]):
-            num = float(exp.get(x[2])) + float(x[0])
-            exp.update({x[2]: num})
+        if exp.get(x[2][:2]):
+            num = float(exp.get(x[2][:2])) + float(x[0])
+            exp.update({x[2][:2]: num})
         else:
-            exp.update({x[2]: float(x[0])})
+            exp.update({x[2][:2]: float(x[0])})
     
-    days = list(exp.keys())
-    expenses = list(exp.values())
+    days = list(dict(sorted(exp.items())).keys())
+    expenses = list(dict(sorted(exp.items())).values())
 
     fig = Figure(figsize=(5, 4), dpi=100)
     ax = fig.add_subplot(111)
@@ -184,8 +184,8 @@ def add_expense(expense, date, category):
     current_time = now.strftime("%H:%M:%S")
 
     global expense_lines
-    expense_lines.append([expense, current_time, date[:2], date, category])
-    all_expense_lines.append([expense, current_time, date[:2], date, category])
+    expense_lines.append([expense, current_time, date, category])
+    all_expense_lines.append([expense, current_time, date, category])
 
     with open(f"data/{current_month}_expenses.csv", "w", newline="") as expense_file:
         writer = csv.writer(expense_file)

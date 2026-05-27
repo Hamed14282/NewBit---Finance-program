@@ -457,7 +457,7 @@ def select(case):
             
             for i, x in enumerate(Financetest.all_expense_lines):
                 tag = "oddrow" if i % 2 == 0 else "evenrow"
-                table.insert(parent="", index=0, values=(x[4], x[0], x[3]), tags=('fg', tag))
+                table.insert(parent="", index=0, values=(x[3], x[0], x[2]), tags=('fg', tag))
             
             table.grid(row=0, column=0, sticky="nsew")
             vsb.grid(row=0, column=1, sticky="ns")
