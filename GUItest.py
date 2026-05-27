@@ -481,12 +481,22 @@ def select(case):
 
         ###############################################################################################################
 
-        case "Graph expenses (current month)":
+        case "Graph expenses (monthly)":
             create_frame2(1, 0)
-            fig = Financetest.expenses_graph()
-            canvas = FigureCanvasTkAgg(fig, master=frame2)
-            canvas.draw()
-            canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+            
+            label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
+            label3.grid(row=3, column=0, pady=10, padx=10)
+
+            def month_selection(choice):
+                fig = Financetest.expenses_graph(float(choice))
+                canvas = FigureCanvasTkAgg(fig, master=frame2)
+                canvas.draw()
+                canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+
+            month_selection(Financetest.current_month)  # Show current month graph by default
+
+            combobox2 = customtkinter.CTkComboBox(master=frame1, values=Financetest.get_all_months(), command=month_selection)
+            combobox2.grid(row=4, column=0, pady=10, padx=10)
 
         ###############################################################################################################
 
@@ -499,7 +509,7 @@ def select(case):
 
 ###############################################################################################################
 
-combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses (current month)", "Graph expenses (all months)"], command=select)
+combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses (monthly)", "Graph expenses (all months)"], command=select)
 combobox.grid(row=2, column=0, pady=10, padx=10)
 
 ###############################################################################################################

@@ -79,8 +79,8 @@ def compound_interest(annual_rate, years, interest_money, periods):
     return result
 
 def check_expense_file(month):
-    if not os.path.exists(f"data/{month}_expenses.csv"):
-        file = open(f"data/{month}_expenses.csv", "x")
+    if not os.path.exists(f"data/{float(month)}_expenses.csv"):
+        file = open(f"data/{float(month)}_expenses.csv", "x")
         file.close()
 
 def check_data_file():
@@ -99,9 +99,12 @@ def total_monthly_expenses():
         
     print(f"Total expenses this month {total}\n")
 
-def expenses_graph():
+def expenses_graph(month):
     exp = {}    
     num = 0
+
+    expense_lines = []
+    get_expense_lines(float(month), expense_lines)
     
     for x in expense_lines:
         if exp.get(x[2][:2]):
@@ -117,7 +120,7 @@ def expenses_graph():
     ax = fig.add_subplot(111)
     ax.plot(days, expenses, marker='o')
     
-    ax.set_title(f"{current_month} expenses")
+    ax.set_title(f"{float(month)} expenses")
     ax.set_xlabel("Days")
     ax.set_ylabel("Expenses (Euros)")
     ax.grid(True)
@@ -164,15 +167,26 @@ def get_all_expense_lines():
                 all_expense_lines.append(row)
 
 def get_expense_lines(month, lines):
-    with open(f"data/{month}_expenses.csv", "r") as expense_file:
+    with open(f"data/{float(month)}_expenses.csv", "r") as expense_file:
         reader = csv.reader(expense_file)
         for row in reader:
             lines.append(row)
 
 def write_expense_lines(month, lines):
-    with open(f"data/{month}_expenses.csv", "w", newline="") as expense_file:
+    with open(f"data/{float(month)}_expenses.csv", "w", newline="") as expense_file:
         writer = csv.writer(expense_file)
         writer.writerows(lines)
+
+def get_all_months():
+    months = set()
+
+    files = glob.glob("data/*_expenses.csv")
+
+    for file_name in files:
+        month = os.path.basename(file_name).replace("_expenses.csv", "")
+        months.add(month)
+
+    return sorted(months)
 
 ########################################################################################################
 
