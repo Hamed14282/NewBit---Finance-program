@@ -4,10 +4,11 @@
 TODO
 Allow the user to select profiles (different users with different data files)
 - Data folder with different user folders (user1, user2, etc.) and inside them the data files (data.txt, month_expenses.csv)
+- Password protection for profiles?
 
 Ability to change themes
 Make expense table editable
-Take all of the data from all files (all_expense_lines) and reorganize it into files of different months (in case the user adds a different month expense to the current month file)
+Delete empty expense month files
 
 CATEGORIES
 -Allow the data in the table to be categorized by user defined categories (food, transport, etc.)
@@ -17,7 +18,7 @@ ERROR CHECKING
 -input expense (check all values)
 
 UPDATING
--Table update after adding expense
+-Table update after adding expense (Oragnize the data in the table per month?)
 
 """
 
@@ -42,8 +43,11 @@ from matplotlib import pyplot as plt
 import numpy as np
 from datetime import datetime
 from matplotlib.figure import Figure
-now = datetime.now()
 
+import pandas as pd
+from matplotlib import style 
+
+now = datetime.now()
 current_month = now.strftime("%m.%Y")
 current_day = now.strftime("%d")
 current_date = now.strftime("%d.%m.%Y")
@@ -59,6 +63,8 @@ global expense_lines
 expense_lines = []
 global all_expense_lines
 all_expense_lines = []
+global temp_expense_lines
+temp_expense_lines = []
 days = []
 expenses = []
 
@@ -76,9 +82,9 @@ def compound_interest(annual_rate, years, interest_money, periods):
     result = (savings - interest_money) + (interest_money * (1 + (annual_rate/100)/periods) ** (periods * years))
     return result
 
-def check_expense_file():
-    if not os.path.exists(f"data/{current_month}_expenses.csv"):
-        file = open(f"data/{current_month}_expenses.csv", "x")
+def check_expense_file(month):
+    if not os.path.exists(f"data/{float(month)}_expenses.csv"):
+        file = open(f"data/{float(month)}_expenses.csv", "x")
         file.close()
 
 def check_data_file():
@@ -98,26 +104,25 @@ def total_monthly_expenses():
     print(f"Total expenses this month {total}\n")
 
 def expenses_graph():
-    exp_by_day = {} 
-    exp_by_category = {}   
+    exp = {}    
+    num = 0
     
     for x in expense_lines:
-        amount = float(x[0])
-        category = x[1]
-        day = x[2]
-
-        exp_by_day[day] = exp_by_day.get(day, 0) + amount
-        exp_by_category[category] = exp_by_category.get(category, 0) + amount
+        if exp.get(x[2]):
+            num = float(exp.get(x[2])) + float(x[0])
+            exp.update({x[2]: num})
+        else:
+            exp.update({x[2]: float(x[0])})
     
-    days = list(exp_by_day.keys())
-    expenses = list(exp_by_day.values())
+    days = list(exp.keys())
+    expenses = list(exp.values())
 
     fig = Figure(figsize=(5, 4), dpi=100)
         
     ax = fig.add_subplot(111)
     ax.plot(days, expenses, marker='o')
     
-    ax.set_title(f"{current_month} expenses")
+    ax.set_title(f"{float(month)} expenses")
     ax.set_xlabel("Days")
     ax.set_ylabel("Expenses (Euros)")
     ax.grid(True)
@@ -163,6 +168,57 @@ def get_all_expense_lines():
             for row in reader:
                 all_expense_lines.append(row)
 
+# -----------------------------------------------------
+def categories_distribution():
+    #  set the colour
+    plt.style.use('ggplot')
+
+    # making name as current month
+    now = datetime.now()
+    current_month = f"{now.month}.{now.year}"
+    filename = f"data/{current_month}_expenses.csv"
+
+    # read file
+    df = pd.read_csv(filename, header=None)
+    df.columns = ["A", "B", "C", "D"]
+
+    # group table
+    df_pie = df.groupby('D', as_index=False)['A'].sum()
+    df_pie = df_pie.set_index('D')
+
+    # pie chart
+    fig, ax = plt.subplots()
+    df_pie["A"].plot(
+        kind="pie",          
+        autopct="%1.1f%%",  
+         ax=ax
+    )
+
+    ax.set_ylabel("")
+    return fig
+
+# -----------------------------------------------------
+def get_expense_lines(month, lines):
+    with open(f"data/{float(month)}_expenses.csv", "r") as expense_file:
+        reader = csv.reader(expense_file)
+        for row in reader:
+            lines.append(row)
+
+def write_expense_lines(month, lines):
+    with open(f"data/{float(month)}_expenses.csv", "w", newline="") as expense_file:
+        writer = csv.writer(expense_file)
+        writer.writerows(lines)
+
+def get_all_months():
+    months = set()
+
+    files = glob.glob("data/*_expenses.csv")
+
+    for file_name in files:
+        month = os.path.basename(file_name).replace("_expenses.csv", "")
+        months.add(month)
+
+    return sorted(months)
 
 ########################################################################################################
 
@@ -185,13 +241,20 @@ def add_expense(expense, date, category):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
 
-    global expense_lines
-    expense_lines.append([expense, current_time, date[:2], date, category])
-    all_expense_lines.append([expense, current_time, date[:2], date, category])
+    if date[3:10] != current_month:
+        global temp_expense_lines
+        check_expense_file(date[3:10])
+        temp_expense_lines = []
+        get_expense_lines(date[3:10], temp_expense_lines)
+        temp_expense_lines.append([expense, current_time, date, category])
+        write_expense_lines(date[3:10], temp_expense_lines)
 
-    with open(f"data/{current_month}_expenses.csv", "w", newline="") as expense_file:
-        writer = csv.writer(expense_file)
-        writer.writerows(expense_lines)
+    else:
+        global expense_lines
+        expense_lines.append([expense, current_time, date, category])
+        write_expense_lines(current_month, expense_lines)
+    
+    all_expense_lines.append([expense, current_time, date, category])
 
 def get_current_time():
     now = datetime.now()
@@ -230,18 +293,13 @@ def validate_date(date_str):
 ########################################################################################################
 
 check_data_file()
-check_expense_file()
+check_expense_file(current_month)
+get_expense_lines(current_month, expense_lines)
 get_all_expense_lines()
 
 #read at retrieve main data
 with open("data/data.txt", "r") as file:
     lines = file.readlines()
-
-#read at retrieve expense data
-with open(f"data/{current_month}_expenses.csv", "r") as expense_file:
-    reader = csv.reader(expense_file)
-    for row in reader:
-        expense_lines.append(row)
 
 ########################################################################################################
 
