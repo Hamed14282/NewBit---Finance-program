@@ -488,6 +488,8 @@ def select(case):
             label3.grid(row=3, column=0, pady=10, padx=10)
 
             def month_selection(choice):
+                if choice == "Current month":
+                    choice = Financetest.current_month
                 fig = Financetest.expenses_graph(float(choice))
                 canvas = FigureCanvasTkAgg(fig, master=frame2)
                 canvas.draw()
@@ -495,7 +497,7 @@ def select(case):
 
             month_selection(Financetest.current_month)  # Show current month graph by default
 
-            combobox2 = customtkinter.CTkComboBox(master=frame1, values=Financetest.get_all_months(), command=month_selection)
+            combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months()], command=month_selection)
             combobox2.grid(row=4, column=0, pady=10, padx=10)
 
         ###############################################################################################################
