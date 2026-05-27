@@ -7,7 +7,6 @@ Allow the user to select profiles (different users with different data files)
 
 Ability to change themes
 Make expense table editable
-Take all of the data from all files (all_expense_lines) and reorganize it into files of different months (in case the user adds a different month expense to the current month file)
 
 CATEGORIES
 -Allow the data in the table to be categorized by user defined categories (food, transport, etc.)
@@ -17,7 +16,7 @@ ERROR CHECKING
 -input expense (check all values)
 
 UPDATING
--Table update after adding expense
+-Table update after adding expense (Oragnize the data in the table per month?)
 
 """
 
