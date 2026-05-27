@@ -59,6 +59,8 @@ global expense_lines
 expense_lines = []
 global all_expense_lines
 all_expense_lines = []
+global temp_expense_lines
+temp_expense_lines = []
 days = []
 expenses = []
 
@@ -76,9 +78,9 @@ def compound_interest(annual_rate, years, interest_money, periods):
     result = (savings - interest_money) + (interest_money * (1 + (annual_rate/100)/periods) ** (periods * years))
     return result
 
-def check_expense_file():
-    if not os.path.exists(f"data/{current_month}_expenses.csv"):
-        file = open(f"data/{current_month}_expenses.csv", "x")
+def check_expense_file(month):
+    if not os.path.exists(f"data/{month}_expenses.csv"):
+        file = open(f"data/{month}_expenses.csv", "x")
         file.close()
 
 def check_data_file():
@@ -161,6 +163,16 @@ def get_all_expense_lines():
             for row in reader:
                 all_expense_lines.append(row)
 
+def get_expense_lines(month, lines):
+    with open(f"data/{month}_expenses.csv", "r") as expense_file:
+        reader = csv.reader(expense_file)
+        for row in reader:
+            lines.append(row)
+
+def write_expense_lines(month, lines):
+    with open(f"data/{month}_expenses.csv", "w", newline="") as expense_file:
+        writer = csv.writer(expense_file)
+        writer.writerows(lines)
 
 ########################################################################################################
 
@@ -183,13 +195,20 @@ def add_expense(expense, date, category):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
 
-    global expense_lines
-    expense_lines.append([expense, current_time, date, category])
-    all_expense_lines.append([expense, current_time, date, category])
+    if date[3:10] != current_month:
+        global temp_expense_lines
+        check_expense_file(date[3:10])
+        temp_expense_lines = []
+        get_expense_lines(date[3:10], temp_expense_lines)
+        temp_expense_lines.append([expense, current_time, date, category])
+        write_expense_lines(date[3:10], temp_expense_lines)
 
-    with open(f"data/{current_month}_expenses.csv", "w", newline="") as expense_file:
-        writer = csv.writer(expense_file)
-        writer.writerows(expense_lines)
+    else:
+        global expense_lines
+        expense_lines.append([expense, current_time, date, category])
+        write_expense_lines(current_month, expense_lines)
+    
+    all_expense_lines.append([expense, current_time, date, category])
 
 def get_current_time():
     now = datetime.now()
@@ -228,18 +247,13 @@ def validate_date(date_str):
 ########################################################################################################
 
 check_data_file()
-check_expense_file()
+check_expense_file(current_month)
+get_expense_lines(current_month, temp_expense_lines)
 get_all_expense_lines()
 
 #read at retrieve main data
 with open("data/data.txt", "r") as file:
     lines = file.readlines()
-
-#read at retrieve expense data
-with open(f"data/{current_month}_expenses.csv", "r") as expense_file:
-    reader = csv.reader(expense_file)
-    for row in reader:
-        expense_lines.append(row)
 
 ########################################################################################################
 
