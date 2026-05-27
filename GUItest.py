@@ -426,9 +426,10 @@ def select(case):
                     category = "misc."
 
                 date = Financetest.current_date if not date else date
-                Financetest.add_expense(amount, date, category)            
+                Financetest.add_expense(amount, date, category)
+                item_id = Financetest.all_expense_lines[-1][1]
 
-                table.insert(parent="", index=0, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
+                table.insert(parent="", index=0, iid=item_id, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
 
             button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: open_add_expense_window())
             button3.grid(row=0, column=3, pady=10, padx=10, sticky="e")
@@ -457,7 +458,8 @@ def select(case):
             
             for i, x in enumerate(Financetest.all_expense_lines):
                 tag = "oddrow" if i % 2 == 0 else "evenrow"
-                table.insert(parent="", index=0, values=(x[3], x[0], x[2]), tags=('fg', tag))
+                item_id = x[1]
+                table.insert(parent="", index=0, iid=item_id, values=(x[3], x[0], x[2]), tags=('fg', tag))
             
             table.grid(row=0, column=0, sticky="nsew")
             vsb.grid(row=0, column=1, sticky="ns")
@@ -475,7 +477,11 @@ def select(case):
                 if not x:
                     return
                 
-                table.delete(x[0])
+                item_id = x[0]
+                print(item_id)
+                Financetest.delete_expense(item_id)
+                
+                table.delete(item_id)
             
             table.bind('d', delete_expense)
 
