@@ -19,6 +19,7 @@ ERROR CHECKING
 
 UPDATING
 -Table update after adding expense (Oragnize the data in the table per month?)
+-Log user login and logout times (for multiple profiles) (writes entries to log.txt file)
 
 """
 
