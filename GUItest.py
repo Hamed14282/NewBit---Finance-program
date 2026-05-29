@@ -478,7 +478,6 @@ def select(case):
                     return
                 
                 item_id = x[0]
-                print(item_id)
                 Financetest.delete_expense(item_id)
                 
                 table.delete(item_id)
