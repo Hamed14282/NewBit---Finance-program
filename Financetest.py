@@ -163,6 +163,22 @@ def find_last_savings_value(date):
         last = dic2[-1][1]
     return str(last)
 
+# ##################################################################################################
+# Maybe useful in the future?
+#     else:
+#         #I want to find the last date entry exactly one before "date" and return its savings value. only works if the dates have the same format and same length (05.06.2024||13.06.2024)
+#         for y in dic:
+#             dic2.append(dic.get(y))
+#         if dic2[-1][2][3:10] < month: # if different month
+#             last = dic2[-1][1]
+#         else: # if same month
+#             dic2 = []
+#             for y in dic:
+#                 if y < date:
+#                     dic2.append(dic.get(y))
+#             last = dic2[-1][1]
+# ##################################################################################################
+
 def total_monthly_expenses():
     total = 0
 
