@@ -119,22 +119,22 @@ def total_monthly_expenses():
         
     print(f"Total expenses this month {total}\n")
 
-def expenses_graph():
+def expenses_graph(month):
     exp = {}    
     num = 0
 
     expense_lines = []
-    expense_lines = get_expense_lines(float(month))
+    get_expense_lines(float(month), expense_lines)
 
     
     for x in expense_lines:
-        if exp.get(x[2]):
-            num = float(exp.get(x[2])) + float(x[0])
-            exp.update({x[2]: num})
+        if exp.get(x[2][:2]):
+            num = float(exp.get(x[2][:2])) + float(x[0])
+            exp.update({x[2][:2]: num})
         else:
-            exp.update({x[2]: float(x[0])})
+            exp.update({x[2][:2]: float(x[0])})
     
-    days = list(exp.keys())
+    days = list(dict(sorted(exp.items())).keys())
     expenses = list(exp.values())
 
     fig = Figure(figsize=(5, 4), dpi=100)
