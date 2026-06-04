@@ -19,6 +19,7 @@ ERROR CHECKING
 
 UPDATING
 -Table update after adding expense (Oragnize the data in the table per month?)
+-Log user login and logout times (for multiple profiles) (writes entries to log.txt file)
 
 """
 
@@ -70,6 +71,11 @@ expenses = []
 
 ########################################################################################################
 
+def get_current_time():
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    return current_time
+
 def projection(months):
     result = savings + (income * months) - (spendings * months)
     return result
@@ -94,6 +100,16 @@ def check_data_file():
     if not os.path.exists("data/data.txt"):
         file = open("data/data.txt", "x")
         file.close()
+
+def check_empty_files():
+    files = glob.glob("data/*_expenses.csv")
+
+    for file_name in files:
+        with open(file_name, "r") as f:
+            reader = csv.reader(f)
+            is_empty = not any(reader)
+        if is_empty:
+            os.remove(file_name)
     
 def total_monthly_expenses():
     total = 0
@@ -106,6 +122,10 @@ def total_monthly_expenses():
 def expenses_graph():
     exp = {}    
     num = 0
+
+    expense_lines = []
+    expense_lines = get_expense_lines(float(month))
+
     
     for x in expense_lines:
         if exp.get(x[2]):
@@ -198,11 +218,15 @@ def categories_distribution():
     return fig
 
 # -----------------------------------------------------
-def get_expense_lines(month, lines):
+
+def get_expense_lines(month):
+    lines = []
+
     with open(f"data/{float(month)}_expenses.csv", "r") as expense_file:
         reader = csv.reader(expense_file)
         for row in reader:
             lines.append(row)
+    return lines
 
 def write_expense_lines(month, lines):
     with open(f"data/{float(month)}_expenses.csv", "w", newline="") as expense_file:
@@ -245,21 +269,32 @@ def add_expense(expense, date, category):
         global temp_expense_lines
         check_expense_file(date[3:10])
         temp_expense_lines = []
-        get_expense_lines(date[3:10], temp_expense_lines)
-        temp_expense_lines.append([expense, current_time, date, category])
+        temp_expense_lines = get_expense_lines(date[3:10])
+        temp_expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
         write_expense_lines(date[3:10], temp_expense_lines)
 
     else:
         global expense_lines
-        expense_lines.append([expense, current_time, date, category])
+        expense_lines = []
+        expense_lines = get_expense_lines(current_month)
+        expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
         write_expense_lines(current_month, expense_lines)
     
-    all_expense_lines.append([expense, current_time, date, category])
+    all_expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
 
-def get_current_time():
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    return current_time
+def delete_expense(id):
+    temp_expense_lines = []
+    line = []
+
+    for x in all_expense_lines:
+        if x[1] == id:
+            line = x
+            break
+    
+    all_expense_lines.remove(line)
+    temp_expense_lines = get_expense_lines(line[2][3:10])
+    temp_expense_lines.remove(line)
+    write_expense_lines(line[2][3:10], temp_expense_lines)
 
 def save_data():
     with open("data/data.txt", "w") as file:
@@ -291,10 +326,9 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
-
+check_empty_files()
 check_data_file()
 check_expense_file(current_month)
-get_expense_lines(current_month, expense_lines)
 get_all_expense_lines()
 
 #read at retrieve main data
