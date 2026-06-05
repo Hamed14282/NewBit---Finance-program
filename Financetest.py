@@ -126,25 +126,38 @@ def total_monthly_expenses():
 def expenses_graph(month):
     exp = {}
     sav = {}
+    temp = [] # to store different values of the same day and check which is the leatest
+    leatest = []
     num1 = 0
     num2 = 0
+    num3 = 0
 
     expense_lines = get_expense_lines(float(month))
     savings_lines = get_savings_lines(float(month))
 
     for x in expense_lines:
-        if exp.get(x[2][:2]):
-            num1 = float(exp.get(x[2][:2])) + float(x[0])
-            exp.update({x[2][:2]: num1})
+        if exp.get(int(x[2][:2])):
+            num1 = float(exp.get(int(x[2][:2]))) + float(x[0])
+            exp.update({int(x[2][:2]): num1})
         else:
-            exp.update({x[2][:2]: float(x[0])})
+            exp.update({int(x[2][:2]): float(x[0])})
     
     for x in savings_lines:
-        if sav.get(x[2][:2]):
-            num2 = float(sav.get(x[2][:2])) + float(x[0])
-            sav.update({x[2][:2]: num2})
+        if sav.get(int(x[2][:2])):
+            num2 = sav.get(int(x[2][:2]))
+
+            for y in savings_lines:
+                if int(y[2][:2]) == int(x[2][:2]):
+                    temp.append(y) # not currently in use / maybe future?
+                    if int(y[0]) > num3:
+                        num3 = int(y[0])
+                        leatest = y
+            
+            num2 = float(leatest[1])
+
+            sav.update({int(x[2][:2]): num2})
         else:
-            sav.update({x[2][:2]: float(x[0])})
+            sav.update({int(x[2][:2]): float(x[1])})
 
     days = list(dict(sorted(exp.items())).keys())
     expenses = list(dict(sorted(exp.items())).values())
@@ -214,6 +227,7 @@ def get_expense_lines(month):
     return lines
 
 def get_savings_lines(month):
+    check_savings_file(month)
     lines = []
     with open(f"data/{float(month)}_savings.csv", "r") as savings_file:
         reader = csv.reader(savings_file)
@@ -224,6 +238,11 @@ def get_savings_lines(month):
 def write_expense_lines(month, lines):
     with open(f"data/{float(month)}_expenses.csv", "w", newline="") as expense_file:
         writer = csv.writer(expense_file)
+        writer.writerows(lines)
+
+def write_savings_lines(month, lines):
+    with open(f"data/{float(month)}_savings.csv", "w", newline="") as savings_file:
+        writer = csv.writer(savings_file)
         writer.writerows(lines)
 
 def get_all_months():
@@ -275,6 +294,18 @@ def add_expense(expense, date, category):
     
     all_expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
 
+def add_saving(saving):
+    global savings_lines
+    savings_lines = []
+    savings_lines = get_savings_lines(current_month)
+    num = 1
+
+    if savings_lines:
+        num = int(savings_lines[-1][0]) + 1
+
+    savings_lines.append([num, saving, current_date])
+    write_savings_lines(current_month, savings_lines)
+
 def delete_expense(id):
     temp_expense_lines = []
     line = []
@@ -305,6 +336,7 @@ def save_savings():
     with open("data/data.txt", "w") as file:
         lines[1] = str(savings) + "\n"
         file.writelines(lines)
+    add_saving(savings)
 
 def save_spendings():
     with open("data/data.txt", "w") as file:
