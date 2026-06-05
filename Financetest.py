@@ -63,6 +63,8 @@ global all_expense_lines
 all_expense_lines = []
 global temp_expense_lines
 temp_expense_lines = []
+global savings_lines
+savings_lines = []
 days = []
 expenses = []
 
@@ -88,6 +90,11 @@ def compound_interest(annual_rate, years, interest_money, periods):
 def check_expense_file(month):
     if not os.path.exists(f"data/{float(month)}_expenses.csv"):
         file = open(f"data/{float(month)}_expenses.csv", "x")
+        file.close()
+
+def check_savings_file(month):
+    if not os.path.exists(f"data/{float(month)}_savings.csv"):
+        file = open(f"data/{float(month)}_savings.csv", "x")
         file.close()
 
 def check_data_file():
@@ -117,29 +124,44 @@ def total_monthly_expenses():
     print(f"Total expenses this month {total}\n")
 
 def expenses_graph(month):
-    exp = {}    
-    num = 0
+    exp = {}
+    sav = {}
+    num1 = 0
+    num2 = 0
 
-    expense_lines = []
     expense_lines = get_expense_lines(float(month))
-    
+    savings_lines = get_savings_lines(float(month))
+
     for x in expense_lines:
         if exp.get(x[2][:2]):
-            num = float(exp.get(x[2][:2])) + float(x[0])
-            exp.update({x[2][:2]: num})
+            num1 = float(exp.get(x[2][:2])) + float(x[0])
+            exp.update({x[2][:2]: num1})
         else:
             exp.update({x[2][:2]: float(x[0])})
     
+    for x in savings_lines:
+        if sav.get(x[2][:2]):
+            num2 = float(sav.get(x[2][:2])) + float(x[0])
+            sav.update({x[2][:2]: num2})
+        else:
+            sav.update({x[2][:2]: float(x[0])})
+
     days = list(dict(sorted(exp.items())).keys())
     expenses = list(dict(sorted(exp.items())).values())
 
+    days_sav = list(dict(sorted(sav.items())).keys())
+    savings = list(dict(sorted(sav.items())).values())
+
     fig = Figure(figsize=(5, 4), dpi=100)
     ax = fig.add_subplot(111)
-    ax.plot(days, expenses, marker='o')
-    
+
+    ax.plot(days, expenses, marker='o', label='Expenses')
+    ax.plot(days_sav, savings, marker='s', label='Savings')
+
     ax.set_title(f"{float(month)} expenses")
     ax.set_xlabel("Days")
     ax.set_ylabel("Expenses (Euros)")
+    ax.legend(loc='upper left')
     ax.grid(True)
 
     return fig
@@ -187,6 +209,14 @@ def get_expense_lines(month):
     lines = []
     with open(f"data/{float(month)}_expenses.csv", "r") as expense_file:
         reader = csv.reader(expense_file)
+        for row in reader:
+            lines.append(row)
+    return lines
+
+def get_savings_lines(month):
+    lines = []
+    with open(f"data/{float(month)}_savings.csv", "r") as savings_file:
+        reader = csv.reader(savings_file)
         for row in reader:
             lines.append(row)
     return lines
@@ -292,6 +322,7 @@ def validate_date(date_str):
 check_empty_files()
 check_data_file()
 check_expense_file(current_month)
+check_savings_file(current_month)
 get_all_expense_lines()
 
 #read at retrieve main data
