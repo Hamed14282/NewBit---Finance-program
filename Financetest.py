@@ -68,6 +68,13 @@ savings_lines = []
 days = []
 expenses = []
 
+global savings
+savings = 0
+global income
+income = 0
+global spendings
+spendings = 0
+
 ########################################################################################################
 
 def get_current_time():
@@ -93,17 +100,28 @@ def check_expense_file(month):
         file.close()
 
 def check_savings_file(month):
+    global savings
     if not os.path.exists(f"data/{float(month)}_savings.csv"):
         file = open(f"data/{float(month)}_savings.csv", "x")
         file.close()
+        if month == current_month:
+            write_savings_lines(month, [[1, savings, current_date]])
 
 def check_data_file():
+    global income, savings, spendings
     if not os.path.exists("data"):
         os.makedirs("data")
 
     if not os.path.exists("data/data.txt"):
         file = open("data/data.txt", "x")
         file.close()
+    else:
+        with open("data/data.txt", "r") as f:
+            lines = f.readlines()
+            income = float(lines[0].strip())
+            savings = float(lines[1].strip())
+            spendings = float(lines[2].strip())
+
 
 def check_empty_files():
     files = glob.glob("data/*_expenses.csv")
@@ -257,21 +275,6 @@ def get_all_months():
     return sorted(months)
 
 ########################################################################################################
-
-def change_income():
-    global income
-    income = float(input("Income(euro, monthly): "))
-    lines[0] = str(income) + "\n"
-
-def change_savings():
-    global savings
-    savings = float(input("savings(euro, monthly): "))
-    lines[1] = str(savings) + "\n"
-
-def change_spendings():
-    global spendings
-    spendings = float(input("Spendings(euro, monthly): "))
-    lines[2] = str(spendings) + "\n"
 
 def add_expense(expense, date, category):
     now = datetime.now()
