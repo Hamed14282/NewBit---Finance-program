@@ -20,6 +20,7 @@ ERROR CHECKING
 UPDATING
 -Table update after adding expense (Oragnize the data in the table per month?)
 -Log user login and logout times (for multiple profiles) (writes entries to log.txt file)
+-Mainwindow problem: multiple root windows created resulting in constant running of the program in the background after closing the main window (fix by using Toplevel instead of Tk for the main window and only creating one root window for the entire program)
 
 """
 
@@ -44,10 +45,9 @@ from matplotlib import pyplot as plt
 import numpy as np
 from datetime import datetime
 from matplotlib.figure import Figure
-
+import log
 import pandas as pd
 from matplotlib import style 
-
 now = datetime.now()
 current_month = now.strftime("%m.%Y")
 current_day = now.strftime("%d")
@@ -68,6 +68,8 @@ global temp_expense_lines
 temp_expense_lines = []
 global savings_lines
 savings_lines = []
+global all_savings_lines
+all_savings_lines = []
 days = []
 expenses = []
 
@@ -127,7 +129,7 @@ def check_data_file():
 
 
 def check_empty_files():
-    files = glob.glob("data/*_expenses.csv")
+    files = glob.glob("data/*_expenses.csv") + glob.glob("data/*_savings.csv")
 
     for file_name in files:
         with open(file_name, "r") as f:
@@ -196,7 +198,7 @@ def expenses_graph(month):
 
     ax.set_title(f"{float(month)} expenses")
     ax.set_xlabel("Days")
-    ax.set_ylabel("Expenses (Euros)")
+    ax.set_ylabel("Euros")
     ax.legend(loc='upper left')
     ax.grid(True)
 
@@ -204,6 +206,8 @@ def expenses_graph(month):
 
 def monthly_expenses_graph():
     exp = {}
+    temp = [] # to store different values of the same month and check which is the leatest
+    savings_values = [] # to store the last savings value of each month
 
     files = glob.glob("data/*_expenses.csv")
 
@@ -218,21 +222,39 @@ def monthly_expenses_graph():
 
         exp[month] = total
 
+    files = glob.glob("data/*_savings.csv")
+
+    for file_name in files:
+        temp = []
+        with open(file_name, "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                if int(row[0]) == 1:
+                    temp = row
+                
+                if int(row[0]) > int(temp[0]):
+                    temp = row
+            savings_values.append(float(temp[1]))
+
     months = sorted(exp.keys())
-    values = [exp[m] for m in months]
+    expense_values = [exp[m] for m in months]
 
     fig = Figure(figsize=(6, 4), dpi=100)
     ax = fig.add_subplot(111)
-    ax.plot(months, values, marker='o')
+    ax.plot(months, expense_values, marker='o', label='Expenses')
+    ax.plot(months, savings_values, marker='s', label='Savings')
 
     ax.set_title("Monthly expenses")
     ax.set_xlabel("Month")
-    ax.set_ylabel("Expenses (Euros)")
+    ax.set_ylabel("Euros")
+    ax.legend(loc='upper left')
     ax.grid(True)
 
     return fig
 
 def get_all_expense_lines():
+    global all_expense_lines
+    all_expense_lines = []
     files = glob.glob("data/*_expenses.csv")
 
     for file_name in files:
@@ -240,6 +262,17 @@ def get_all_expense_lines():
             reader = csv.reader(f)
             for row in reader:
                 all_expense_lines.append(row)
+
+def get_all_savings_lines():
+    global all_savings_lines
+    all_savings_lines = []
+    files = glob.glob("data/*_savings.csv")
+
+    for file_name in files:
+        with open(file_name, "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                all_savings_lines.append(row)
 
 # -----------------------------------------------------
 def categories_distribution():
@@ -317,6 +350,10 @@ def add_expense(expense, date, category):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
 
+    expense = str(expense)
+    date = str(date)
+    category = str(category)
+
     if date[3:10] != current_month:
         global temp_expense_lines
         check_expense_file(date[3:10])
@@ -347,7 +384,7 @@ def add_saving(saving):
     write_savings_lines(current_month, savings_lines)
 
 def delete_expense(id):
-    temp_expense_lines = []
+    id = str(id)
     line = []
 
     for x in all_expense_lines:
@@ -355,10 +392,10 @@ def delete_expense(id):
             line = x
             break
     
-    all_expense_lines.remove(line)
     temp_expense_lines = get_expense_lines(line[2][3:10])
     temp_expense_lines.remove(line)
     write_expense_lines(line[2][3:10], temp_expense_lines)
+    all_expense_lines.remove(line)
 
 def save_data():
     with open("data/data.txt", "w") as file:
@@ -391,6 +428,7 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
+log.add("logged in")
 check_empty_files()
 check_data_file()
 check_expense_file(current_month)
