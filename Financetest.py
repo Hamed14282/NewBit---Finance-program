@@ -20,6 +20,7 @@ ERROR CHECKING
 UPDATING
 -Table update after adding expense (Oragnize the data in the table per month?)
 -Log user login and logout times (for multiple profiles) (writes entries to log.txt file)
+-Mainwindow problem: multiple root windows created resulting in constant running of the program in the background after closing the main window (fix by using Toplevel instead of Tk for the main window and only creating one root window for the entire program)
 
 """
 
