@@ -126,7 +126,7 @@ def check_data_file():
 
 
 def check_empty_files():
-    files = glob.glob("data/*_expenses.csv")
+    files = glob.glob("data/*_expenses.csv") + glob.glob("data/*_savings.csv")
 
     for file_name in files:
         with open(file_name, "r") as f:
