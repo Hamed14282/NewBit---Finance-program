@@ -65,6 +65,8 @@ global temp_expense_lines
 temp_expense_lines = []
 global savings_lines
 savings_lines = []
+global all_savings_lines
+all_savings_lines = []
 days = []
 expenses = []
 
@@ -191,7 +193,7 @@ def expenses_graph(month):
 
     ax.set_title(f"{float(month)} expenses")
     ax.set_xlabel("Days")
-    ax.set_ylabel("Expenses (Euros)")
+    ax.set_ylabel("Euros")
     ax.legend(loc='upper left')
     ax.grid(True)
 
@@ -199,6 +201,8 @@ def expenses_graph(month):
 
 def monthly_expenses_graph():
     exp = {}
+    temp = [] # to store different values of the same month and check which is the leatest
+    savings_values = [] # to store the last savings value of each month
 
     files = glob.glob("data/*_expenses.csv")
 
@@ -213,16 +217,32 @@ def monthly_expenses_graph():
 
         exp[month] = total
 
+    files = glob.glob("data/*_savings.csv")
+
+    for file_name in files:
+        temp = []
+        with open(file_name, "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                if int(row[0]) == 1:
+                    temp = row
+                
+                if int(row[0]) > int(temp[0]):
+                    temp = row
+            savings_values.append(float(temp[1]))
+
     months = sorted(exp.keys())
-    values = [exp[m] for m in months]
+    expense_values = [exp[m] for m in months]
 
     fig = Figure(figsize=(6, 4), dpi=100)
     ax = fig.add_subplot(111)
-    ax.plot(months, values, marker='o')
+    ax.plot(months, expense_values, marker='o', label='Expenses')
+    ax.plot(months, savings_values, marker='s', label='Savings')
 
     ax.set_title("Monthly expenses")
     ax.set_xlabel("Month")
-    ax.set_ylabel("Expenses (Euros)")
+    ax.set_ylabel("Euros")
+    ax.legend(loc='upper left')
     ax.grid(True)
 
     return fig
@@ -235,6 +255,15 @@ def get_all_expense_lines():
             reader = csv.reader(f)
             for row in reader:
                 all_expense_lines.append(row)
+
+def get_all_savings_lines():
+    files = glob.glob("data/*_savings.csv")
+
+    for file_name in files:
+        with open(file_name, "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                all_savings_lines.append(row)
 
 def get_expense_lines(month):
     lines = []
