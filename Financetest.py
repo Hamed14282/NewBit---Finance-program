@@ -44,6 +44,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from datetime import datetime
 from matplotlib.figure import Figure
+import log
 
 now = datetime.now()
 current_month = now.strftime("%m.%Y")
@@ -391,6 +392,7 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
+log.add("logged in")
 check_empty_files()
 check_data_file()
 check_expense_file(current_month)

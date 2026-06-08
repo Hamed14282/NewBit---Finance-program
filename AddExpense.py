@@ -1,6 +1,5 @@
 import customtkinter
 from datetime import datetime
-import Financetest
 
 # Module-level references so other modules can access the window, frame and getters
 window = None
