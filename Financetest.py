@@ -66,8 +66,17 @@ global all_expense_lines
 all_expense_lines = []
 global temp_expense_lines
 temp_expense_lines = []
+global savings_lines
+savings_lines = []
 days = []
 expenses = []
+
+global savings
+savings = 0
+global income
+income = 0
+global spendings
+spendings = 0
 
 ########################################################################################################
 
@@ -93,13 +102,29 @@ def check_expense_file(month):
         file = open(f"data/{float(month)}_expenses.csv", "x")
         file.close()
 
+def check_savings_file(month):
+    global savings
+    if not os.path.exists(f"data/{float(month)}_savings.csv"):
+        file = open(f"data/{float(month)}_savings.csv", "x")
+        file.close()
+        if month == current_month:
+            write_savings_lines(month, [[1, savings, current_date]])
+
 def check_data_file():
+    global income, savings, spendings
     if not os.path.exists("data"):
         os.makedirs("data")
 
     if not os.path.exists("data/data.txt"):
         file = open("data/data.txt", "x")
         file.close()
+    else:
+        with open("data/data.txt", "r") as f:
+            lines = f.readlines()
+            income = float(lines[0].strip())
+            savings = float(lines[1].strip())
+            spendings = float(lines[2].strip())
+
 
 def check_empty_files():
     files = glob.glob("data/*_expenses.csv")
@@ -120,31 +145,59 @@ def total_monthly_expenses():
     print(f"Total expenses this month {total}\n")
 
 def expenses_graph(month):
-    exp = {}    
-    num = 0
+    exp = {}
+    sav = {}
+    temp = [] # to store different values of the same day and check which is the leatest
+    leatest = []
+    num1 = 0
+    num2 = 0
+    num3 = 0
 
-    expense_lines = []
-    get_expense_lines(float(month), expense_lines)
 
-    
+    expense_lines = get_expense_lines(float(month))
+    savings_lines = get_savings_lines(float(month))
+
     for x in expense_lines:
-        if exp.get(x[2][:2]):
-            num = float(exp.get(x[2][:2])) + float(x[0])
-            exp.update({x[2][:2]: num})
+        if exp.get(int(x[2][:2])):
+            num1 = float(exp.get(int(x[2][:2]))) + float(x[0])
+            exp.update({int(x[2][:2]): num1})
         else:
-            exp.update({x[2][:2]: float(x[0])})
+            exp.update({int(x[2][:2]): float(x[0])})
     
+    for x in savings_lines:
+        if sav.get(int(x[2][:2])):
+            num2 = sav.get(int(x[2][:2]))
+
+            for y in savings_lines:
+                if int(y[2][:2]) == int(x[2][:2]):
+                    temp.append(y) # not currently in use / maybe future?
+                    if int(y[0]) > num3:
+                        num3 = int(y[0])
+                        leatest = y
+            
+            num2 = float(leatest[1])
+
+            sav.update({int(x[2][:2]): num2})
+        else:
+            sav.update({int(x[2][:2]): float(x[1])})
+
     days = list(dict(sorted(exp.items())).keys())
     expenses = list(exp.values())
+
+    days_sav = list(dict(sorted(sav.items())).keys())
+    savings = list(dict(sorted(sav.items())).values())
 
     fig = Figure(figsize=(5, 4), dpi=100)
         
     ax = fig.add_subplot(111)
-    ax.plot(days, expenses, marker='o')
-    
+
+    ax.plot(days, expenses, marker='o', label='Expenses')
+    ax.plot(days_sav, savings, marker='s', label='Savings')
+
     ax.set_title(f"{float(month)} expenses")
     ax.set_xlabel("Days")
     ax.set_ylabel("Expenses (Euros)")
+    ax.legend(loc='upper left')
     ax.grid(True)
 
     return fig
@@ -228,9 +281,23 @@ def get_expense_lines(month):
             lines.append(row)
     return lines
 
+def get_savings_lines(month):
+    check_savings_file(month)
+    lines = []
+    with open(f"data/{float(month)}_savings.csv", "r") as savings_file:
+        reader = csv.reader(savings_file)
+        for row in reader:
+            lines.append(row)
+    return lines
+
 def write_expense_lines(month, lines):
     with open(f"data/{float(month)}_expenses.csv", "w", newline="") as expense_file:
         writer = csv.writer(expense_file)
+        writer.writerows(lines)
+
+def write_savings_lines(month, lines):
+    with open(f"data/{float(month)}_savings.csv", "w", newline="") as savings_file:
+        writer = csv.writer(savings_file)
         writer.writerows(lines)
 
 def get_all_months():
@@ -245,21 +312,6 @@ def get_all_months():
     return sorted(months)
 
 ########################################################################################################
-
-def change_income():
-    global income
-    income = float(input("Income(euro, monthly): "))
-    lines[0] = str(income) + "\n"
-
-def change_savings():
-    global savings
-    savings = float(input("savings(euro, monthly): "))
-    lines[1] = str(savings) + "\n"
-
-def change_spendings():
-    global spendings
-    spendings = float(input("Spendings(euro, monthly): "))
-    lines[2] = str(spendings) + "\n"
 
 def add_expense(expense, date, category):
     now = datetime.now()
@@ -281,6 +333,18 @@ def add_expense(expense, date, category):
         write_expense_lines(current_month, expense_lines)
     
     all_expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
+
+def add_saving(saving):
+    global savings_lines
+    savings_lines = []
+    savings_lines = get_savings_lines(current_month)
+    num = 1
+
+    if savings_lines:
+        num = int(savings_lines[-1][0]) + 1
+
+    savings_lines.append([num, saving, current_date])
+    write_savings_lines(current_month, savings_lines)
 
 def delete_expense(id):
     temp_expense_lines = []
@@ -312,6 +376,7 @@ def save_savings():
     with open("data/data.txt", "w") as file:
         lines[1] = str(savings) + "\n"
         file.writelines(lines)
+    add_saving(savings)
 
 def save_spendings():
     with open("data/data.txt", "w") as file:
@@ -329,6 +394,7 @@ def validate_date(date_str):
 check_empty_files()
 check_data_file()
 check_expense_file(current_month)
+check_savings_file(current_month)
 get_all_expense_lines()
 
 #read at retrieve main data
