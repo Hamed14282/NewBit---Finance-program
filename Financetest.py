@@ -248,6 +248,8 @@ def monthly_expenses_graph():
     return fig
 
 def get_all_expense_lines():
+    global all_expense_lines
+    all_expense_lines = []
     files = glob.glob("data/*_expenses.csv")
 
     for file_name in files:
@@ -257,6 +259,8 @@ def get_all_expense_lines():
                 all_expense_lines.append(row)
 
 def get_all_savings_lines():
+    global all_savings_lines
+    all_savings_lines = []
     files = glob.glob("data/*_savings.csv")
 
     for file_name in files:
@@ -309,6 +313,10 @@ def add_expense(expense, date, category):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
 
+    expense = str(expense)
+    date = str(date)
+    category = str(category)
+
     if date[3:10] != current_month:
         global temp_expense_lines
         check_expense_file(date[3:10])
@@ -339,7 +347,7 @@ def add_saving(saving):
     write_savings_lines(current_month, savings_lines)
 
 def delete_expense(id):
-    temp_expense_lines = []
+    id = str(id)
     line = []
 
     for x in all_expense_lines:
@@ -347,10 +355,10 @@ def delete_expense(id):
             line = x
             break
     
-    all_expense_lines.remove(line)
     temp_expense_lines = get_expense_lines(line[2][3:10])
     temp_expense_lines.remove(line)
     write_expense_lines(line[2][3:10], temp_expense_lines)
+    all_expense_lines.remove(line)
 
 def save_data():
     with open("data/data.txt", "w") as file:
