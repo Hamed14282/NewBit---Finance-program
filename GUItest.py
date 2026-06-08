@@ -43,9 +43,9 @@ def create_frame2():
     frame2.grid_columnconfigure(0, weight=1)
     frame2.grid_columnconfigure(1, weight=1)
 
-def create_frame2(x, y):
+def create_frame2(x, y, m):
     global frame2
-    frame2 = customtkinter.CTkFrame(master=window)
+    frame2 = customtkinter.CTkFrame(master=m)
     frame2.grid(row=y, column=x, pady=15, padx=15, sticky="nsew")
     if x == 0 and y == 1:
         frame2.grid(row=y, column=x, pady=15, padx=15, sticky="nsew")
@@ -61,16 +61,16 @@ def create_frame3():
     frame3.grid_columnconfigure(0, weight=1)
     frame3.grid_columnconfigure(1, weight=1)
 
-def create_frame3(x, y):
+def create_frame3(x, y, m):
     global frame3
-    frame3 = customtkinter.CTkFrame(master=window)
+    frame3 = customtkinter.CTkFrame(master=m)
     frame3.grid(row=y, column=x, pady=15, padx=15, sticky="nsew")
     frame3.grid_columnconfigure(0, weight=1)
     frame3.grid_columnconfigure(1, weight=1)
 
-def create_frame4(x, y):
+def create_frame4(x, y, m):
     global frame4
-    frame4 = customtkinter.CTkFrame(master=window)
+    frame4 = customtkinter.CTkFrame(master=m)
     frame4.grid(row=y, column=x, pady=5, padx=5, sticky="new")
     frame4.grid_columnconfigure(0, weight=1)
     frame4.grid_rowconfigure(0, weight=0)
@@ -128,7 +128,7 @@ def select(case):
     match case:
 
         case "Change values":
-            create_frame3(1, 0)
+            create_frame3(1, 0, window)
             
             frame4 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
             frame4.grid(row=0, column=0, columnspan=2, pady=0, padx=0)
@@ -243,7 +243,7 @@ def select(case):
         ###############################################################################################################
 
         case "Projection calculations":
-            create_frame3(1, 0)
+            create_frame3(1, 0, window)
 
             frame4 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
             frame4.grid(row=0, column=0, columnspan=2, pady=0, padx=0)
@@ -313,7 +313,7 @@ def select(case):
                 
                 match choice:
                     case "Simple Interest":
-                        create_frame3(1, 0)
+                        create_frame3(1, 0, window)
                         
                         frame4 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
                         frame4.grid(row=0, column=0, pady=0, padx=0)
@@ -419,7 +419,7 @@ def select(case):
                         button4.grid(row=2, column=2, pady=10, padx=10)
 
                     case "Compound Interest":
-                        create_frame3(1, 0)
+                        create_frame3(1, 0, window)
                         
                         frame4 = customtkinter.CTkFrame(master=frame3, fg_color="transparent", bg_color="transparent")
                         frame4.grid(row=0, column=0, pady=0, padx=0)
@@ -551,7 +551,7 @@ def select(case):
         ###############################################################################################################
 
         case "Show expenses(table)":
-            create_frame2(1, 1)
+            create_frame2(1, 1, window)
             frame2.grid_rowconfigure(0, weight=1)
             frame2.grid_columnconfigure(0, weight=1)   
             
@@ -572,7 +572,7 @@ def select(case):
                 if amount is not None and amount != "":
                     if string_to_num(amount) is False or string_to_num(amount) <= 0:
                         if frame4 is None or not frame4.winfo_exists():
-                            create_frame4(1, 2)
+                            create_frame4(1, 2, window)
                         error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                         error_label.grid(row=0, column=0, pady=10, padx=10)
                         return
@@ -581,7 +581,7 @@ def select(case):
 
                 elif amount is None or amount == "":
                     if frame4 is None or not frame4.winfo_exists():
-                        create_frame4(1, 2)
+                        create_frame4(1, 2, window)
                     error_label = customtkinter.CTkLabel(master=frame4, text="No expense amount entered.", text_color="pink", font=("Roboto", 16))
                     error_label.grid(row=0, column=0, pady=10, padx=10)
                     return
@@ -589,13 +589,13 @@ def select(case):
                 if date is not None and date != "":
                     if not Financetest.validate_date(date):
                         if frame4 is None or not frame4.winfo_exists():
-                            create_frame4(1, 2)
+                            create_frame4(1, 2, window)
                         error_label = customtkinter.CTkLabel(master=frame4, text="Invalid date format. Please enter date as DD.MM.YYYY.", text_color="pink", font=("Roboto", 16))
                         error_label.grid(row=1, column=0, pady=10, padx=10)
                         return
                 elif date is None or date == "":
                     if frame4 is None or not frame4.winfo_exists():
-                        create_frame4(1, 2)
+                        create_frame4(1, 2, window)
                     error_label = customtkinter.CTkLabel(master=frame4, text="No date entered. Using current date: " + Financetest.current_date, text_color="pink", font=("Roboto", 16))
                     error_label.grid(row=1, column=0, pady=10, padx=10)
                     
@@ -603,7 +603,7 @@ def select(case):
                     category = category.lower()
                 elif category is None or category == "":
                     if frame4 is None or not frame4.winfo_exists():
-                        create_frame4(1, 2)
+                        create_frame4(1, 2, window)
                     error_label = customtkinter.CTkLabel(master=frame4, text="No category entered. Using default category: misc.", text_color="pink", font=("Roboto", 16))
                     error_label.grid(row=2, column=0, pady=10, padx=10)
                     category = "misc."
@@ -670,7 +670,7 @@ def select(case):
         ###############################################################################################################
 
         case "Graph expenses":
-            create_frame2(1, 0)
+            create_frame2(1, 0, window)
             Financetest.check_empty_files()
             
             label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
