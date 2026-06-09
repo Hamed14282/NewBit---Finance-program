@@ -935,6 +935,9 @@
    'C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance '
    'program\\.venv\\Lib\\site-packages\\kiwisolver\\exceptions.py',
    'PYMODULE'),
+  ('log',
+   'C:\\Users\\user\\Documents\\GitHub\\NewBit - Finance program\\log.py',
+   'PYMODULE'),
   ('logging', 'C:\\Python314\\Lib\\logging\\__init__.py', 'PYMODULE'),
   ('lzma', 'C:\\Python314\\Lib\\lzma.py', 'PYMODULE'),
   ('matplotlib',
