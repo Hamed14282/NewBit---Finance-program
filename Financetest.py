@@ -403,7 +403,7 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
-log.add("logged in")
+log.login("logged in")
 check_empty_files()
 check_data_file()
 check_expense_file(current_month)

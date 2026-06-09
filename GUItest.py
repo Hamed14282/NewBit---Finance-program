@@ -172,6 +172,7 @@ def select(case):
                                 new_value = string_to_num(new_value)
                                 Financetest.income = new_value
                                 Financetest.save_income()
+                                Financetest.log.change_values("income", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -195,7 +196,8 @@ def select(case):
                                 new_value = string_to_num(new_value)
                                 Financetest.savings = new_value
                                 Financetest.save_savings()
-                        
+                                Financetest.log.change_values("savings", new_value)
+
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
                                 create_frame6(0, 2, frame3)
@@ -218,6 +220,7 @@ def select(case):
                                 new_value = string_to_num(new_value)
                                 Financetest.spendings = new_value
                                 Financetest.save_spendings()
+                                Financetest.log.change_values("spendings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -285,6 +288,7 @@ def select(case):
                         result = Financetest.projection(months)
                         label6 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + str(months) + " months", text_color="pink", font=("Roboto", 16))
                         label6.grid(row=0, column=0, pady=10, padx=10)
+                        
                 elif months is None or months == "":
                     label6 = customtkinter.CTkLabel(master=frame6, text="No projected months entered.", text_color="pink", font=("Roboto", 16))
                     label6.grid(row=0, column=0, pady=10, padx=10)
@@ -293,6 +297,7 @@ def select(case):
                 def save_projection(savings_result):
                     Financetest.savings = savings_result
                     Financetest.save_savings()
+                    Financetest.log.add("projection_calculation", f"{savings_result:.2f}")
 
                 button4 = customtkinter.CTkButton(master=frame6, text="Save value as current savings", command=lambda: save_projection(result))
                 button4.grid(row=0, column=1, pady=10, padx=10)
