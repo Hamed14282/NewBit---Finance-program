@@ -573,7 +573,7 @@ def select(case):
                     if string_to_num(amount) is False or string_to_num(amount) <= 0:
                         if frame4 is None or not frame4.winfo_exists():
                             create_frame4(1, 2, window)
-                        error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
+                        error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero, and seperate decimals with a period.", text_color="pink", font=("Roboto", 16))
                         error_label.grid(row=0, column=0, pady=10, padx=10)
                         return
                     else:
