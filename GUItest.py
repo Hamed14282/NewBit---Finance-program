@@ -6,7 +6,6 @@ import customtkinter
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
@@ -297,7 +296,7 @@ def select(case):
                 def save_projection(savings_result):
                     Financetest.savings = savings_result
                     Financetest.save_savings()
-                    Financetest.log.add("projection_calculation", f"{savings_result:.2f}")
+                    Financetest.log.projection_calculation(f"{savings_result:.2f}")
 
                 button4 = customtkinter.CTkButton(master=frame6, text="Save value as current savings", command=lambda: save_projection(result))
                 button4.grid(row=0, column=1, pady=10, padx=10)
@@ -615,6 +614,8 @@ def select(case):
 
                 date = Financetest.current_date if not date else date
                 Financetest.add_expense(amount, date, category)
+                Financetest.log.add_expense(category, amount, date)
+
                 item_id = Financetest.all_expense_lines[-1][1]
 
                 table.insert(parent="", index=0, iid=item_id, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
@@ -667,7 +668,6 @@ def select(case):
                 
                 item_id = x[0]
                 Financetest.delete_expense(item_id)
-                
                 table.delete(item_id)
             
             table.bind('d', delete_expense)
@@ -705,3 +705,4 @@ combobox.grid(row=2, column=0, pady=10, padx=10)
 ###############################################################################################################
 
 window.mainloop()
+window.protocol("WM_DELETE_WINDOW", Financetest.log.login("logged out"))

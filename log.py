@@ -34,8 +34,14 @@ def change_values(type, amount):
             with open("log.txt", "a") as log_file:
                 log_file.write(f"Spendings changed to {amount} euros on {current_date} at {get_current_time()}\n")
 
-def add(type, amount):
-    match type:
-        case "projection_calculation":
-            with open("log.txt", "a") as log_file:
-                log_file.write(f"Changed savings amount to {amount} euros from projection calculation on {current_date} at {get_current_time()}\n")
+def projection_calculation(amount):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"Changed savings amount to {amount} euros from projection calculation on {current_date} at {get_current_time()}\n")
+        
+def add_expense(category, amount, date):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"Added expense: {category}, {amount} euros, {date} || on {current_date} at {get_current_time()}\n")
+
+def delete_expense(category, amount, date):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"Deleted expense: {category}, {amount} euros, {date} || on {current_date} at {get_current_time()}\n")

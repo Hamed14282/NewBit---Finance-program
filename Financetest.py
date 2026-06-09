@@ -367,6 +367,8 @@ def delete_expense(id):
             line = x
             break
     
+    log.delete_expense(line[3], line[0], line[2])
+    
     temp_expense_lines = get_expense_lines(line[2][3:10])
     temp_expense_lines.remove(line)
     write_expense_lines(line[2][3:10], temp_expense_lines)
