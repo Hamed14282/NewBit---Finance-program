@@ -109,7 +109,7 @@ def check_savings_file(month):
         file = open(f"data/{float(month)}_savings.csv", "x")
         file.close()
         if month == current_month:
-            write_savings_lines(month, [[1, savings, current_date]])
+            write_savings_lines(month, [[1, savings, f"01.{current_month}"]])
 
 def check_data_file():
     global income, savings, spendings
@@ -193,6 +193,12 @@ def expenses_graph(month):
     ax.plot(days, expenses, marker='o', label='Expenses')
     ax.plot(days_sav, savings, marker='s', label='Savings')
 
+    #Changes the x and y axis steps to show only multiples of 1 for x and multiples of 25 for y
+    ax.yaxis.set_major_locator(plt.MultipleLocator(25))
+
+    #Sets x axis minimum to 1
+    ax.set_xlim(left=1)
+
     ax.set_title(f"{float(month)} expenses")
     ax.set_xlabel("Days")
     ax.set_ylabel("Euros")
@@ -238,8 +244,12 @@ def monthly_expenses_graph():
 
     fig = Figure(figsize=(6, 4), dpi=100)
     ax = fig.add_subplot(111)
+
     ax.plot(months, expense_values, marker='o', label='Expenses')
     ax.plot(months, savings_values, marker='s', label='Savings')
+
+    #Changes the y axis steps to show only multiples of 25
+    ax.yaxis.set_major_locator(plt.MultipleLocator(25))
 
     ax.set_title("Monthly expenses")
     ax.set_xlabel("Month")
