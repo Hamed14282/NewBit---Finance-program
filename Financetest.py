@@ -275,29 +275,31 @@ def get_all_savings_lines():
                 all_savings_lines.append(row)
 
 # -----------------------------------------------------
-def categories_distribution():
-    #  set the colour
+def categories_distribution(month=None):
     plt.style.use('ggplot')
 
-    # making name as current month
-    now = datetime.now()
-    current_month = f"{now.month}.{now.year}"
-    filename = f"data/{current_month}_expenses.csv"
+    if month is None:
+        months = get_all_months()
+        all_dfs = []
+        for m in months:
+            filename = f"data/{m}_expenses.csv"
+            df = pd.read_csv(filename, header=None)
+            df.columns = ["A", "B", "C", "D"]
+            all_dfs.append(df)
+        df = pd.concat(all_dfs)
+    else:
+        filename = f"data/{month}_expenses.csv"
+        df = pd.read_csv(filename, header=None)
+        df.columns = ["A", "B", "C", "D"]
 
-    # read file
-    df = pd.read_csv(filename, header=None)
-    df.columns = ["A", "B", "C", "D"]
-
-    # group table
     df_pie = df.groupby('D', as_index=False)['A'].sum()
     df_pie = df_pie.set_index('D')
 
-    # pie chart
     fig, ax = plt.subplots()
     df_pie["A"].plot(
-        kind="pie",          
-        autopct="%1.1f%%",  
-         ax=ax
+        kind="pie",
+        autopct="%1.1f%%",
+        ax=ax
     )
 
     ax.set_ylabel("")
