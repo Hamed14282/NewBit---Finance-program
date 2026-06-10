@@ -139,10 +139,11 @@ def check_empty_files():
 
 #Finds the last savings value of the date inputted and returns it. If there is no savings value for that date, it returns the last savings value before that date.
 def find_last_savings_value(date):
-    last = ""
+    last = "00.00.0000"
     dic = {}
+    dic2 = []
     month = date[3:10]
-    lines = get_savings_lines(month)
+    lines = get_savings_lines(float(month))
 
     for x in lines:
         if dic.get(x[2]):
@@ -155,10 +156,11 @@ def find_last_savings_value(date):
         last = float(dic.get(date)[1])
     else:
         #I want to find the last date entry exactly one before "date" and return its savings value. only works if the dates have the same format and same length (05.06.2024||13.06.2024)
-        for y in dic.keys():
+        for y in dic:
             if y < date:
-                if y > last:
-                    last = dic.get(y)[1]
+                dic2.append(dic.get(y))
+
+        last = dic2[-1][1]
     return str(last)
 
 def total_monthly_expenses():
@@ -373,7 +375,7 @@ def add_expense(expense, date, category):
 def add_saving(saving, date):
     global savings_lines
     savings_lines = []
-    savings_lines = get_savings_lines(date[3:10])
+    savings_lines = get_savings_lines(float(date[3:10]))
     num = 1
 
     if savings_lines:
