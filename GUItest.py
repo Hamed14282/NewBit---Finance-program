@@ -613,9 +613,13 @@ def select(case):
                 Financetest.add_expense(amount, date, category)
                 Financetest.log.add_expense(category, amount, date)
 
-                if Financetest.current_date == date:
-                    Financetest.update_savings(Financetest.savings - float(amount), date)
-                    Financetest.log.update_savings(Financetest.savings, Financetest.savings + float(amount))
+                last_savings = float(Financetest.find_last_savings_value(date))
+                if date == Financetest.current_date:
+                    Financetest.update_savings(last_savings - float(amount), date)
+                else:
+                    Financetest.add_saving(last_savings - float(amount), date)
+                    
+                Financetest.log.update_savings(last_savings - float(amount), last_savings)
 
                 item_id = Financetest.all_expense_lines[-1][1]
 

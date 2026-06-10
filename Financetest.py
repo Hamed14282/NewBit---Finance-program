@@ -136,7 +136,31 @@ def check_empty_files():
             is_empty = not any(reader)
         if is_empty:
             os.remove(file_name)
-    
+
+#Finds the last savings value of the date inputted and returns it. If there is no savings value for that date, it returns the last savings value before that date.
+def find_last_savings_value(date):
+    last = ""
+    dic = {}
+    month = date[3:10]
+    lines = get_savings_lines(month)
+
+    for x in lines:
+        if dic.get(x[2]):
+            if int(x[0]) > int(dic.get(x[2])[0]):
+                dic.update({x[2]: x})
+        else:
+            dic.update({x[2]: x})
+
+    if dic.get(date):
+        last = float(dic.get(date)[1])
+    else:
+        #I want to find the last date entry exactly one before "date" and return its savings value. only works if the dates have the same format and same length (05.06.2024||13.06.2024)
+        for y in dic.keys():
+            if y < date:
+                if y > last:
+                    last = dic.get(y)[1]
+    return str(last)
+
 def total_monthly_expenses():
     total = 0
 
@@ -368,9 +392,14 @@ def delete_expense(id):
             break
     
     log.delete_expense(line[3], line[0], line[2])
+    
+    last_savings = float(find_last_savings_value(line[2]))
     if line[2] == current_date:
-        update_savings(savings + float(line[0]), line[2])
-        log.update_savings(savings, savings - float(line[0]))
+        update_savings(last_savings + float(line[0]), line[2])
+    else:
+        add_saving(last_savings + float(line[0]), line[2])
+        
+    log.update_savings(last_savings + float(line[0]), last_savings)
     
     temp_expense_lines = get_expense_lines(line[2][3:10])
     temp_expense_lines.remove(line)

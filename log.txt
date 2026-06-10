@@ -1,0 +1,6 @@
+Deleted expense: misc., 98 euros, 21.05.2026 || on 10.06.2026 at 11:32:10
+Updated savings from 70.0 to 168.0 euros due to change in expense on 10.06.2026 at 11:32:10
+Added expense: misc., 50 euros, 21.05.2026 || on 10.06.2026 at 11:32:51
+Updated savings from 168.0 to 118.0 euros due to change in expense on 10.06.2026 at 11:32:51
+Added expense: misc., 30 euros, 05.05.2026 || on 10.06.2026 at 11:34:46
+Updated savings from 90.0 to 60.0 euros due to change in expense on 10.06.2026 at 11:34:46
