@@ -169,8 +169,7 @@ def select(case):
                                 return
                             else:
                                 new_value = string_to_num(new_value)
-                                Financetest.income = new_value
-                                Financetest.save_income()
+                                Financetest.update_income(new_value)
                                 Financetest.log.change_values("income", new_value)
 
                         elif new_value is None or new_value == "":
@@ -193,8 +192,7 @@ def select(case):
                                 return
                             else:
                                 new_value = string_to_num(new_value)
-                                Financetest.savings = new_value
-                                Financetest.save_savings()
+                                Financetest.update_savings(new_value, Financetest.current_date)
                                 Financetest.log.change_values("savings", new_value)
 
                         elif new_value is None or new_value == "":
@@ -217,8 +215,7 @@ def select(case):
                                 return
                             else:
                                 new_value = string_to_num(new_value)
-                                Financetest.spendings = new_value
-                                Financetest.save_spendings()
+                                Financetest.update_spendings(new_value)
                                 Financetest.log.change_values("spendings", new_value)
 
                         elif new_value is None or new_value == "":
@@ -615,6 +612,10 @@ def select(case):
                 date = Financetest.current_date if not date else date
                 Financetest.add_expense(amount, date, category)
                 Financetest.log.add_expense(category, amount, date)
+
+                if Financetest.current_date == date:
+                    Financetest.update_savings(Financetest.savings - float(amount), date)
+                    Financetest.log.update_savings(Financetest.savings, Financetest.savings + float(amount))
 
                 item_id = Financetest.all_expense_lines[-1][1]
 

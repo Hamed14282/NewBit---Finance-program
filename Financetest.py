@@ -346,17 +346,17 @@ def add_expense(expense, date, category):
     
     all_expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
 
-def add_saving(saving):
+def add_saving(saving, date):
     global savings_lines
     savings_lines = []
-    savings_lines = get_savings_lines(current_month)
+    savings_lines = get_savings_lines(date[3:10])
     num = 1
 
     if savings_lines:
         num = int(savings_lines[-1][0]) + 1
 
-    savings_lines.append([num, saving, current_date])
-    write_savings_lines(current_month, savings_lines)
+    savings_lines.append([num, saving, date])
+    write_savings_lines(date[3:10], savings_lines)
 
 def delete_expense(id):
     id = str(id)
@@ -368,6 +368,9 @@ def delete_expense(id):
             break
     
     log.delete_expense(line[3], line[0], line[2])
+    if line[2] == current_date:
+        update_savings(savings + float(line[0]), line[2])
+        log.update_savings(savings, savings - float(line[0]))
     
     temp_expense_lines = get_expense_lines(line[2][3:10])
     temp_expense_lines.remove(line)
@@ -386,16 +389,31 @@ def save_income():
         lines[0] = str(income) + "\n"
         file.writelines(lines)
     
-def save_savings():
+def save_savings(date):
     with open("data/data.txt", "w") as file:
         lines[1] = str(savings) + "\n"
         file.writelines(lines)
-    add_saving(savings)
+    add_saving(savings, date)
 
 def save_spendings():
     with open("data/data.txt", "w") as file:
         lines[2] = str(spendings) + "\n"
         file.writelines(lines)
+
+def update_savings(amount, date):
+    global savings
+    savings = amount
+    save_savings(date)
+
+def update_spendings(amount):
+    global spendings
+    spendings = amount
+    save_spendings()
+
+def update_income(amount):
+    global income
+    income = amount
+    save_income()
 
 def validate_date(date_str):
     try:

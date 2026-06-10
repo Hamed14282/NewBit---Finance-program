@@ -42,6 +42,10 @@ def add_expense(category, amount, date):
     with open("log.txt", "a") as log_file:
         log_file.write(f"Added expense: {category}, {amount} euros, {date} || on {current_date} at {get_current_time()}\n")
 
+def update_savings(amount, previous_amount):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"Updated savings from {previous_amount} to {amount} euros due to change in expense on {current_date} at {get_current_time()}\n")
+
 def delete_expense(category, amount, date):
     with open("log.txt", "a") as log_file:
         log_file.write(f"Deleted expense: {category}, {amount} euros, {date} || on {current_date} at {get_current_time()}\n")
