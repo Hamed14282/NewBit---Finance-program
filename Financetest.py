@@ -276,7 +276,7 @@ def get_all_savings_lines():
 
 # -----------------------------------------------------
 def categories_distribution(month=None):
-    plt.style.use('ggplot')
+    plt.style.use('seaborn-v0_8-darkgrid')
 
     if month is None:
         months = get_all_months()
@@ -298,10 +298,17 @@ def categories_distribution(month=None):
     fig, ax = plt.subplots()
     df_pie["A"].plot(
         kind="pie",
-        autopct="%1.1f%%",
-        ax=ax
+        ax=ax,
+        labels=None,
+        autopct=lambda pct: f"{pct:.1f}%" if pct > 5 else ""
     )
 
+    total = df_pie["A"].sum()
+    legend_labels = [f"{cat} ({val/total*100:.1f}%)" for cat, val in zip(df_pie.index, df_pie["A"])]
+
+
+    ax.set_title("Categories")
+    ax.legend(legend_labels, loc="upper left", bbox_to_anchor=(-0.3, 1))
     ax.set_ylabel("")
     return fig
 
