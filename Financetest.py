@@ -202,7 +202,6 @@ def expenses_graph(month):
     num2 = 0
     num3 = 0
 
-
     expense_lines = get_expense_lines(float(month))
     savings_lines = get_savings_lines(float(month))
 
@@ -233,12 +232,10 @@ def expenses_graph(month):
     days = list(dict(sorted(exp.items())).keys())
     expenses = list(dict(sorted(exp.items())).values())
 
-
     days_sav = list(dict(sorted(sav.items())).keys())
     savings = list(dict(sorted(sav.items())).values())
 
     fig = Figure(figsize=(5, 4), dpi=100)
-        
     ax = fig.add_subplot(111)
 
     ax.plot(days, expenses, marker='o', label='Expenses')
