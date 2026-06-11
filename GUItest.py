@@ -675,7 +675,7 @@ def select(case):
                 Financetest.delete_expense(item_id)
                 table.delete(item_id)
             
-            table.bind('d', delete_expense)
+            table.bind('<BackSpace>', delete_expense)
 
         ###############################################################################################################
 
