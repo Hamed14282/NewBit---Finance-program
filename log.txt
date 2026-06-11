@@ -1,3 +1,51 @@
+Logged in on 01.04.2026 at 08:28:11
+Savings changed to 1250 euros on 01.04.2026 at 08:28:58
+Savings changed to 1813 euros on 01.04.2026 at 08:31:44
+Added expense: grocery, 12 euros, 01.04.2026 || on 01.04.2026 at 08:32:40
+Updated savings from 1813.0 to 1801.0 euros due to change in expense on 01.04.2026 at 08:32:40
+Logged in on 01.04.2026 at 08:36:59
+Added expense: grocery, 2 euros, 01.04.2026 || on 01.04.2026 at 08:37:49
+Updated savings from 1801.0 to 1799.0 euros due to change in expense on 01.04.2026 at 08:37:49
+Added expense: games, 20 euros, 02.04.2026 || on 01.04.2026 at 08:38:18
+Updated savings from 1799.0 to 1779.0 euros due to change in expense on 01.04.2026 at 08:38:18
+Added expense: grocery, 57 euros, 04.04.2026 || on 01.04.2026 at 08:40:39
+Updated savings from 1779.0 to 1722.0 euros due to change in expense on 01.04.2026 at 08:40:39
+Added expense: grocery, 179 euros, 08.04.2026 || on 01.04.2026 at 08:44:33
+Updated savings from 1722.0 to 1543.0 euros due to change in expense on 01.04.2026 at 08:44:33
+01.04.2026 - 08:52:30 || Logged in
+01.04.2026 - 08:54:05 || Added expense: misc., 214 euros, 19.04.2026
+01.04.2026 - 08:54:05 || Updated savings from 1543.0 to 1329.0 euros due to change in expense
+01.04.2026 - 08:56:15 || Added expense: misc., 119 euros, 27.04.2026
+01.04.2026 - 08:56:15 || Updated savings from 1329.0 to 1210.0 euros due to change in expense
+01.05.2026 - 08:57:10 || Logged in
+01.05.2026 - 08:58:18 || Logged in
+01.05.2026 - 08:59:39 || Logged in
+01.05.2026 - 09:34:43 || Logged in
+29.05.2026 - 09:35:51 || Logged in
+29.05.2026 - 09:37:47 || Logged in
+29.05.2026 - 09:38:37 || Added expense: misc., 39 euros, 01.05.2026
+29.05.2026 - 09:38:37 || Updated savings from 1770.0 to 1731.0 euros due to change in expense
+29.05.2026 - 09:42:02 || Added expense: grocery, 72 euros, 05.05.2026
+29.05.2026 - 09:42:02 || Updated savings from 1731.0 to 1659.0 euros due to change in expense
+29.05.2026 - 09:42:37 || Added expense: grocery, 103 euros, 09.05.2026
+29.05.2026 - 09:42:37 || Updated savings from 1659.0 to 1556.0 euros due to change in expense
+29.05.2026 - 09:43:24 || Added expense: grocery, 81 euros, 14.05.2026
+29.05.2026 - 09:43:24 || Updated savings from 1556.0 to 1475.0 euros due to change in expense
+29.05.2026 - 09:47:08 || Added expense: misc., 4.99 euros, 15.05.2026
+29.05.2026 - 09:47:08 || Updated savings from 1525.0 to 1520.01 euros due to change in expense
+29.05.2026 - 09:49:17 || Added expense: misc., 234.98 euros, 21.05.2026
+29.05.2026 - 09:49:17 || Updated savings from 1520.01 to 1285.03 euros due to change in expense
+29.05.2026 - 09:50:14 || Added expense: misc., 24.29 euros, 29.05.2026
+29.05.2026 - 09:50:14 || Updated savings from 1285.03 to 1260.74 euros due to change in expense
+02.06.2026 - 09:51:52 || Logged in
+02.06.2026 - 10:22:32 || Logged in
+02.06.2026 - 10:22:32 || Created expenses file for 6.2026
+02.06.2026 - 10:22:32 || Created savings file for 6.2026
+02.06.2026 - 10:22:32 || Increased savings amount to 1823.74 euros by adding income of 563.0 euros
+02.06.2026 - 10:24:27 || Added expense: grocery, 42.32 euros, 01.06.2026
+02.06.2026 - 10:24:27 || Updated savings from 1823.74 to 1781.42 euros due to change in expense
+02.06.2026 - 10:24:54 || Added expense: grocery, 124.49 euros, 02.06.2026
+02.06.2026 - 10:24:54 || Updated savings from 1781.42 to 1656.93 euros due to change in expense
 Logged in on 08.06.2026 at 17:44:17
 Logged in on 09.06.2026 at 14:53:50
 Logged in on 09.06.2026 at 15:24:55

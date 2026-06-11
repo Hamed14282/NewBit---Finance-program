@@ -10,12 +10,40 @@ def get_current_time():
     current_time = now.strftime("%H:%M:%S")
     return current_time
 
-def add(type):
+def login(type):
     match type:
         case "logged in":
             with open("log.txt", "a") as log_file:
-                log_file.write(f"Logged in on {current_date} at {get_current_time()}\n")
+                log_file.write(f"{current_date} - {get_current_time()} || Logged in\n")
 
         case "logged out":
             with open("log.txt", "a") as log_file:
-                log_file.write(f"Logged out on {current_date} at {get_current_time()}\n")
+                log_file.write(f"{current_date} - {get_current_time()} || Logged out\n")
+
+def change_values(type, amount): #types: Income, Savings, Spendings
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{current_date} - {get_current_time()} || {type} changed to {amount} euros\n")
+
+def projection_calculation(savings):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{current_date} - {get_current_time()} || Changed savings amount to {savings} euros from projection calculation\n")
+        
+def add_expense(category, amount, date):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{current_date} - {get_current_time()} || Added expense: {category}, {amount} euros, {date}\n")
+
+def add_income(savings, income):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{current_date} - {get_current_time()} || Increased savings amount to {savings} euros by adding income of {income} euros\n")
+
+def update_savings(amount, previous_amount):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{current_date} - {get_current_time()} || Updated savings from {previous_amount} to {amount} euros due to change in expense\n")
+
+def delete_expense(category, amount, date):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{current_date} - {get_current_time()} || Deleted expense: {category}, {amount} euros, {date}\n")
+
+def create_file(type, month): #types: expenses, savings
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{current_date} - {get_current_time()} || Created {type} file for {month}\n")

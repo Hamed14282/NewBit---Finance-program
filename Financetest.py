@@ -45,7 +45,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from datetime import datetime
 from matplotlib.figure import Figure
-import log
+import logtest
 import pandas as pd
 from matplotlib import style 
 now = datetime.now()
@@ -103,14 +103,19 @@ def check_expense_file(month):
     if not os.path.exists(f"data/{float(month)}_expenses.csv"):
         file = open(f"data/{float(month)}_expenses.csv", "x")
         file.close()
+        logtest.create_file("expenses", float(month))
 
 def check_savings_file(month):
     global savings
+    global income
     if not os.path.exists(f"data/{float(month)}_savings.csv"):
         file = open(f"data/{float(month)}_savings.csv", "x")
         file.close()
+        logtest.create_file("savings", float(month))
         if month == current_month:
-            write_savings_lines(month, [[1, savings, current_date]])
+            savings += income
+            write_savings_lines(month, [[1, savings, f"01.{current_month}"]])
+            logtest.add_income(savings, income)
 
 def check_data_file():
     global income, savings, spendings
@@ -137,7 +142,49 @@ def check_empty_files():
             is_empty = not any(reader)
         if is_empty:
             os.remove(file_name)
-    
+
+#Finds the last savings value of the date inputted and returns it. If there is no savings value for that date, it returns the last savings value before that date.
+def find_last_savings_value(date):
+    last = "00.00.0000"
+    dic = {}
+    dic2 = []
+    month = date[3:10]
+    lines = get_savings_lines(float(month))
+
+    for x in lines:
+        if dic.get(x[2]):
+            if int(x[0]) > int(dic.get(x[2])[0]):
+                dic.update({x[2]: x})
+        else:
+            dic.update({x[2]: x})
+
+    if dic.get(date):
+        last = float(dic.get(date)[1])
+    else:
+        #I want to find the last date entry exactly one before "date" and return its savings value. only works if the dates have the same format and same length (05.06.2024||13.06.2024)
+        for y in dic:
+            if y < date:
+                dic2.append(dic.get(y))
+
+        last = dic2[-1][1]
+    return str(last)
+
+# ##################################################################################################
+# Maybe useful in the future?
+#     else:
+#         #I want to find the last date entry exactly one before "date" and return its savings value. only works if the dates have the same format and same length (05.06.2024||13.06.2024)
+#         for y in dic:
+#             dic2.append(dic.get(y))
+#         if dic2[-1][2][3:10] < month: # if different month
+#             last = dic2[-1][1]
+#         else: # if same month
+#             dic2 = []
+#             for y in dic:
+#                 if y < date:
+#                     dic2.append(dic.get(y))
+#             last = dic2[-1][1]
+# ##################################################################################################
+
 def total_monthly_expenses():
     total = 0
 
@@ -196,6 +243,12 @@ def expenses_graph(month):
     ax.plot(days, expenses, marker='o', label='Expenses')
     ax.plot(days_sav, savings, marker='s', label='Savings')
 
+    # Changes the x and y axis steps to show only multiples of 1 for x and multiples of 25 for y
+    # ax.yaxis.set_major_locator(plt.MultipleLocator(25))
+
+    #Sets x axis minimum to 1
+    ax.set_xlim(left=1)
+
     ax.set_title(f"{float(month)} expenses")
     ax.set_xlabel("Days")
     ax.set_ylabel("Euros")
@@ -241,8 +294,12 @@ def monthly_expenses_graph():
 
     fig = Figure(figsize=(6, 4), dpi=100)
     ax = fig.add_subplot(111)
+
     ax.plot(months, expense_values, marker='o', label='Expenses')
     ax.plot(months, savings_values, marker='s', label='Savings')
+
+    # Changes the y axis steps to show only multiples of 25
+    # ax.yaxis.set_major_locator(plt.MultipleLocator(25))
 
     ax.set_title("Monthly expenses")
     ax.set_xlabel("Month")
@@ -380,17 +437,17 @@ def add_expense(expense, date, category):
     
     all_expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
 
-def add_saving(saving):
+def add_saving(saving, date):
     global savings_lines
     savings_lines = []
-    savings_lines = get_savings_lines(current_month)
+    savings_lines = get_savings_lines(float(date[3:10]))
     num = 1
 
     if savings_lines:
         num = int(savings_lines[-1][0]) + 1
 
-    savings_lines.append([num, saving, current_date])
-    write_savings_lines(current_month, savings_lines)
+    savings_lines.append([num, saving, date])
+    write_savings_lines(date[3:10], savings_lines)
 
 def delete_expense(id):
     id = str(id)
@@ -400,6 +457,16 @@ def delete_expense(id):
         if x[1] == id:
             line = x
             break
+    
+    logtest.delete_expense(line[3], line[0], line[2])
+    
+    last_savings = float(find_last_savings_value(line[2]))
+    if line[2] == current_date:
+        update_savings(last_savings + float(line[0]), line[2])
+    else:
+        add_saving(last_savings + float(line[0]), line[2])
+        
+    logtest.update_savings(last_savings + float(line[0]), last_savings)
     
     temp_expense_lines = get_expense_lines(line[2][3:10])
     temp_expense_lines.remove(line)
@@ -418,16 +485,31 @@ def save_income():
         lines[0] = str(income) + "\n"
         file.writelines(lines)
     
-def save_savings():
+def save_savings(date):
     with open("data/data.txt", "w") as file:
         lines[1] = str(savings) + "\n"
         file.writelines(lines)
-    add_saving(savings)
+    add_saving(savings, date)
 
 def save_spendings():
     with open("data/data.txt", "w") as file:
         lines[2] = str(spendings) + "\n"
         file.writelines(lines)
+
+def update_savings(amount, date):
+    global savings
+    savings = amount
+    save_savings(date)
+
+def update_spendings(amount):
+    global spendings
+    spendings = amount
+    save_spendings()
+
+def update_income(amount):
+    global income
+    income = amount
+    save_income()
 
 def validate_date(date_str):
     try:
@@ -437,7 +519,7 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
-log.add("logged in")
+logtest.login("logged in")
 check_empty_files()
 check_data_file()
 check_expense_file(current_month)

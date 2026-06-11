@@ -1,11 +1,10 @@
 from matplotlib import style
 
-import AddExpense
+import AddExpensetest
 import Financetest
 import customtkinter
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
@@ -170,8 +169,8 @@ def select(case):
                                 return
                             else:
                                 new_value = string_to_num(new_value)
-                                Financetest.income = new_value
-                                Financetest.save_income()
+                                Financetest.update_income(new_value)
+                                Financetest.logtest.change_values("Income", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -193,9 +192,9 @@ def select(case):
                                 return
                             else:
                                 new_value = string_to_num(new_value)
-                                Financetest.savings = new_value
-                                Financetest.save_savings()
-                        
+                                Financetest.update_savings(new_value, Financetest.current_date)
+                                Financetest.logtest.change_values("Savings", new_value)
+
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
                                 create_frame6(0, 2, frame3)
@@ -216,8 +215,8 @@ def select(case):
                                 return
                             else:
                                 new_value = string_to_num(new_value)
-                                Financetest.spendings = new_value
-                                Financetest.save_spendings()
+                                Financetest.update_spendings(new_value)
+                                Financetest.logtest.change_values("Spendings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -285,6 +284,7 @@ def select(case):
                         result = Financetest.projection(months)
                         label6 = customtkinter.CTkLabel(master=frame6, text="Total savings of €" + f"{result:.2f}" + " after " + str(months) + " months", text_color="pink", font=("Roboto", 16))
                         label6.grid(row=0, column=0, pady=10, padx=10)
+                        
                 elif months is None or months == "":
                     label6 = customtkinter.CTkLabel(master=frame6, text="No projected months entered.", text_color="pink", font=("Roboto", 16))
                     label6.grid(row=0, column=0, pady=10, padx=10)
@@ -293,6 +293,7 @@ def select(case):
                 def save_projection(savings_result):
                     Financetest.savings = savings_result
                     Financetest.save_savings()
+                    Financetest.logtest.projection_calculation(f"{savings_result:.2f}")
 
                 button4 = customtkinter.CTkButton(master=frame6, text="Save value as current savings", command=lambda: save_projection(result))
                 button4.grid(row=0, column=1, pady=10, padx=10)
@@ -573,7 +574,7 @@ def select(case):
                     if string_to_num(amount) is False or string_to_num(amount) <= 0:
                         if frame4 is None or not frame4.winfo_exists():
                             create_frame4(1, 2, window)
-                        error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
+                        error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero, and seperate decimals with a period.", text_color="pink", font=("Roboto", 16))
                         error_label.grid(row=0, column=0, pady=10, padx=10)
                         return
                     else:
@@ -610,6 +611,16 @@ def select(case):
 
                 date = Financetest.current_date if not date else date
                 Financetest.add_expense(amount, date, category)
+                Financetest.logtest.add_expense(category, amount, date)
+
+                last_savings = float(Financetest.find_last_savings_value(date))
+                if date == Financetest.current_date:
+                    Financetest.update_savings(last_savings - float(amount), date)
+                else:
+                    Financetest.add_saving(last_savings - float(amount), date)
+                    
+                Financetest.logtest.update_savings(last_savings - float(amount), last_savings)
+
                 item_id = Financetest.all_expense_lines[-1][1]
 
                 table.insert(parent="", index=0, iid=item_id, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
@@ -649,11 +660,13 @@ def select(case):
             
             def open_add_expense_window():
                 # Open AddExpense window and pass GUItest's take_expense_data as the save callback
-                AddExpense.main(on_save=take_expense_data)
+                AddExpensetest.main(on_save=take_expense_data)
+                # Closes the extra process in the background
+                window.quit()
             
             def take_expense_data():
-                add_expense(AddExpense.get_category(), AddExpense.get_amount(), AddExpense.get_date())
-                AddExpense.window.destroy()
+                add_expense(AddExpensetest.get_category(), AddExpensetest.get_amount(), AddExpensetest.get_date())
+                AddExpensetest.window.destroy()
             
             def delete_expense(event=None):
                 x = table.selection()
@@ -662,16 +675,14 @@ def select(case):
                 
                 item_id = x[0]
                 Financetest.delete_expense(item_id)
-                
                 table.delete(item_id)
             
-            table.bind('d', delete_expense)
+            table.bind('<BackSpace>', delete_expense)
 
         ###############################################################################################################
 
         case "Graph expenses":
             create_frame2(1, 0, window)
-            Financetest.check_empty_files()
             
             label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
             label3.grid(row=3, column=0, pady=10, padx=10)
@@ -722,5 +733,12 @@ combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Change 
 combobox.grid(row=2, column=0, pady=10, padx=10)
 
 ###############################################################################################################
+def on_close():
+    Financetest.logtest.login("logged out")
+    # Closes every process
+    window.quit()
+    # Closes window
+    window.destroy()
 
+window.protocol("WM_DELETE_WINDOW", on_close)
 window.mainloop()
