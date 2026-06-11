@@ -661,6 +661,8 @@ def select(case):
             def open_add_expense_window():
                 # Open AddExpense window and pass GUItest's take_expense_data as the save callback
                 AddExpensetest.main(on_save=take_expense_data)
+                # Closes the extra process in the background
+                window.quit()
             
             def take_expense_data():
                 add_expense(AddExpensetest.get_category(), AddExpensetest.get_amount(), AddExpensetest.get_date())
@@ -707,6 +709,12 @@ combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Change 
 combobox.grid(row=2, column=0, pady=10, padx=10)
 
 ###############################################################################################################
+def on_close():
+    Financetest.logtest.login("logged out")
+    # Closes every process
+    window.quit()
+    # Closes window
+    window.destroy()
 
+window.protocol("WM_DELETE_WINDOW", on_close)
 window.mainloop()
-window.protocol("WM_DELETE_WINDOW", Financetest.logtest.login("logged out"))
