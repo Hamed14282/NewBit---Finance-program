@@ -170,7 +170,7 @@ def select(case):
                             else:
                                 new_value = string_to_num(new_value)
                                 Financetest.update_income(new_value)
-                                Financetest.log.change_values("income", new_value)
+                                Financetest.log.change_values("Income", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -193,7 +193,7 @@ def select(case):
                             else:
                                 new_value = string_to_num(new_value)
                                 Financetest.update_savings(new_value, Financetest.current_date)
-                                Financetest.log.change_values("savings", new_value)
+                                Financetest.log.change_values("Savings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -216,7 +216,7 @@ def select(case):
                             else:
                                 new_value = string_to_num(new_value)
                                 Financetest.update_spendings(new_value)
-                                Financetest.log.change_values("spendings", new_value)
+                                Financetest.log.change_values("Spendings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():

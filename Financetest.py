@@ -102,14 +102,19 @@ def check_expense_file(month):
     if not os.path.exists(f"data/{float(month)}_expenses.csv"):
         file = open(f"data/{float(month)}_expenses.csv", "x")
         file.close()
+        log.create_file("expenses", float(month))
 
 def check_savings_file(month):
     global savings
+    global income
     if not os.path.exists(f"data/{float(month)}_savings.csv"):
         file = open(f"data/{float(month)}_savings.csv", "x")
         file.close()
+        log.create_file("savings", float(month))
         if month == current_month:
+            savings += income
             write_savings_lines(month, [[1, savings, f"01.{current_month}"]])
+            log.add_income(savings, income)
 
 def check_data_file():
     global income, savings, spendings
