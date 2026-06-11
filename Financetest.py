@@ -45,7 +45,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from datetime import datetime
 from matplotlib.figure import Figure
-import log
+import logtest
 
 now = datetime.now()
 current_month = now.strftime("%m.%Y")
@@ -102,7 +102,7 @@ def check_expense_file(month):
     if not os.path.exists(f"data/{float(month)}_expenses.csv"):
         file = open(f"data/{float(month)}_expenses.csv", "x")
         file.close()
-        log.create_file("expenses", float(month))
+        logtest.create_file("expenses", float(month))
 
 def check_savings_file(month):
     global savings
@@ -110,11 +110,11 @@ def check_savings_file(month):
     if not os.path.exists(f"data/{float(month)}_savings.csv"):
         file = open(f"data/{float(month)}_savings.csv", "x")
         file.close()
-        log.create_file("savings", float(month))
+        logtest.create_file("savings", float(month))
         if month == current_month:
             savings += income
             write_savings_lines(month, [[1, savings, f"01.{current_month}"]])
-            log.add_income(savings, income)
+            logtest.add_income(savings, income)
 
 def check_data_file():
     global income, savings, spendings
@@ -414,7 +414,7 @@ def delete_expense(id):
             line = x
             break
     
-    log.delete_expense(line[3], line[0], line[2])
+    logtest.delete_expense(line[3], line[0], line[2])
     
     last_savings = float(find_last_savings_value(line[2]))
     if line[2] == current_date:
@@ -422,7 +422,7 @@ def delete_expense(id):
     else:
         add_saving(last_savings + float(line[0]), line[2])
         
-    log.update_savings(last_savings + float(line[0]), last_savings)
+    logtest.update_savings(last_savings + float(line[0]), last_savings)
     
     temp_expense_lines = get_expense_lines(line[2][3:10])
     temp_expense_lines.remove(line)
@@ -475,7 +475,7 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
-log.login("logged in")
+logtest.login("logged in")
 check_empty_files()
 check_data_file()
 check_expense_file(current_month)

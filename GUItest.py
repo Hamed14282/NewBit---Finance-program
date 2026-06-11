@@ -1,6 +1,6 @@
 from matplotlib import style
 
-import AddExpense
+import AddExpensetest
 import Financetest
 import customtkinter
 from tkinter import ttk
@@ -170,7 +170,7 @@ def select(case):
                             else:
                                 new_value = string_to_num(new_value)
                                 Financetest.update_income(new_value)
-                                Financetest.log.change_values("Income", new_value)
+                                Financetest.logtest.change_values("Income", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -193,7 +193,7 @@ def select(case):
                             else:
                                 new_value = string_to_num(new_value)
                                 Financetest.update_savings(new_value, Financetest.current_date)
-                                Financetest.log.change_values("Savings", new_value)
+                                Financetest.logtest.change_values("Savings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -216,7 +216,7 @@ def select(case):
                             else:
                                 new_value = string_to_num(new_value)
                                 Financetest.update_spendings(new_value)
-                                Financetest.log.change_values("Spendings", new_value)
+                                Financetest.logtest.change_values("Spendings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -293,7 +293,7 @@ def select(case):
                 def save_projection(savings_result):
                     Financetest.savings = savings_result
                     Financetest.save_savings()
-                    Financetest.log.projection_calculation(f"{savings_result:.2f}")
+                    Financetest.logtest.projection_calculation(f"{savings_result:.2f}")
 
                 button4 = customtkinter.CTkButton(master=frame6, text="Save value as current savings", command=lambda: save_projection(result))
                 button4.grid(row=0, column=1, pady=10, padx=10)
@@ -611,7 +611,7 @@ def select(case):
 
                 date = Financetest.current_date if not date else date
                 Financetest.add_expense(amount, date, category)
-                Financetest.log.add_expense(category, amount, date)
+                Financetest.logtest.add_expense(category, amount, date)
 
                 last_savings = float(Financetest.find_last_savings_value(date))
                 if date == Financetest.current_date:
@@ -619,7 +619,7 @@ def select(case):
                 else:
                     Financetest.add_saving(last_savings - float(amount), date)
                     
-                Financetest.log.update_savings(last_savings - float(amount), last_savings)
+                Financetest.logtest.update_savings(last_savings - float(amount), last_savings)
 
                 item_id = Financetest.all_expense_lines[-1][1]
 
@@ -660,11 +660,11 @@ def select(case):
             
             def open_add_expense_window():
                 # Open AddExpense window and pass GUItest's take_expense_data as the save callback
-                AddExpense.main(on_save=take_expense_data)
+                AddExpensetest.main(on_save=take_expense_data)
             
             def take_expense_data():
-                add_expense(AddExpense.get_category(), AddExpense.get_amount(), AddExpense.get_date())
-                AddExpense.window.destroy()
+                add_expense(AddExpensetest.get_category(), AddExpensetest.get_amount(), AddExpensetest.get_date())
+                AddExpensetest.window.destroy()
             
             def delete_expense(event=None):
                 x = table.selection()
@@ -709,4 +709,4 @@ combobox.grid(row=2, column=0, pady=10, padx=10)
 ###############################################################################################################
 
 window.mainloop()
-window.protocol("WM_DELETE_WINDOW", Financetest.log.login("logged out"))
+window.protocol("WM_DELETE_WINDOW", Financetest.logtest.login("logged out"))
