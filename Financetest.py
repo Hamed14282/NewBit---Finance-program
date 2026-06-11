@@ -231,7 +231,8 @@ def expenses_graph(month):
             sav.update({int(x[2][:2]): float(x[1])})
 
     days = list(dict(sorted(exp.items())).keys())
-    expenses = list(exp.values())
+    expenses = list(dict(sorted(exp.items())).values())
+
 
     days_sav = list(dict(sorted(sav.items())).keys())
     savings = list(dict(sorted(sav.items())).values())
