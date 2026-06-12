@@ -57,5 +57,21 @@ def create_file(type, month): #types: expenses, savings
 #############################################################################################
 #LOG ERRORS
 
-def invalid_date_format():
+def invalid_date_format(input):
     pass
+
+#for projection calc, change_value(), simple and compound interest, add expense,
+def invalid_input(type, input): #types: income, savings, spendings, months, expense, date, 
+    match type:
+        case "1":
+            pass
+        case "2":
+            pass
+
+#for add expense,
+def no_input(type, input): #types: categories, expense, date, (EVERYWHERE)
+    match type:
+        case "1":
+            pass
+        case "2":
+            pass
