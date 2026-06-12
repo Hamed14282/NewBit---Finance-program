@@ -98,6 +98,16 @@ def compound_interest(annual_rate, years, interest_money, periods):
     result = (savings - interest_money) + (interest_money * (1 + (annual_rate/100)/periods) ** (periods * years))
     return result
 
+def check_logs_folder():
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
+
+def check_logs_file(month):
+    if not os.path.exists(f"logs/{float(month)}_logs.txt"):
+        file = open(f"logs/{float(month)}_logs.txt", "x")
+        file.close()
+        logtest.create_file("logs", float(month))
+
 def check_expense_file(month):
     if not os.path.exists(f"data/{float(month)}_expenses.csv"):
         file = open(f"data/{float(month)}_expenses.csv", "x")
@@ -114,17 +124,19 @@ def check_savings_file(month):
         if month == current_month:
             savings += income
             write_savings_lines(month, [[1, savings, f"01.{current_month}"]])
-            logtest.add_income(savings, income, f"01.{month}")
-            logtest.add_savings(savings, f"01.{month}")
+            logtest.add_income(f"{savings:.2f}", income, f"01.{month}")
+            logtest.add_savings(f"{savings:.2f}", f"01.{month}")
         else:
             write_savings_lines(month, [[1, income, f"01.{month}"]])
             logtest.add_savings(income, f"01.{month}")
 
-def check_data_file():
-    global income, savings, spendings
+def check_data_folder():
     if not os.path.exists("data"):
         os.makedirs("data")
 
+def check_data_file():
+    global income, savings, spendings
+    
     if not os.path.exists("data/data.txt"):
         file = open("data/data.txt", "x")
         file.close()
@@ -481,7 +493,11 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
+check_logs_folder()
+check_logs_file(current_month)
 logtest.login("logged in")
+
+check_data_folder()
 check_empty_files()
 check_data_file()
 check_expense_file(current_month)
