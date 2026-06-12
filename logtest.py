@@ -14,11 +14,11 @@ def login(type):
     match type:
         case "logged in":
             with open(f"logs/{float(current_month)}_logs.txt", "a") as log_file:
-                log_file.write(f"{current_date} - {get_current_time()} || Logged in\n")
+                log_file.write(f"{current_date} - {get_current_time()} || Logged in\n") #Logged in as ___ USER
 
         case "logged out":
             with open(f"logs/{float(current_month)}_logs.txt", "a") as log_file:
-                log_file.write(f"{current_date} - {get_current_time()} || Logged out\n")
+                log_file.write(f"{current_date} - {get_current_time()} || Logged out\n") #Logged out as ___ USER
 
 def change_values(type, amount): #types: Income, Savings, Spendings
     with open(f"logs/{float(current_month)}_logs.txt", "a") as log_file:
