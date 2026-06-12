@@ -36,6 +36,10 @@ def add_income(savings, income):
     with open("log.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} || Increased savings amount to {savings} euros by adding income of {income} euros\n")
 
+def add_savings(savings, date):
+    with open("log.txt", "a") as log_file:
+        log_file.write(f"{current_date} - {get_current_time()} || Added savings of {savings} euros for {date}\n")
+
 def update_savings(amount, previous_amount):
     with open("log.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} || Updated savings from {previous_amount} to {amount} euros due to change in expense\n")

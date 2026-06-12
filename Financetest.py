@@ -114,7 +114,11 @@ def check_savings_file(month):
         if month == current_month:
             savings += income
             write_savings_lines(month, [[1, savings, f"01.{current_month}"]])
-            logtest.add_income(savings, income)
+            logtest.add_income(savings, income, f"01.{month}")
+            logtest.add_savings(savings, f"01.{month}")
+        else:
+            write_savings_lines(month, [[1, income, f"01.{month}"]])
+            logtest.add_savings(income, f"01.{month}")
 
 def check_data_file():
     global income, savings, spendings
@@ -148,7 +152,8 @@ def find_last_savings_value(date):
     dic = {}
     dic2 = []
     month = date[3:10]
-    lines = get_savings_lines(float(month))
+    #check file with month, then make first savings entry on 01.XX.XXXX automatically with current income
+    lines = get_savings_lines(month)
 
     for x in lines:
         if dic.get(x[2]):
@@ -414,9 +419,10 @@ def delete_expense(id):
             line = x
             break
     
-    logtest.delete_expense(line[3], line[0], line[2])
-    
+    logtest.delete_expense(line[3], line[0], line[2])    
+
     last_savings = float(find_last_savings_value(line[2]))
+
     if line[2] == current_date:
         update_savings(last_savings + float(line[0]), line[2])
     else:
