@@ -75,3 +75,7 @@ def no_input(type, input): #types: categories, expense, date, (EVERYWHERE)
             pass
         case "2":
             pass
+
+def dummy():
+    with open(f"logs/{float(current_month)}_logs.txt", "a") as log_file:
+        log_file.write(f"{current_date} - {get_current_time()} || Dummy pressed delete without selecting anything in the table\n")

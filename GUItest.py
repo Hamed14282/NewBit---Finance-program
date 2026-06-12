@@ -671,6 +671,7 @@ def select(case):
             def delete_expense(event=None):
                 x = table.selection()
                 if not x:
+                    Financetest.logtest.dummy()
                     return
                 
                 item_id = x[0]
