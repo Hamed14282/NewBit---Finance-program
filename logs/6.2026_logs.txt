@@ -1,3 +1,9 @@
 12.06.2026 - 12:13:26 || Created logs file for 6.2026
 12.06.2026 - 12:13:26 || Logged in
 12.06.2026 - 12:19:09 || Logged out
+15.06.2026 - 09:58:39 || Logged in
+15.06.2026 - 09:58:57 || Added expense: misc., 14 euros, 15.06.2026
+15.06.2026 - 09:58:57 || Updated savings from 1656.93 to 1642.93 euros due to change in expense
+15.06.2026 - 09:59:04 || Deleted expense: misc., 14 euros, 15.06.2026
+15.06.2026 - 09:59:04 || Updated savings from 1642.93 to 1656.93 euros due to change in expense
+15.06.2026 - 09:59:53 || Logged out
