@@ -10,7 +10,7 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
 window = customtkinter.CTk()
-window.title("Finance app")
+window.title("Sepo")
 window.minsize(500, 300)
 window.grid_columnconfigure(0, weight=1)
 window.grid_columnconfigure(1, weight=1)

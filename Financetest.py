@@ -1,4 +1,4 @@
-#pyinstaller GUItest.py --onefile --noconsole
+#pyinstaller --onefile --name Sepo --noconsole GUItest.py
 
 """ 
 TODO
