@@ -98,37 +98,32 @@ def compound_interest(annual_rate, years, interest_money, periods):
     result = (savings - interest_money) + (interest_money * (1 + (annual_rate/100)/periods) ** (periods * years))
     return result
 
-def check_logs_folder():
-    if not os.path.exists("logs"):
-        os.makedirs("logs")
+def check_file(month, type):
+    check_month_folder(month)
 
-def check_logs_file(month):
-    if not os.path.exists(f"logs/{float(month)}_logs.txt"):
-        file = open(f"logs/{float(month)}_logs.txt", "x")
-        file.close()
-        logtest.create_file("logs", float(month))
+    format = ".csv"
+    if type == "logs":
+        format = ".txt"
 
-def check_expense_file(month):
-    if not os.path.exists(f"data/{float(month)}_expenses.csv"):
-        file = open(f"data/{float(month)}_expenses.csv", "x")
-        file.close()
-        logtest.create_file("expenses", float(month))
-
-def check_savings_file(month):
     global savings
     global income
-    if not os.path.exists(f"data/{float(month)}_savings.csv"):
-        file = open(f"data/{float(month)}_savings.csv", "x")
+    if not os.path.exists(f"data/{float(month)}/{float(month)}_{type}{format}"):
+        file = open(f"data/{float(month)}/{float(month)}_{type}{format}", "x")
         file.close()
-        logtest.create_file("savings", float(month))
-        if month == current_month:
-            savings += income
-            write_lines(month, [[1, savings, f"01.{current_month}"]], "savings")
-            logtest.add_income(f"{savings:.2f}", income, f"01.{month}")
-            logtest.add_savings(f"{savings:.2f}", f"01.{month}")
-        else:
-            write_lines(month, [[1, income, f"01.{month}"]], "savings")
-            logtest.add_savings(income, f"01.{month}")
+        logtest.create_file(type, float(month))
+        if type == "savings":
+            if month == current_month:
+                savings += income
+                write_lines(month, [[1, savings, f"01.{current_month}"]], "savings")
+                logtest.add_income(f"{savings:.2f}", income, f"01.{month}")
+                logtest.add_savings(f"{savings:.2f}", f"01.{month}")
+            else:
+                write_lines(month, [[1, income, f"01.{month}"]], "savings")
+                logtest.add_savings(income, f"01.{month}")
+
+def check_month_folder(month):
+    if not os.path.exists(f"data/{float(month)}"):
+        os.makedirs(f"data/{float(month)}")
 
 def check_data_folder():
     if not os.path.exists("data"):
@@ -149,7 +144,7 @@ def check_data_file():
 
 
 def check_empty_files():
-    files = glob.glob("data/*_expenses.csv") + glob.glob("data/*_savings.csv")
+    files = glob.glob("data/*/*_expenses.csv") + glob.glob("data/*/*_savings.csv") + glob.glob("data/*/*_logs.txt")
 
     for file_name in files:
         with open(file_name, "r") as f:
@@ -276,7 +271,7 @@ def monthly_expenses_graph():
     temp = [] # to store different values of the same month and check which is the leatest
     savings_values = [] # to store the last savings value of each month
 
-    files = glob.glob("data/*_expenses.csv")
+    files = glob.glob("data/*/*_expenses.csv")
 
     for file_name in files:
         month = os.path.basename(file_name).replace("_expenses.csv", "")
@@ -289,7 +284,7 @@ def monthly_expenses_graph():
 
         exp[month] = total
 
-    files = glob.glob("data/*_savings.csv")
+    files = glob.glob("data/*/*_savings.csv")
 
     for file_name in files:
         temp = []
@@ -326,7 +321,7 @@ def monthly_expenses_graph():
 def get_all_lines(type):
     all_lines = []
 
-    files = glob.glob(f"data/*_{type}.csv")
+    files = glob.glob(f"data/*/*_{type}.csv")
 
     for file_name in files:
         with open(file_name, "r") as f:
@@ -338,29 +333,29 @@ def get_all_lines(type):
 def get_lines(month, category, type):
     lines = []
     if type == "savings":
-        check_savings_file(month)
+        check_file(month, "savings")
 
     if category == "":       
-            with open(f"data/{float(month)}_{type}.csv", "r") as file:
+            with open(f"data/{float(month)}/{float(month)}_{type}.csv", "r") as file:
                 reader = csv.reader(file)
                 for row in reader:
                     lines.append(row)
     else:
-        with open(f"data/{float(month)}_{category}_{type}.csv", "r") as file:
+        with open(f"data/{float(month)}/{float(month)}_{category}_{type}.csv", "r") as file:
                 reader = csv.reader(file)
                 for row in reader:
                     lines.append(row)
     return lines
 
 def write_lines(month, lines, type):
-    with open(f"data/{float(month)}_{type}.csv", "w", newline="") as file:
+    with open(f"data/{float(month)}/{float(month)}_{type}.csv", "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(lines)
 
 def get_all_months():
     months = set()
 
-    files = glob.glob("data/*_expenses.csv")
+    files = glob.glob("data/*/*_expenses.csv")
 
     for file_name in files:
         month = os.path.basename(file_name).replace("_expenses.csv", "")
@@ -380,7 +375,7 @@ def add_expense(expense, date, category):
 
     if date[3:10] != current_month:
         global temp_expense_lines
-        check_expense_file(date[3:10])
+        check_file(date[3:10], "expenses")
         temp_expense_lines = []
         temp_expense_lines = get_lines(date[3:10], "", "expenses")
         temp_expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
@@ -478,15 +473,14 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
-check_logs_folder()
-check_logs_file(current_month)
+check_file(current_month, "logs")
 logtest.login("logged in")
 
 check_data_folder()
 check_empty_files()
 check_data_file()
-check_expense_file(current_month)
-check_savings_file(current_month)
+check_file(current_month, "expenses")
+check_file(current_month, "savings")
 all_expense_lines = get_all_lines("expenses")
 all_savings_lines = get_all_lines("savings")
 
