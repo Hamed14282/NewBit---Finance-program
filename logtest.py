@@ -57,25 +57,118 @@ def create_file(type, month): #types: expenses, savings
 #############################################################################################
 #LOG ERRORS
 
-def invalid_date_format(input):
-    pass
-
-#for projection calc, change_value(), simple and compound interest, add expense,
-def invalid_input(type, input): #types: income, savings, spendings, months, expense, date, 
+def invalid_input(type, input, data):
     match type:
-        case "1":
-            pass
-        case "2":
-            pass
+        case "expense":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Add Expense| Invalid expense input: {input} (Please enter a number greater than zero, and seperate decimals with a period.)\n")
 
-#for add expense,
-def no_input(type, input): #types: categories, expense, date, (EVERYWHERE)
+        case "date format":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Add Expense| Invalid date format: {input} (Please enter date as DD.MM.YYYY.)\n")
+
+        case "months":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Projection Calc.| Invalid projected months input: {input} (Please enter a number greater than zero.)\n")
+
+        case "savings":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Simple Interest| Invalid portion of savings affected by interest: {input} (Please enter a value between 0 and {data})\n")
+
+        case "interest rate":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Simple Interest| Invalid annual interest rate input: {input} (Please enter a number greater than zero.)\n")
+
+        case "months1":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Simple Interest| Invalid projected months input: {input} (Please enter a number greater than zero.)\n")
+
+        case "savings1":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Compound Interest| Invalid portion of savings affected by interest: {input} (Please enter a value between 0 and {data})\n")
+
+        case "interest rate1":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Compound Interest| Invalid annual interest rate input: {input} (Please enter a number greater than zero.)\n")
+
+        case "months2":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Compound Interest| Invalid projected months input: {input} (Please enter a number greater than zero.)\n")
+
+        case "periods":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Compound Interest| Invalid compounding periods input: {input} (Please enter a number greater than zero.)\n")
+
+        case "income":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Change Values| Invalid income input: {input} (Please enter a number greater than zero.)\n")
+
+        case "savings2":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Change Values| Invalid savings input: {input} (Please enter a number greater than or equal to zero.)\n")
+
+        case "spendings":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Change Values| Invalid spendings input: {input} (Please enter a number greater than or equal to zero.)\n")
+
+def no_input(type):
     match type:
-        case "1":
-            pass
-        case "2":
-            pass
+        case "expense":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Add Expense| No expense amount entered.\n")
+
+        case "date":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Add Expense| No date entered. Using current date: {current_date}\n")
+
+        case "category":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Add Expense| No category entered. Using default category: misc.\n")
+
+        case "months":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Projection Calc.| No projected months entered.\n")
+
+        case "savings":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Simple Interest| No portion of savings affected by interest entered.\n")
+
+        case "interest rate":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Simple Interest| No annual interest rate entered.\n")
+
+        case "months1":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Simple Interest| No projected months entered.\n")
+
+        case "savings1":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Compound Interest| No portion of savings affected by interest entered.\n")
+
+        case "interest rate1":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Compound Interest| No annual interest rate entered.\n")
+
+        case "months2":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Compound Interest| No projected months entered.\n")
+
+        case "periods":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Compound Interest| No compounding periods entered.\n")
+
+        case "income":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Change Values| No income value entered.\n")
+
+        case "savings2":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Change Values| No savings value entered.\n")
+
+        case "spendings":
+            with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
+                log_file.write(f"{current_date} - {get_current_time()} |Change Values| No spendings value entered.\n")
 
 def dummy():
     with open(f"data/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
-        log_file.write(f"{current_date} - {get_current_time()} || Dummy pressed delete without selecting anything in the table\n")
+        log_file.write(f"{current_date} - {get_current_time()} |Delete Expense| Dummy pressed delete without selecting anything in the table\n")

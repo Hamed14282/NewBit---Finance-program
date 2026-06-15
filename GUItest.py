@@ -170,6 +170,7 @@ def select(case):
                                     create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="Invalid income input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=0, column=0, pady=10, padx=10)
+                                Financetest.logtest.invalid_input("income", new_value, "")
                                 return
                             else:
                                 new_value = string_to_num(new_value)
@@ -181,6 +182,7 @@ def select(case):
                                 create_frame6(0, 2, frame3)
                             error_label = customtkinter.CTkLabel(master=frame6, text="No income value entered.", text_color="pink", font=("Roboto", 16))
                             error_label.grid(row=0, column=0, pady=10, padx=10)
+                            Financetest.logtest.no_input("income")
                             return
                         
                     case "Savings":
@@ -193,6 +195,7 @@ def select(case):
                                     create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="Invalid savings input. Please enter a number greater than or equal to zero.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=0, column=0, pady=10, padx=10)
+                                Financetest.logtest.invalid_input("savings2", new_value, "")
                                 return
                             else:
                                 new_value = string_to_num(new_value)
@@ -204,6 +207,7 @@ def select(case):
                                 create_frame6(0, 2, frame3)
                             error_label = customtkinter.CTkLabel(master=frame6, text="No savings value entered.", text_color="pink", font=("Roboto", 16))
                             error_label.grid(row=0, column=0, pady=10, padx=10)
+                            Financetest.logtest.no_input("savings2")
                             return
                         
                     case "Spendings":
@@ -216,6 +220,7 @@ def select(case):
                                     create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="Invalid spendings input. Please enter a number greater than or equal to zero.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=0, column=0, pady=10, padx=10)
+                                Financetest.logtest.invalid_input("spendings", new_value, "")
                                 return
                             else:
                                 new_value = string_to_num(new_value)
@@ -227,6 +232,7 @@ def select(case):
                                 create_frame6(0, 2, frame3)
                             error_label = customtkinter.CTkLabel(master=frame6, text="No spendings value entered.", text_color="pink", font=("Roboto", 16))
                             error_label.grid(row=0, column=0, pady=10, padx=10)
+                            Financetest.logtest.no_input("spendings")
                             return
                 
                 if frame6 is None or not frame6.winfo_exists():
@@ -282,6 +288,7 @@ def select(case):
                     if string_to_num(months) is False or string_to_num(months) <= 0:
                         label6 = customtkinter.CTkLabel(master=frame6, text="Invalid projected months input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                         label6.grid(row=0, column=0, pady=10, padx=10)
+                        Financetest.logtest.invalid_input("months", months, "")
                         return
                     else:
                         months = int(string_to_num(months))
@@ -292,6 +299,7 @@ def select(case):
                 elif months is None or months == "":
                     label6 = customtkinter.CTkLabel(master=frame6, text="No projected months entered.", text_color="pink", font=("Roboto", 16))
                     label6.grid(row=0, column=0, pady=10, padx=10)
+                    Financetest.logtest.no_input("months")
                     return
 
                 def save_projection(savings_result):
@@ -369,6 +377,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=0, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("savings", interest_money, Financetest.savings)
                                     return
                                 else:
                                     interest_money = float(string_to_num(interest_money))
@@ -378,6 +387,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                  error_label = customtkinter.CTkLabel(master=frame6, text="No portion of savings affected by interest entered.", text_color="pink", font=("Roboto", 16))
                                  error_label.grid(row=0, column=0, pady=10, padx=10)
+                                 Financetest.logtest.no_input("savings")
                                  return
                             
                             if annual_rate is not None and annual_rate != "":
@@ -386,6 +396,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid annual interest rate input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=1, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("interest rate", annual_rate, "")
                                     return
                                 else:
                                     annual_rate = float(string_to_num(annual_rate))
@@ -395,6 +406,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No annual interest rate entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=1, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("interest rate")
                                 return
                             
                             if years is not None and years != "":
@@ -403,6 +415,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid projected months input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=2, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("months1", years, "")
                                     return
                                 else:
                                     years = float(string_to_num(years))/12
@@ -412,6 +425,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No projected months entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=2, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("months1")
                                 return
                             
                             result = Financetest.simple_interest(annual_rate, years, interest_money)
@@ -481,6 +495,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=0, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("savings1", interest_money, Financetest.savings)
                                     return
                                 else:
                                     interest_money = float(string_to_num(interest_money))
@@ -490,6 +505,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                  error_label = customtkinter.CTkLabel(master=frame6, text="No portion of savings affected by interest entered.", text_color="pink", font=("Roboto", 16))
                                  error_label.grid(row=0, column=0, pady=10, padx=10)
+                                 Financetest.logtest.no_input("savings1")
                                  return
                             
                             if annual_rate is not None and annual_rate != "":
@@ -498,6 +514,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid annual interest rate input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=1, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("interest rate1", annual_rate, "")
                                     return
                                 else:
                                     annual_rate = float(string_to_num(annual_rate))
@@ -507,6 +524,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No annual interest rate entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=1, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("interest rate1")
                                 return
                             
                             if years is not None and years != "":
@@ -515,6 +533,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid projected months input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=2, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("months2", years, "")
                                     return
                                 else:
                                     years = float(string_to_num(years))/12
@@ -524,6 +543,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No projected months entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=2, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("months2")
                                 return
 
                             if periods is not None and periods != "":
@@ -532,6 +552,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid compounding periods input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=3, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("periods", periods, "")
                                     return
                                 else:
                                     periods = int(string_to_num(periods))
@@ -541,6 +562,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No compounding periods entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=3, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("periods")
                                 return
                                 
                             result = Financetest.compound_interest(annual_rate, years, interest_money, periods)
@@ -602,6 +624,7 @@ def select(case):
                                         create_frame4(1, 2, window)
                                     error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero, and seperate decimals with a period.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=0, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("expense", amount, "")
                                     return
                                 else:
                                     amount = string_to_num(amount)
@@ -611,6 +634,7 @@ def select(case):
                                     create_frame4(1, 2, window)
                                 error_label = customtkinter.CTkLabel(master=frame4, text="No expense amount entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=0, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("expense")
                                 return
 
                             if date is not None and date != "":
@@ -619,12 +643,14 @@ def select(case):
                                         create_frame4(1, 2, window)
                                     error_label = customtkinter.CTkLabel(master=frame4, text="Invalid date format. Please enter date as DD.MM.YYYY.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=1, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("date format", date, "")
                                     return
                             elif date is None or date == "":
                                 if frame4 is None or not frame4.winfo_exists():
                                     create_frame4(1, 2, window)
                                 error_label = customtkinter.CTkLabel(master=frame4, text="No date entered. Using current date: " + Financetest.current_date, text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=1, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("date")
                                 
                             if category is not None and category != "":
                                 category = category.lower()
@@ -633,6 +659,7 @@ def select(case):
                                     create_frame4(1, 2, window)
                                 error_label = customtkinter.CTkLabel(master=frame4, text="No category entered. Using default category: misc.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=2, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("category")
                                 category = "misc."
 
                             date = Financetest.current_date if not date else date
