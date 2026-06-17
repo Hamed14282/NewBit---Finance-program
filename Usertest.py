@@ -52,7 +52,6 @@ def choose():
     
     check_users_file()
     get_all_users()
-    print(users)
 
     window = customtkinter.CTk()
     window.title("Login page")
@@ -76,7 +75,6 @@ def choose():
 
                     save_selection(temp_choice)
                     check_user_folder()
-                    print(f"User selected: {user}")
                     
                     # Closes every process
                     window.quit()
@@ -96,7 +94,6 @@ def choose():
                     save_new_user([new_user_value, "password"])
                     save_selection(new_user_value)
                     check_user_folder()
-                    print(f"New user created: {user}")
 
                     # Closes every process
                     window.quit()

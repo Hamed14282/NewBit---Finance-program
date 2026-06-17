@@ -7,6 +7,9 @@ Allow the user to select profiles (different users with different data files)
 - Password protection for profiles?
 
 Ability to change themes
+Ability to change profiles from the main page
+Ability to delete profile
+Ability to change name of profile
 Make expense table editable
 
 CATEGORIES
@@ -22,6 +25,7 @@ CHECKING
 -Check if data.txt is empty not throw an error
 -Check if the users list in users.csv matches with the available folders: delete users if not
 -Add Users password feature
+-GRAPH ALL MONTHS doesn't correctly show the order of months because it's converted to float (6.2025 > 4.2026), which is incorrect.
 """
 
 #Number of constant variables in file
@@ -128,13 +132,13 @@ def check_data_file():
     if not os.path.exists(f"data/{user}/data.txt"):
         file = open(f"data/{user}/data.txt", "x")
         file.close()
-    else:
-        with open(f"data/{user}/data.txt", "r") as f:
+
+def get_main_data():
+    with open(f"data/{user}/data.txt", "r") as f:
             lines = f.readlines()
             income = float(lines[0].strip())
             savings = float(lines[1].strip())
             spendings = float(lines[2].strip())
-
 def check_empty_files():
     files = glob.glob(f"data/{user}/*/*_expenses.csv") + glob.glob(f"data/{user}/*/*_savings.csv") + glob.glob(f"data/{user}/*/*_logs.txt")
 
@@ -483,10 +487,8 @@ logtest.login("logged in")
 check_data_folder()
 check_empty_files()
 check_data_file()
-check_file(current_month, "expenses")
-check_file(current_month, "savings")
-all_expense_lines = get_all_lines("expenses")
-all_savings_lines = get_all_lines("savings")
+
+########################################################################################################
 
 #read at retrieve main data
 with open(f"data/{user}/data.txt", "r") as file:
@@ -572,5 +574,13 @@ button.grid(row=row, column=0, columnspan=2, pady=10, padx=10)
 if row > 0:  #at least one field missing
     
     window.mainloop()
+
+########################################################################################################
+
+get_main_data()
+check_file(current_month, "expenses")
+check_file(current_month, "savings")
+all_expense_lines = get_all_lines("expenses")
+all_savings_lines = get_all_lines("savings")
 
 ########################################################################################################

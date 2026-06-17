@@ -1,3 +1,22 @@
 16.06.2026 - 09:14:15 |Auto| Created logs file for 6.2026
 17.06.2026 - 10:10:27 || Logged in as TFHHA
 17.06.2026 - 10:12:00 || Logged out as TFHHA
+17.06.2026 - 10:46:56 || Logged in as TFHHA
+17.06.2026 - 10:58:08 || Logged in as TFHHA
+17.06.2026 - 10:58:33 |Add Expense| No category entered. Using default category: misc.
+17.06.2026 - 10:58:33 |Auto| Created expenses file for 4.2025
+17.06.2026 - 10:58:33 |Add Expense| Added expense: misc., 15 euros, 02.04.2025
+17.06.2026 - 10:58:33 |Auto| Created savings file for 4.2025
+17.06.2026 - 10:58:33 |Auto| Added savings of 563.0 euros for 01.04.2025
+17.06.2026 - 10:58:33 |Auto| Updated savings from 563.00 to 548.00 euros due to change in expense
+17.06.2026 - 10:59:11 |Add Expense| No category entered. Using default category: misc.
+17.06.2026 - 10:59:11 |Auto| Created expenses file for 6.2025
+17.06.2026 - 10:59:11 |Add Expense| Added expense: misc., 15 euros, 03.06.2025
+17.06.2026 - 10:59:11 |Auto| Created savings file for 6.2025
+17.06.2026 - 10:59:11 |Auto| Added savings of 563.0 euros for 01.06.2025
+17.06.2026 - 10:59:11 |Auto| Updated savings from 563.00 to 548.00 euros due to change in expense
+17.06.2026 - 11:00:54 |Table| Deleted expense: misc., 15 euros, 03.06.2025
+17.06.2026 - 11:00:54 |Auto| Updated savings from 548.00 to 563.00 euros due to change in expense
+17.06.2026 - 11:00:55 |Table| Deleted expense: misc., 15 euros, 02.04.2025
+17.06.2026 - 11:00:55 |Auto| Updated savings from 548.00 to 563.00 euros due to change in expense
+17.06.2026 - 11:00:56 || Logged out as TFHHA
