@@ -63,7 +63,7 @@ def choose():
     label1.grid(row=0, column=1, pady=10, padx=10)
 
     label2 = customtkinter.CTkLabel(master=frame1, text="Choose profile:", font=("Roboto", 17))
-    label2.grid(row=1, column=0, pady=10, padx=10)
+    label2.grid(row=1, column=0, pady=2, padx=10)
 
     def select(choice):
         match choice:
