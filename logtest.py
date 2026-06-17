@@ -6,7 +6,8 @@ current_month = now.strftime("%m.%Y")
 current_day = now.strftime("%d")
 current_date = now.strftime("%d.%m.%Y")
 
-user = Usertest.user
+def get_user():
+    return Usertest.get_user()
 
 def get_current_time():
     now = datetime.now()
@@ -14,44 +15,53 @@ def get_current_time():
     return current_time
 
 def login(type):
+    user = get_user()
     match type:
         case "logged in":
             with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
-                log_file.write(f"{current_date} - {get_current_time()} || Logged in\n") #Logged in as ___ USER
+                log_file.write(f"{current_date} - {get_current_time()} || Logged in as {user}\n") #Logged in as ___ USER
 
         case "logged out":
             with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
-                log_file.write(f"{current_date} - {get_current_time()} || Logged out\n") #Logged out as ___ USER
+                log_file.write(f"{current_date} - {get_current_time()} || Logged out as {user}\n") #Logged out as ___ USER
 
 def change_values(type, amount): #types: Income, Savings, Spendings
+    user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Change Values| {type} changed to {amount} euros\n")
 
 def projection_calculation(savings):
+    user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Projection Calc.| Changed savings amount to {savings} euros from projection calculation\n")
         
 def add_expense(category, amount, date):
+    user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Add Expense| Added expense: {category}, {amount} euros, {date}\n")
 
 def add_income(savings, income, date):
+    user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Auto| Increased savings amount from {(float(savings) - float(income)):.2f} to {savings} euros by adding income of {income} euros for {date}\n")
 
 def add_savings(savings, date):
+    user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Auto| Added savings of {savings} euros for {date}\n")
 
 def update_savings(amount, previous_amount):
+    user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Auto| Updated savings from {previous_amount:.2f} to {amount:.2f} euros due to change in expense\n")
 
 def delete_expense(category, amount, date):
+    user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Table| Deleted expense: {category}, {amount} euros, {date}\n")
 
 def create_file(type, month): #types: expenses, savings
+    user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Auto| Created {type} file for {month}\n")
 
@@ -61,6 +71,7 @@ def create_file(type, month): #types: expenses, savings
 #LOG ERRORS
 
 def invalid_input(type, input, data):
+    user = get_user()
     match type:
         case "expense":
             with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
@@ -115,6 +126,7 @@ def invalid_input(type, input, data):
                 log_file.write(f"{current_date} - {get_current_time()} |Change Values| Invalid spendings input: {input} (Please enter a number greater than or equal to zero.)\n")
 
 def no_input(type):
+    user = get_user()
     match type:
         case "expense":
             with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
@@ -173,5 +185,6 @@ def no_input(type):
                 log_file.write(f"{current_date} - {get_current_time()} |Change Values| No spendings value entered.\n")
 
 def dummy():
+    user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Table| Dummy pressed delete without selecting anything in the table\n")

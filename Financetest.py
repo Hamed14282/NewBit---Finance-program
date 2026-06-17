@@ -18,6 +18,10 @@ UPDATING
 -Log user login and logout times (for multiple profiles) (writes entries to log.txt file)
 -Mainwindow problem: multiple root windows created resulting in constant running of the program in the background after closing the main window (fix by using Toplevel instead of Tk for the main window and only creating one root window for the entire program)
 
+CHECKING
+-Check if data.txt is empty not throw an error
+-Check if the users list in users.csv matches with the available folders: delete users if not
+-Add Users password feature
 """
 
 #Number of constant variables in file
@@ -47,8 +51,6 @@ now = datetime.now()
 current_month = now.strftime("%m.%Y")
 current_day = now.strftime("%d")
 current_date = now.strftime("%d.%m.%Y")
-
-user = logtest.Usertest.user
 
 ########################################################################################################
 
@@ -150,11 +152,6 @@ def check_month_folder(month):
 def check_data_folder():
     if not os.path.exists("data"):
         os.makedirs("data")
-
-def check_user_folder():
-    if not os.path.exists(f"data/{user}"):
-        os.makedirs(f"data/{user}")
-
 
 #Finds the last savings value of the date inputted and returns it. If there is no savings value for that date, it returns the last savings value before that date.
 def find_last_savings_value(date):
@@ -478,7 +475,7 @@ def validate_date(date_str):
 ########################################################################################################
 
 logtest.Usertest.choose()
-check_user_folder()
+user = logtest.Usertest.get_user()
 
 check_file(current_month, "logs")
 logtest.login("logged in")

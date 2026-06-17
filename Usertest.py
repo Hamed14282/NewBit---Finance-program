@@ -8,10 +8,20 @@ users = []
 users_list = []
 temp_choice = ""
 
+def get_user():
+    global user
+    user1 = user
+    return user1
+
 def check_users_file():
     if not os.path.exists("data/users.csv"):
         file = open("data/users.csv", "x")
         file.close()
+
+def check_user_folder():
+    global user
+    if not os.path.exists(f"data/{user}"):
+        os.makedirs(f"data/{user}")
 
 def get_all_users():
     global users, users_list
@@ -45,7 +55,7 @@ def choose():
     print(users)
 
     window = customtkinter.CTk()
-    window.title("Choose user")
+    window.title("Login page")
 
     frame1 = customtkinter.CTkFrame(master=window)
     frame1.grid(row=0, column=0, pady=5, padx=10)
@@ -62,35 +72,38 @@ def choose():
                 combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", *users_list], command=save)
                 combobox.grid(row=2, column=1, pady=10, padx=10)
 
-                def on_login(value):
+                def on_login():
 
-                    save_selection(value)
-                    print(user)
+                    save_selection(temp_choice)
+                    check_user_folder()
+                    print(f"User selected: {user}")
                     
                     # Closes every process
                     window.quit()
                     # Closes window
                     window.destroy()
 
-                button1 = customtkinter.CTkButton(master=frame1, text="Login", command=lambda:on_login(temp_choice))
+                button1 = customtkinter.CTkButton(master=frame1, text="Login", command=on_login)
                 button1.grid(row=2, column=3, pady=10, padx=10)
 
             case "Add New":
                 entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter new user")
                 entry1.grid(row=2, column=1, pady=10, padx=10)
 
-                def on_login(value):
-                    save_new_user([value, "password"])
-                    save_selection(value)
-                    print(user)
-
+                def on_login():
+                    new_user_value = entry1.get()
+                        
+                    save_new_user([new_user_value, "password"])
+                    save_selection(new_user_value)
+                    check_user_folder()
+                    print(f"New user created: {user}")
 
                     # Closes every process
                     window.quit()
                     # Closes window
                     window.destroy()
 
-                button1 = customtkinter.CTkButton(master=frame1, text="Login", command=lambda:on_login(entry1.get()))
+                button1 = customtkinter.CTkButton(master=frame1, text="Login", command=on_login)
                 button1.grid(row=2, column=3, pady=10, padx=10)
 
     if not users:
@@ -111,3 +124,4 @@ def choose():
     
     window.protocol("WM_DELETE_WINDOW", on_close)
     window.mainloop()
+    return user
