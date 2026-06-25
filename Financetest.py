@@ -25,7 +25,7 @@ CHECKING
 -Check if data.txt is empty not throw an error
 -Check if the users list in users.csv matches with the available folders: delete users if not
 -Add Users password feature
--GRAPH ALL MONTHS doesn't correctly show the order of months because it's converted to float (6.2025 > 4.2026), which is incorrect.
+-Add ability to see logs in app
 """
 
 #Number of constant variables in file
@@ -271,7 +271,8 @@ def expenses_graph(month):
     return fig
 
 def monthly_expenses_graph():
-    exp = {}
+    exp = {} # stores total expense value + month
+    sav = {} # stores last savings value + month
     temp = [] # to store different values of the same month and check which is the leatest
     savings_values = [] # to store the last savings value of each month
 
@@ -291,6 +292,8 @@ def monthly_expenses_graph():
     files = glob.glob(f"data/{user}/*/*_savings.csv")
 
     for file_name in files:
+        month = os.path.basename(file_name).replace("_savings.csv", "")
+
         temp = []
         with open(file_name, "r") as f:
             reader = csv.reader(f)
@@ -300,10 +303,12 @@ def monthly_expenses_graph():
                 
                 if int(row[0]) > int(temp[0]):
                     temp = row
-            savings_values.append(float(temp[1]))
 
-    months = sorted(exp.keys())
+        sav[month] = float(temp[1])
+
+    months = sorted(exp.keys(), key=lambda x: datetime.strptime(x, "%m.%Y")) ###
     expense_values = [exp[m] for m in months]
+    savings_values = [sav[m] for m in months]
 
     fig = Figure(figsize=(6, 4), dpi=100)
     ax = fig.add_subplot(111)
@@ -365,7 +370,7 @@ def get_all_months():
         month = os.path.basename(file_name).replace("_expenses.csv", "")
         months.add(month)
 
-    return sorted(months)
+    return sorted(months, key=lambda x: datetime.strptime(x, "%m.%Y"))
 
 ########################################################################################################
 
