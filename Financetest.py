@@ -372,6 +372,44 @@ def get_all_months():
 
     return sorted(months, key=lambda x: datetime.strptime(x, "%m.%Y"))
 
+def get_logs(month):
+    logs = []
+
+    if month == "all":
+        files = glob.glob(f"data/{user}/*/*_logs.txt")
+        for file in files:
+            with open(file, "r") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    logs.append(row)
+
+        if logs == "" or logs == None:
+            logs.append("No logs")
+        return logs
+    
+    else:
+        with open(f"data/{user}/{month}/{month}_logs.txt", "r") as file:
+            reader = csv.reader(file)
+            for row in reader:
+                logs.append(row)
+
+        if logs == "" or logs == None:
+            logs.append("No logs")
+        return logs
+
+
+def get_logs_months():
+    months = set()
+
+    files = glob.glob(f"data/{user}/*/*_logs.txt")
+
+    for file_name in files:
+        month = os.path.basename(file_name).replace("_logs.txt", "")
+        months.add(month)
+
+    return sorted(months, key=lambda x: datetime.strptime(x, "%m.%Y"))
+
+
 ########################################################################################################
 
 def add_expense(expense, date, category):
