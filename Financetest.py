@@ -11,6 +11,7 @@ Ability to change profiles from the main page
 Ability to delete profile
 Ability to change name of profile
 Make expense table editable
+Make the format of logs better on the eyes
 
 CATEGORIES
 -Allow the data in the table to be categorized by user defined categories (food, transport, etc.)
@@ -25,7 +26,6 @@ CHECKING
 -Check if data.txt is empty not throw an error
 -Check if the users list in users.csv matches with the available folders: delete users if not
 -Add Users password feature
--Add ability to see logs in app
 """
 
 #Number of constant variables in file
