@@ -133,9 +133,11 @@ def check_data_file():
 def get_main_data():
     with open(f"data/{user}/data.txt", "r") as f:
             lines = f.readlines()
-            income = float(lines[0].strip())
-            savings = float(lines[1].strip())
-            spendings = float(lines[2].strip())
+            if lines == None or lines == "":
+                income = float(lines[0].strip())
+                savings = float(lines[1].strip())
+                spendings = float(lines[2].strip())
+                
 def check_empty_files():
     files = glob.glob(f"data/{user}/*/*_expenses.csv") + glob.glob(f"data/{user}/*/*_savings.csv") + glob.glob(f"data/{user}/*/*_logs.txt")
 
@@ -610,7 +612,13 @@ button = customtkinter.CTkButton(master=frame1, text="Save", command=save_all)
 button.grid(row=row, column=0, columnspan=2, pady=10, padx=10)
 
 if row > 0:  #at least one field missing
-    
+    def on_close():
+        # Closes every process
+        window.quit()
+        # Closes window
+        window.destroy()
+
+    window.protocol("WM_DELETE_WINDOW", on_close)
     window.mainloop()
 
 ########################################################################################################
