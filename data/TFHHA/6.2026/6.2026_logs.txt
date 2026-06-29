@@ -50,3 +50,6 @@
 26.06.2026 - 09:59:58 |Auto| Updated savings from 1656.93 to 1644.93 euros due to change in expense
 26.06.2026 - 10:04:51 || Logged in as TFHHA
 26.06.2026 - 10:05:33 || Logged out as TFHHA
+29.06.2026 - 09:53:21 || Logged in as TFHHA
+29.06.2026 - 09:53:39 |Change Values| Savings changed from 1644.0 euros to 1300 euros
+29.06.2026 - 09:55:09 || Logged out as TFHHA

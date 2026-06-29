@@ -3,11 +3,10 @@
 """ 
 TODO
 Allow the user to select profiles (different users with different data files)
-- Data folder with different user folders (user1, user2, etc.) and inside them the data files (data.txt, month_expenses.csv)
-- Password protection for profiles?
+-Add Users password feature
 
 Ability to change themes
-Ability to change profiles from the main page
+Ability to change/choose profiles from the main page
 Ability to delete profile
 Ability to change name of profile
 Make expense table editable
@@ -19,13 +18,11 @@ CATEGORIES
 
 UPDATING
 -Table update after adding expense (Oragnize the data in the table per month?)
--Log user login and logout times (for multiple profiles) (writes entries to log.txt file)
--Mainwindow problem: multiple root windows created resulting in constant running of the program in the background after closing the main window (fix by using Toplevel instead of Tk for the main window and only creating one root window for the entire program)
 
 CHECKING
 -Check if data.txt is empty not throw an error
 -Check if the users list in users.csv matches with the available folders: delete users if not
--Add Users password feature
+-Add synchronisation between data.txt and last savings value in *_savings.csv
 """
 
 #Number of constant variables in file
@@ -378,20 +375,18 @@ def get_logs(month):
     if month == "all":
         files = glob.glob(f"data/{user}/*/*_logs.txt")
         for file in files:
-            with open(file, "r") as file:
-                reader = csv.reader(file)
-                for row in reader:
-                    logs.append(row)
+            with open(file, "r", encoding="utf-8") as file:
+                for row in file:
+                    logs.append(row.strip())
 
         if logs == "" or logs == None:
             logs.append("No logs")
         return logs
     
     else:
-        with open(f"data/{user}/{month}/{month}_logs.txt", "r") as file:
-            reader = csv.reader(file)
-            for row in reader:
-                logs.append(row)
+        with open(f"data/{user}/{month}/{month}_logs.txt", "r", encoding="utf-8") as file:
+            for row in file:
+                logs.append(row.strip())
 
         if logs == "" or logs == None:
             logs.append("No logs")

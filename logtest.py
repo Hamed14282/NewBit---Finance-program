@@ -25,10 +25,10 @@ def login(type):
             with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
                 log_file.write(f"{current_date} - {get_current_time()} || Logged out as {user}\n") #Logged out as ___ USER
 
-def change_values(type, amount): #types: Income, Savings, Spendings
+def change_values(type, amount, previous): #types: Income, Savings, Spendings
     user = get_user()
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
-        log_file.write(f"{current_date} - {get_current_time()} |Change Values| {type} changed to {amount} euros\n")
+        log_file.write(f"{current_date} - {get_current_time()} |Change Values| {type} changed from {previous} euros to {amount} euros\n")
 
 def projection_calculation(savings):
     user = get_user()

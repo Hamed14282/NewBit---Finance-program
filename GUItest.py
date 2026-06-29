@@ -174,8 +174,8 @@ def select(case):
                                 return
                             else:
                                 new_value = string_to_num(new_value)
+                                Financetest.logtest.change_values("Income", new_value, Financetest.income)
                                 Financetest.update_income(new_value)
-                                Financetest.logtest.change_values("Income", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -199,8 +199,8 @@ def select(case):
                                 return
                             else:
                                 new_value = string_to_num(new_value)
+                                Financetest.logtest.change_values("Savings", new_value, Financetest.savings)
                                 Financetest.update_savings(new_value, Financetest.current_date)
-                                Financetest.logtest.change_values("Savings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -224,8 +224,8 @@ def select(case):
                                 return
                             else:
                                 new_value = string_to_num(new_value)
+                                Financetest.logtest.change_values("Spendings", new_value, Financetest.spendings)
                                 Financetest.update_spendings(new_value)
-                                Financetest.logtest.change_values("Spendings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
@@ -783,7 +783,9 @@ def select(case):
                 text_widget.delete("1.0", "end") # Clears the text that was there before
                 # Adds the selected logs text
                 for log in logs:
-                    text_widget.insert(customtkinter.END, f"{str(log[0])}\n\n")
+                    text_widget.insert(customtkinter.END, f"{log}\n\n")
+                
+                text_widget.see("end")
                     
             month_selection("Current month")  # Show current month graph by default
 
