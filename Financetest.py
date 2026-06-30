@@ -69,11 +69,8 @@ all_savings_lines = []
 days = []
 expenses = []
 
-global savings
 savings = 0
-global income
 income = 0
-global spendings
 spendings = 0
 
 ########################################################################################################
