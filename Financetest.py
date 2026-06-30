@@ -61,15 +61,10 @@ months = 0
 years = 0
 annual_rate = 0
 periods = 0
-global expense_lines
 expense_lines = []
-global all_expense_lines
 all_expense_lines = []
-global temp_expense_lines
 temp_expense_lines = []
-global savings_lines
 savings_lines = []
-global all_savings_lines
 all_savings_lines = []
 days = []
 expenses = []
