@@ -3,7 +3,7 @@
 """ 
 TODO
 Allow the user to select profiles (different users with different data files)
--Add Users password feature
+-Encrypt user passwords so nobody can see them in the csv file
 
 Ability to change themes
 Ability to change/choose profiles from the main page
@@ -40,6 +40,7 @@ totalData = 3
 import os
 import csv
 import glob
+import sys
 
 import customtkinter
 from matplotlib import pyplot as plt
@@ -520,6 +521,10 @@ def validate_date(date_str):
 
 logtest.Usertest.choose()
 user = logtest.Usertest.get_user()
+
+# Closes the program if no user is selected
+if user == "" or user == None:
+    sys.exit()
 
 check_file(current_month, "logs")
 logtest.login("logged in")

@@ -47,6 +47,70 @@ def save(select): #Throw error if value is "-Select-"
     global temp_choice
     temp_choice = select
 
+def ask_password(current_user):
+    global users
+    password = ""
+
+    for user in users:
+        if user[0] == current_user:
+            password = user[1]
+    
+    window = customtkinter.CTk()
+    window.title("Log in")
+
+    frame1 = customtkinter.CTkFrame(master=window)
+    frame1.grid(row=0, column=0, pady=5, padx=10)
+    
+    label1 = customtkinter.CTkLabel(master=frame1, text="Enter password", font=("Arial", 14))
+    label1.grid(row=0, column=0, pady=5, padx=5)
+
+    entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="")
+    entry1.grid(row=0, column=1, pady=5, padx=5)
+
+    def pass_check(entry):
+        global temp_choice
+
+        if entry == password:
+            save_selection(temp_choice)
+            check_user_folder()
+
+            # Closes every process
+            window.quit()
+            # Closes window
+            window.destroy()
+        
+        else:
+            window1 = customtkinter.CTk()
+            window1.title("Error")
+            
+            frame1 = customtkinter.CTkFrame(master=window1)
+            frame1.grid(row=0, column=0, pady=5, padx=10)
+            
+            label1 = customtkinter.CTkLabel(master=frame1, text="Wrong password entered", font=("Arial", 20))
+            label1.grid(row=0, column=0, pady=5, padx=5)
+
+            def close():
+                # Closes every process
+                window.quit()
+                # Closes window
+                window.destroy()
+
+            window.protocol("WM_DELETE_WINDOW", close)
+            window1.mainloop()
+
+    button1 = customtkinter.CTkButton(master=frame1, text="Login", command=lambda:pass_check(entry1.get()))
+    button1.grid(row=0, column=2, pady=10, padx=10)
+    
+    def on_close():
+        # Closes every process
+        window.quit()
+        # Closes window
+        window.destroy()
+
+    window.protocol("WM_DELETE_WINDOW", on_close)
+    window.mainloop()
+
+
 def choose():
     global users, user
     
@@ -60,7 +124,7 @@ def choose():
     frame1.grid(row=0, column=0, pady=5, padx=10)
     
     label1 = customtkinter.CTkLabel(master=frame1, text="Select User", font=("Roboto", 24))
-    label1.grid(row=0, column=1, pady=10, padx=10)
+    label1.grid(row=0, column=1, columnspan=2, pady=10, padx=10)
 
     label2 = customtkinter.CTkLabel(master=frame1, text="Choose profile:", font=("Roboto", 17))
     label2.grid(row=1, column=0, pady=2, padx=10)
@@ -72,9 +136,7 @@ def choose():
                 combobox.grid(row=2, column=1, pady=10, padx=10)
 
                 def on_login():
-
-                    save_selection(temp_choice)
-                    check_user_folder()
+                    ask_password(temp_choice)
                     
                     # Closes every process
                     window.quit()
@@ -88,10 +150,14 @@ def choose():
                 entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter new user")
                 entry1.grid(row=2, column=1, pady=10, padx=10)
 
+                entry2 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter password")
+                entry2.grid(row=2, column=2, pady=10, padx=10)
+
                 def on_login():
                     new_user_value = entry1.get()
-                        
-                    save_new_user([new_user_value, "password"])
+                    password = entry2.get()
+
+                    save_new_user([new_user_value, password])
                     save_selection(new_user_value)
                     check_user_folder()
 

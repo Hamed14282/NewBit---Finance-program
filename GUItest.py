@@ -1,5 +1,6 @@
 from matplotlib import style
 
+import sys
 import AddExpensetest
 import Financetest
 import customtkinter
@@ -20,6 +21,12 @@ window.grid_rowconfigure(1, weight=1)
 style = ttk.Style()
 style.theme_use('clam')
 style.configure("TScrollbar", gripcount=0, background="lightgray", troughcolor="#232323", arrowcolor="white")
+
+user = Financetest.user
+
+# Closes the program if no user is selected
+if user == "" or user == None:
+    sys.exit()
 
 ###############################################################################################################
 
