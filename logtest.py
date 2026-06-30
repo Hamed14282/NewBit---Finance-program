@@ -65,8 +65,6 @@ def create_file(type, month): #types: expenses, savings
     with open(f"data/{user}/{float(current_month)}/{float(current_month)}_logs.txt", "a") as log_file:
         log_file.write(f"{current_date} - {get_current_time()} |Auto| Created {type} file for {month}\n")
 
-
-
 #############################################################################################
 #LOG ERRORS
 

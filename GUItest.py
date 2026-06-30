@@ -608,7 +608,6 @@ def select(case):
                     for widget in frame1.grid_slaves(row=5, column=0):
                         widget.destroy()
 
-
                 match choice:
                     case "Table":
                         create_frame2(1, 1, window)
@@ -798,8 +797,6 @@ def select(case):
 
             combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_logs_months(), "All months"], command=month_selection)
             combobox2.grid(row=5, column=0, pady=10, padx=10)
-
-
 
 ###############################################################################################################
 

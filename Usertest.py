@@ -110,7 +110,6 @@ def ask_password(current_user):
     window.protocol("WM_DELETE_WINDOW", on_close)
     window.mainloop()
 
-
 def choose():
     global users, user
     
