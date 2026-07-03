@@ -113,52 +113,6 @@ def save(select): #Throw error if value is "-Select-"
     global temp_choice
     temp_choice = select
 
-def ask_password(current_user):
-    global users
-    password = ""
-
-    for user in users:
-        if user[0] == current_user:
-            password = user[1]
-    
-    window = customtkinter.CTk()
-    window.title("Log in")
-
-    frame1 = customtkinter.CTkFrame(master=window)
-    frame1.grid(row=0, column=0, pady=5, padx=10)
-    
-    label1 = customtkinter.CTkLabel(master=frame1, text="Enter password", font=("Arial", 14))
-    label1.grid(row=0, column=0, pady=5, padx=5)
-
-    entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="")
-    entry1.grid(row=0, column=1, pady=5, padx=5)
-
-    def pass_check(entry):
-        global temp_choice
-
-        if entry == password:
-            save_selection(temp_choice)
-            check_user_folder()
-
-            # Closes every process
-            window.quit()
-            # Closes window
-            window.destroy()
-        
-        else:
-            popup_window("Error", "Wrong password entered")
-
-    button1 = customtkinter.CTkButton(master=frame1, text="Login", command=lambda:pass_check(entry1.get()))
-    button1.grid(row=0, column=2, pady=10, padx=10)
-    
-    def on_close():
-        # Closes every process
-        window.quit()
-        # Closes window
-        window.destroy()
-
-    window.protocol("WM_DELETE_WINDOW", on_close)
-    window.mainloop()
 
 def popup_window(type, message):
     window1 = customtkinter.CTk()
@@ -179,7 +133,7 @@ def popup_window(type, message):
     window1.protocol("WM_DELETE_WINDOW", close)
     window1.mainloop()
 
-def check_password(user, old_pass, new_pass):
+def check_password(user, old_pass):
     global users
     pass1 = ""
     
@@ -189,9 +143,10 @@ def check_password(user, old_pass, new_pass):
     
     if not old_pass == pass1:
         popup_window("Error", "Wrong password entered")
-
+        return False
+    
     else:
-        change_password(user, new_pass)
+        return True
 
 def change_password(user, new_pass):
     global users
@@ -247,13 +202,19 @@ def choose():
                 combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", *users_list], command=save)
                 combobox.grid(row=2, column=1, pady=10, padx=10)
 
+                entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter password")
+                entry1.grid(row=2, column=2, pady=10, padx=10)
+                
                 def on_login():
-                    ask_password(temp_choice)
                     
-                    # Closes every process
-                    window.quit()
-                    # Closes window
-                    window.destroy()
+                    if check_password(temp_choice, entry1.get()):
+                        save_selection(temp_choice)
+                        check_user_folder()
+
+                        # Closes every process
+                        window.quit()
+                        # Closes window
+                        window.destroy()
 
                 button1 = customtkinter.CTkButton(master=frame1, text="Login", command=on_login)
                 button1.grid(row=2, column=3, pady=10, padx=10)
@@ -299,7 +260,8 @@ def choose():
                     old_password = entry1.get()
                     new_password = entry2.get()
 
-                    check_password(temp_choice, old_password, new_password)
+                    if check_password(temp_choice, old_password):
+                        change_password(temp_choice, new_password)
 
                 button1 = customtkinter.CTkButton(master=frame1, text="Apply", command=change)
                 button1.grid(row=2, column=3, pady=10, padx=10)
