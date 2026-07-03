@@ -3,12 +3,12 @@
 """ 
 TODO
 Allow the user to select profiles (different users with different data files)
--Encrypt user passwords so nobody can see them in the csv file
+-Allow users to change the name of user profiles (maybe attach ID to each profile to not mix up)
+-Allow users to change profile passwords (after confirming old passwords)
+-Allow users to delete profiles
+-Allow changing profiles from main page
 
 Ability to change themes
-Ability to change/choose profiles from the main page
-Ability to delete profile
-Ability to change name of profile
 Make expense table editable
 Make the format of logs better on the eyes
 
@@ -140,6 +140,7 @@ def check_empty_files():
             is_empty = not any(reader)
         if is_empty:
             os.remove(file_name)
+            logtest.delete_empty_file(file_name)
 
 def check_month_folder(month):
     if not os.path.exists(f"data/{user}/{float(month)}"):

@@ -1,5 +1,6 @@
 import csv
 import os
+from cryptography.fernet import Fernet
 
 import customtkinter
 
@@ -7,6 +8,16 @@ user = ""
 users = []
 users_list = []
 temp_choice = ""
+key = ""
+
+def check_key():
+    global key
+
+    if not os.path.exists("data/users.key"):
+        with open("data/users.key", "wb") as key_file:
+            key_file.write(Fernet.generate_key())
+    with open("data/users.key", "rb") as key_file:
+        key = key_file.read()
 
 def get_user():
     global user
@@ -24,20 +35,68 @@ def check_user_folder():
         os.makedirs(f"data/{user}")
 
 def get_all_users():
-    global users, users_list
-    with open("data/users.csv", "r") as file:
-            reader = csv.reader(file)
-            for row in reader:
-                users.append(row)
-                users_list.append(row[0])
+    global users, users_list, key
 
+
+    #DECRYPT######################################################################
+    cypher = Fernet(key)
+
+    with open("data/users.csv", "rb") as encrypted_file:
+        encrypted = encrypted_file.read()
+
+    if not encrypted == b"":
+        decrypted = cypher.decrypt(encrypted)
+
+        with open("data/users.csv", "wb") as decrypted_file:
+            decrypted_file.write(decrypted)
+
+    #######################################################################
+
+        with open("data/users.csv", "r") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    users.append(row)
+                    users_list.append(row[0])
+
+    #REWRITE ENCRYPTED######################################################################
+        with open("data/users.csv", "wb") as encrypted_file:
+            encrypted_file.write(encrypted)
+
+    #######################################################################
+    
 def save_new_user(new_user):
-    global users
+    global users, key
     users.append(new_user)
+
+    #DECRYPT######################################################################
+    cypher = Fernet(key)
+
+    with open("data/users.csv", "rb") as encrypted_file:
+        encrypted = encrypted_file.read()
+
+    if not encrypted == b"":
+        decrypted = cypher.decrypt(encrypted)
+
+        with open("data/users.csv", "wb") as decrypted_file:
+            decrypted_file.write(decrypted)
+
+    #######################################################################
 
     with open(f"data/users.csv", "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(users)
+
+    #ENCRYPT######################################################################
+
+    with open("data/users.csv", "rb") as decrypted_file:
+        decrypted = decrypted_file.read()
+
+    encrypted = cypher.encrypt(decrypted)
+
+    with open("data/users.csv", "wb") as encrypted_file:
+        encrypted_file.write(encrypted)
+
+    #######################################################################
 
 def save_selection(select):
     global user
@@ -113,6 +172,7 @@ def ask_password(current_user):
 def choose():
     global users, user
     
+    check_key()
     check_users_file()
     get_all_users()
 
