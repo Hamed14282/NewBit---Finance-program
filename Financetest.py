@@ -1,27 +1,34 @@
-#pyinstaller GUItest.py --onefile --noconsole
+#pyinstaller --onefile --name Sepo --noconsole GUItest.py
 
 """ 
 TODO
 Allow the user to select profiles (different users with different data files)
-- Data folder with different user folders (user1, user2, etc.) and inside them the data files (data.txt, month_expenses.csv)
-- Password protection for profiles?
+-Allow users to change the name of user profiles (maybe attach ID to each profile to not mix up)
+-Allow users to change profile passwords (after confirming old passwords)
+-Allow users to delete profiles
+-Allow changing profiles from main page
 
 Ability to change themes
 Make expense table editable
-Delete empty expense month files
+Make the format of logs better on the eyes
 
 CATEGORIES
 -Allow the data in the table to be categorized by user defined categories (food, transport, etc.)
 -Create a graph of expenses by category (pie chart)
 
-ERROR CHECKING
--input expense (check all values)
-
 UPDATING
 -Table update after adding expense (Oragnize the data in the table per month?)
--Log user login and logout times (for multiple profiles) (writes entries to log.txt file)
--Mainwindow problem: multiple root windows created resulting in constant running of the program in the background after closing the main window (fix by using Toplevel instead of Tk for the main window and only creating one root window for the entire program)
 
+CHECKING
+-Check if data.txt is empty not throw an error
+-Check if the users list in users.csv matches with the available folders: delete users if not
+-Add synchronisation between data.txt and last savings value in *_savings.csv
+
+LOGS
+-Log when password is changed
+-When user is added
+-When user is deleted
+-When profile name is changed
 """
 
 #Number of constant variables in file
@@ -39,6 +46,7 @@ totalData = 3
 import os
 import csv
 import glob
+import sys
 
 import customtkinter
 from matplotlib import pyplot as plt
@@ -60,24 +68,16 @@ months = 0
 years = 0
 annual_rate = 0
 periods = 0
-global expense_lines
 expense_lines = []
-global all_expense_lines
 all_expense_lines = []
-global temp_expense_lines
 temp_expense_lines = []
-global savings_lines
 savings_lines = []
-global all_savings_lines
 all_savings_lines = []
 days = []
 expenses = []
 
-global savings
 savings = 0
-global income
 income = 0
-global spendings
 spendings = 0
 
 ########################################################################################################
@@ -99,42 +99,47 @@ def compound_interest(annual_rate, years, interest_money, periods):
     result = (savings - interest_money) + (interest_money * (1 + (annual_rate/100)/periods) ** (periods * years))
     return result
 
-def check_expense_file(month):
-    if not os.path.exists(f"data/{float(month)}_expenses.csv"):
-        file = open(f"data/{float(month)}_expenses.csv", "x")
-        file.close()
-        logtest.create_file("expenses", float(month))
+def check_file(month, type):
+    global savings, income
 
-def check_savings_file(month):
-    global savings
-    global income
-    if not os.path.exists(f"data/{float(month)}_savings.csv"):
-        file = open(f"data/{float(month)}_savings.csv", "x")
+    check_month_folder(month)
+
+    format = ".csv"
+    if type == "logs":
+        format = ".txt"
+
+    
+    if not os.path.exists(f"data/{user}/{float(month)}/{float(month)}_{type}{format}"):
+        file = open(f"data/{user}/{float(month)}/{float(month)}_{type}{format}", "x")
         file.close()
-        logtest.create_file("savings", float(month))
-        if month == current_month:
-            savings += income
-            write_savings_lines(month, [[1, savings, f"01.{current_month}"]])
-            logtest.add_income(savings, income)
+        logtest.create_file(type, float(month))
+        if type == "savings":
+            if month == current_month:
+                savings += income
+                write_lines(month, [[1, savings, f"01.{current_month}"]], "savings")
+                logtest.add_income(f"{savings:.2f}", income, f"01.{month}")
+                logtest.add_savings(f"{savings:.2f}", f"01.{month}")
+            else:
+                write_lines(month, [[1, income, f"01.{month}"]], "savings")
+                logtest.add_savings(income, f"01.{month}")
 
 def check_data_file():
     global income, savings, spendings
-    if not os.path.exists("data"):
-        os.makedirs("data")
-
-    if not os.path.exists("data/data.txt"):
-        file = open("data/data.txt", "x")
+    
+    if not os.path.exists(f"data/{user}/data.txt"):
+        file = open(f"data/{user}/data.txt", "x")
         file.close()
-    else:
-        with open("data/data.txt", "r") as f:
+
+def get_main_data():
+    with open(f"data/{user}/data.txt", "r") as f:
             lines = f.readlines()
-            income = float(lines[0].strip())
-            savings = float(lines[1].strip())
-            spendings = float(lines[2].strip())
-
-
+            if lines == None or lines == "":
+                income = float(lines[0].strip())
+                savings = float(lines[1].strip())
+                spendings = float(lines[2].strip())
+                
 def check_empty_files():
-    files = glob.glob("data/*_expenses.csv") + glob.glob("data/*_savings.csv")
+    files = glob.glob(f"data/{user}/*/*_expenses.csv") + glob.glob(f"data/{user}/*/*_savings.csv") + glob.glob(f"data/{user}/*/*_logs.txt")
 
     for file_name in files:
         with open(file_name, "r") as f:
@@ -142,6 +147,15 @@ def check_empty_files():
             is_empty = not any(reader)
         if is_empty:
             os.remove(file_name)
+            logtest.delete_empty_file(file_name)
+
+def check_month_folder(month):
+    if not os.path.exists(f"data/{user}/{float(month)}"):
+        os.makedirs(f"data/{user}/{float(month)}")
+
+def check_data_folder():
+    if not os.path.exists("data"):
+        os.makedirs("data")
 
 #Finds the last savings value of the date inputted and returns it. If there is no savings value for that date, it returns the last savings value before that date.
 def find_last_savings_value(date):
@@ -149,7 +163,8 @@ def find_last_savings_value(date):
     dic = {}
     dic2 = []
     month = date[3:10]
-    lines = get_savings_lines(float(month))
+    #check file with month, then make first savings entry on 01.XX.XXXX automatically with current income
+    lines = get_lines(month, "", "savings")
 
     for x in lines:
         if dic.get(x[2]):
@@ -169,22 +184,6 @@ def find_last_savings_value(date):
         last = dic2[-1][1]
     return str(last)
 
-# ##################################################################################################
-# Maybe useful in the future?
-#     else:
-#         #I want to find the last date entry exactly one before "date" and return its savings value. only works if the dates have the same format and same length (05.06.2024||13.06.2024)
-#         for y in dic:
-#             dic2.append(dic.get(y))
-#         if dic2[-1][2][3:10] < month: # if different month
-#             last = dic2[-1][1]
-#         else: # if same month
-#             dic2 = []
-#             for y in dic:
-#                 if y < date:
-#                     dic2.append(dic.get(y))
-#             last = dic2[-1][1]
-# ##################################################################################################
-
 def total_monthly_expenses():
     total = 0
 
@@ -202,8 +201,8 @@ def expenses_graph(month):
     num2 = 0
     num3 = 0
 
-    expense_lines = get_expense_lines(float(month))
-    savings_lines = get_savings_lines(float(month))
+    expense_lines = get_lines(float(month), "", "expenses")
+    savings_lines = get_lines(float(month), "", "savings")
 
     for x in expense_lines:
         if exp.get(int(x[2][:2])):
@@ -256,11 +255,12 @@ def expenses_graph(month):
     return fig
 
 def monthly_expenses_graph():
-    exp = {}
+    exp = {} # stores total expense value + month
+    sav = {} # stores last savings value + month
     temp = [] # to store different values of the same month and check which is the leatest
     savings_values = [] # to store the last savings value of each month
 
-    files = glob.glob("data/*_expenses.csv")
+    files = glob.glob(f"data/{user}/*/*_expenses.csv")
 
     for file_name in files:
         month = os.path.basename(file_name).replace("_expenses.csv", "")
@@ -273,9 +273,11 @@ def monthly_expenses_graph():
 
         exp[month] = total
 
-    files = glob.glob("data/*_savings.csv")
+    files = glob.glob(f"data/{user}/*/*_savings.csv")
 
     for file_name in files:
+        month = os.path.basename(file_name).replace("_savings.csv", "")
+
         temp = []
         with open(file_name, "r") as f:
             reader = csv.reader(f)
@@ -285,10 +287,12 @@ def monthly_expenses_graph():
                 
                 if int(row[0]) > int(temp[0]):
                     temp = row
-            savings_values.append(float(temp[1]))
 
-    months = sorted(exp.keys())
+        sav[month] = float(temp[1])
+
+    months = sorted(exp.keys(), key=lambda x: datetime.strptime(x, "%m.%Y")) ###
     expense_values = [exp[m] for m in months]
+    savings_values = [sav[m] for m in months]
 
     fig = Figure(figsize=(6, 4), dpi=100)
     ax = fig.add_subplot(111)
@@ -307,27 +311,17 @@ def monthly_expenses_graph():
 
     return fig
 
-def get_all_expense_lines():
-    global all_expense_lines
-    all_expense_lines = []
-    files = glob.glob("data/*_expenses.csv")
+def get_all_lines(type):
+    all_lines = []
+
+    files = glob.glob(f"data/{user}/*/*_{type}.csv")
 
     for file_name in files:
         with open(file_name, "r") as f:
             reader = csv.reader(f)
             for row in reader:
-                all_expense_lines.append(row)
-
-def get_all_savings_lines():
-    global all_savings_lines
-    all_savings_lines = []
-    files = glob.glob("data/*_savings.csv")
-
-    for file_name in files:
-        with open(file_name, "r") as f:
-            reader = csv.reader(f)
-            for row in reader:
-                all_savings_lines.append(row)
+                all_lines.append(row)
+    return all_lines
 
 # -----------------------------------------------------
 def categories_distribution(month=None):
@@ -371,42 +365,70 @@ def categories_distribution(month=None):
 
 def get_expense_lines(month):
     lines = []
+    if type == "savings":
+        check_file(month, "savings")
 
-    with open(f"data/{float(month)}_expenses.csv", "r") as expense_file:
-        reader = csv.reader(expense_file)
-        for row in reader:
-            lines.append(row)
+    if category == "":       
+            with open(f"data/{user}/{float(month)}/{float(month)}_{type}.csv", "r") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    lines.append(row)
+    else:
+        with open(f"data/{user}/{float(month)}/{float(month)}_{category}_{type}.csv", "r") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    lines.append(row)
     return lines
 
-def get_savings_lines(month):
-    check_savings_file(month)
-    lines = []
-    with open(f"data/{float(month)}_savings.csv", "r") as savings_file:
-        reader = csv.reader(savings_file)
-        for row in reader:
-            lines.append(row)
-    return lines
-
-def write_expense_lines(month, lines):
-    with open(f"data/{float(month)}_expenses.csv", "w", newline="") as expense_file:
-        writer = csv.writer(expense_file)
-        writer.writerows(lines)
-
-def write_savings_lines(month, lines):
-    with open(f"data/{float(month)}_savings.csv", "w", newline="") as savings_file:
-        writer = csv.writer(savings_file)
+def write_lines(month, lines, type):
+    with open(f"data/{user}/{float(month)}/{float(month)}_{type}.csv", "w", newline="") as file:
+        writer = csv.writer(file)
         writer.writerows(lines)
 
 def get_all_months():
     months = set()
 
-    files = glob.glob("data/*_expenses.csv")
+    files = glob.glob(f"data/{user}/*/*_savings.csv")
 
     for file_name in files:
-        month = os.path.basename(file_name).replace("_expenses.csv", "")
+        month = os.path.basename(file_name).replace("_savings.csv", "")
         months.add(month)
 
-    return sorted(months)
+    return sorted(months, key=lambda x: datetime.strptime(x, "%m.%Y"))
+
+def get_logs(month):
+    logs = []
+
+    if month == "all":
+        files = glob.glob(f"data/{user}/*/*_logs.txt")
+        for file in files:
+            with open(file, "r", encoding="utf-8") as file:
+                for row in file:
+                    logs.append(row.strip())
+
+        if logs == "" or logs == None:
+            logs.append("No logs")
+        return logs
+    
+    else:
+        with open(f"data/{user}/{month}/{month}_logs.txt", "r", encoding="utf-8") as file:
+            for row in file:
+                logs.append(row.strip())
+
+        if logs == "" or logs == None:
+            logs.append("No logs")
+        return logs
+
+def get_logs_months():
+    months = set()
+
+    files = glob.glob(f"data/{user}/*/*_logs.txt")
+
+    for file_name in files:
+        month = os.path.basename(file_name).replace("_logs.txt", "")
+        months.add(month)
+
+    return sorted(months, key=lambda x: datetime.strptime(x, "%m.%Y"))
 
 ########################################################################################################
 
@@ -420,32 +442,32 @@ def add_expense(expense, date, category):
 
     if date[3:10] != current_month:
         global temp_expense_lines
-        check_expense_file(date[3:10])
+        check_file(date[3:10], "expenses")
         temp_expense_lines = []
-        temp_expense_lines = get_expense_lines(date[3:10])
+        temp_expense_lines = get_lines(date[3:10], "", "expenses")
         temp_expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
-        write_expense_lines(date[3:10], temp_expense_lines)
+        write_lines(date[3:10], temp_expense_lines, "expenses")
 
     else:
         global expense_lines
         expense_lines = []
-        expense_lines = get_expense_lines(current_month)
+        expense_lines = get_lines(current_month, "", "expenses")
         expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
-        write_expense_lines(current_month, expense_lines)
+        write_lines(current_month, expense_lines, "expenses")
     
     all_expense_lines.append([expense, f"{current_date}-{current_time}", date, category])
 
 def add_saving(saving, date):
     global savings_lines
     savings_lines = []
-    savings_lines = get_savings_lines(float(date[3:10]))
+    savings_lines = get_lines(float(date[3:10]), "", "savings")
     num = 1
 
     if savings_lines:
         num = int(savings_lines[-1][0]) + 1
 
     savings_lines.append([num, saving, date])
-    write_savings_lines(date[3:10], savings_lines)
+    write_lines(date[3:10], savings_lines, "savings")
 
 def delete_expense(id):
     id = str(id)
@@ -456,9 +478,10 @@ def delete_expense(id):
             line = x
             break
     
-    logtest.delete_expense(line[3], line[0], line[2])
-    
+    logtest.delete_expense(line[3], line[0], line[2])    
+
     last_savings = float(find_last_savings_value(line[2]))
+
     if line[2] == current_date:
         update_savings(last_savings + float(line[0]), line[2])
     else:
@@ -466,31 +489,31 @@ def delete_expense(id):
         
     logtest.update_savings(last_savings + float(line[0]), last_savings)
     
-    temp_expense_lines = get_expense_lines(line[2][3:10])
+    temp_expense_lines = get_lines(line[2][3:10], "", "expenses")
     temp_expense_lines.remove(line)
-    write_expense_lines(line[2][3:10], temp_expense_lines)
+    write_lines(line[2][3:10], temp_expense_lines, "expenses")
     all_expense_lines.remove(line)
 
 def save_data():
-    with open("data/data.txt", "w") as file:
+    with open(f"data/{user}/data.txt", "w") as file:
         lines[0] = str(income) + "\n"
         lines[1] = str(savings) + "\n"
         lines[2] = str(spendings) + "\n"
         file.writelines(lines)
 
 def save_income():
-    with open("data/data.txt", "w") as file:
+    with open(f"data/{user}/data.txt", "w") as file:
         lines[0] = str(income) + "\n"
         file.writelines(lines)
     
 def save_savings(date):
-    with open("data/data.txt", "w") as file:
+    with open(f"data/{user}/data.txt", "w") as file:
         lines[1] = str(savings) + "\n"
         file.writelines(lines)
     add_saving(savings, date)
 
 def save_spendings():
-    with open("data/data.txt", "w") as file:
+    with open(f"data/{user}/data.txt", "w") as file:
         lines[2] = str(spendings) + "\n"
         file.writelines(lines)
 
@@ -517,15 +540,25 @@ def validate_date(date_str):
         return False
 
 ########################################################################################################
+
+logtest.Usertest.choose()
+user = logtest.Usertest.get_user()
+
+# Closes the program if no user is selected
+if user == "" or user == None:
+    sys.exit()
+
+check_file(current_month, "logs")
 logtest.login("logged in")
+
+check_data_folder()
 check_empty_files()
 check_data_file()
-check_expense_file(current_month)
-check_savings_file(current_month)
-get_all_expense_lines()
+
+########################################################################################################
 
 #read at retrieve main data
-with open("data/data.txt", "r") as file:
+with open(f"data/{user}/data.txt", "r") as file:
     lines = file.readlines()
 
 ########################################################################################################
@@ -549,7 +582,7 @@ def save1():
 def save2():
     global savings
     savings = float(entry2.get())
-    save_savings()
+    save_savings(current_date)
 
 def save3():
     global spendings
@@ -606,7 +639,21 @@ button = customtkinter.CTkButton(master=frame1, text="Save", command=save_all)
 button.grid(row=row, column=0, columnspan=2, pady=10, padx=10)
 
 if row > 0:  #at least one field missing
-    
+    def on_close():
+        # Closes every process
+        window.quit()
+        # Closes window
+        window.destroy()
+
+    window.protocol("WM_DELETE_WINDOW", on_close)
     window.mainloop()
+
+########################################################################################################
+
+get_main_data()
+check_file(current_month, "expenses")
+check_file(current_month, "savings")
+all_expense_lines = get_all_lines("expenses")
+all_savings_lines = get_all_lines("savings")
 
 ########################################################################################################

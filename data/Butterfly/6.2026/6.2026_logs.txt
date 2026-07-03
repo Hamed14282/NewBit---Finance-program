@@ -1,0 +1,8 @@
+17.06.2026 - 10:48:28 |Auto| Created logs file for 6.2026
+17.06.2026 - 10:48:28 || Logged in as Butterfly
+17.06.2026 - 10:48:43 |Auto| Created savings file for 6.2026
+17.06.2026 - 10:48:43 |Auto| Added savings of 563.0 euros for 01.6.2026
+17.06.2026 - 10:48:43 |Auto| Created expenses file for 6.2026
+30.06.2026 - 09:52:26 || Logged in as Butterfly
+30.06.2026 - 09:52:26 |Auto| Created expenses file for 6.2026
+30.06.2026 - 09:53:44 || Logged out as Butterfly

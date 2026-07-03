@@ -1,5 +1,6 @@
 from matplotlib import style
 
+import sys
 import AddExpensetest
 import Financetest
 import customtkinter
@@ -10,7 +11,7 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
 window = customtkinter.CTk()
-window.title("Finance app")
+window.title("Sepo")
 window.minsize(500, 300)
 window.grid_columnconfigure(0, weight=1)
 window.grid_columnconfigure(1, weight=1)
@@ -20,6 +21,12 @@ window.grid_rowconfigure(1, weight=1)
 style = ttk.Style()
 style.theme_use('clam')
 style.configure("TScrollbar", gripcount=0, background="lightgray", troughcolor="#232323", arrowcolor="white")
+
+user = Financetest.user
+
+# Closes the program if no user is selected
+if user == "" or user == None:
+    sys.exit()
 
 ###############################################################################################################
 
@@ -122,6 +129,10 @@ def select(case):
         for widget in frame1.grid_slaves(row=4, column=0):
             widget.destroy()
 
+    if frame1.grid_slaves(row=5, column=0):
+        for widget in frame1.grid_slaves(row=5, column=0):
+            widget.destroy()
+
     case = combobox.get()
 
     match case:
@@ -166,17 +177,19 @@ def select(case):
                                     create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="Invalid income input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=0, column=0, pady=10, padx=10)
+                                Financetest.logtest.invalid_input("income", new_value, "")
                                 return
                             else:
                                 new_value = string_to_num(new_value)
+                                Financetest.logtest.change_values("Income", new_value, Financetest.income)
                                 Financetest.update_income(new_value)
-                                Financetest.logtest.change_values("Income", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
                                 create_frame6(0, 2, frame3)
                             error_label = customtkinter.CTkLabel(master=frame6, text="No income value entered.", text_color="pink", font=("Roboto", 16))
                             error_label.grid(row=0, column=0, pady=10, padx=10)
+                            Financetest.logtest.no_input("income")
                             return
                         
                     case "Savings":
@@ -189,17 +202,19 @@ def select(case):
                                     create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="Invalid savings input. Please enter a number greater than or equal to zero.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=0, column=0, pady=10, padx=10)
+                                Financetest.logtest.invalid_input("savings2", new_value, "")
                                 return
                             else:
                                 new_value = string_to_num(new_value)
+                                Financetest.logtest.change_values("Savings", new_value, Financetest.savings)
                                 Financetest.update_savings(new_value, Financetest.current_date)
-                                Financetest.logtest.change_values("Savings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
                                 create_frame6(0, 2, frame3)
                             error_label = customtkinter.CTkLabel(master=frame6, text="No savings value entered.", text_color="pink", font=("Roboto", 16))
                             error_label.grid(row=0, column=0, pady=10, padx=10)
+                            Financetest.logtest.no_input("savings2")
                             return
                         
                     case "Spendings":
@@ -212,17 +227,19 @@ def select(case):
                                     create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="Invalid spendings input. Please enter a number greater than or equal to zero.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=0, column=0, pady=10, padx=10)
+                                Financetest.logtest.invalid_input("spendings", new_value, "")
                                 return
                             else:
                                 new_value = string_to_num(new_value)
+                                Financetest.logtest.change_values("Spendings", new_value, Financetest.spendings)
                                 Financetest.update_spendings(new_value)
-                                Financetest.logtest.change_values("Spendings", new_value)
 
                         elif new_value is None or new_value == "":
                             if frame6 is None or not frame6.winfo_exists():
                                 create_frame6(0, 2, frame3)
                             error_label = customtkinter.CTkLabel(master=frame6, text="No spendings value entered.", text_color="pink", font=("Roboto", 16))
                             error_label.grid(row=0, column=0, pady=10, padx=10)
+                            Financetest.logtest.no_input("spendings")
                             return
                 
                 if frame6 is None or not frame6.winfo_exists():
@@ -278,6 +295,7 @@ def select(case):
                     if string_to_num(months) is False or string_to_num(months) <= 0:
                         label6 = customtkinter.CTkLabel(master=frame6, text="Invalid projected months input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                         label6.grid(row=0, column=0, pady=10, padx=10)
+                        Financetest.logtest.invalid_input("months", months, "")
                         return
                     else:
                         months = int(string_to_num(months))
@@ -288,6 +306,7 @@ def select(case):
                 elif months is None or months == "":
                     label6 = customtkinter.CTkLabel(master=frame6, text="No projected months entered.", text_color="pink", font=("Roboto", 16))
                     label6.grid(row=0, column=0, pady=10, padx=10)
+                    Financetest.logtest.no_input("months")
                     return
 
                 def save_projection(savings_result):
@@ -365,6 +384,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=0, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("savings", interest_money, Financetest.savings)
                                     return
                                 else:
                                     interest_money = float(string_to_num(interest_money))
@@ -374,6 +394,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                  error_label = customtkinter.CTkLabel(master=frame6, text="No portion of savings affected by interest entered.", text_color="pink", font=("Roboto", 16))
                                  error_label.grid(row=0, column=0, pady=10, padx=10)
+                                 Financetest.logtest.no_input("savings")
                                  return
                             
                             if annual_rate is not None and annual_rate != "":
@@ -382,6 +403,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid annual interest rate input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=1, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("interest rate", annual_rate, "")
                                     return
                                 else:
                                     annual_rate = float(string_to_num(annual_rate))
@@ -391,6 +413,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No annual interest rate entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=1, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("interest rate")
                                 return
                             
                             if years is not None and years != "":
@@ -399,6 +422,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid projected months input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=2, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("months1", years, "")
                                     return
                                 else:
                                     years = float(string_to_num(years))/12
@@ -408,6 +432,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No projected months entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=2, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("months1")
                                 return
                             
                             result = Financetest.simple_interest(annual_rate, years, interest_money)
@@ -418,6 +443,8 @@ def select(case):
 
                         button4 = customtkinter.CTkButton(master=frame5, text="Calculate", command=calculate_simple_interest)
                         button4.grid(row=2, column=2, pady=10, padx=10)
+
+                    ##########
 
                     case "Compound Interest":
                         create_frame3(1, 0, window)
@@ -475,6 +502,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid portion of savings affected by interest. Please enter a value between 0 and " + str(Financetest.savings), text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=0, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("savings1", interest_money, Financetest.savings)
                                     return
                                 else:
                                     interest_money = float(string_to_num(interest_money))
@@ -484,6 +512,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                  error_label = customtkinter.CTkLabel(master=frame6, text="No portion of savings affected by interest entered.", text_color="pink", font=("Roboto", 16))
                                  error_label.grid(row=0, column=0, pady=10, padx=10)
+                                 Financetest.logtest.no_input("savings1")
                                  return
                             
                             if annual_rate is not None and annual_rate != "":
@@ -492,6 +521,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid annual interest rate input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=1, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("interest rate1", annual_rate, "")
                                     return
                                 else:
                                     annual_rate = float(string_to_num(annual_rate))
@@ -501,6 +531,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No annual interest rate entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=1, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("interest rate1")
                                 return
                             
                             if years is not None and years != "":
@@ -509,6 +540,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid projected months input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=2, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("months2", years, "")
                                     return
                                 else:
                                     years = float(string_to_num(years))/12
@@ -518,6 +550,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No projected months entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=2, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("months2")
                                 return
 
                             if periods is not None and periods != "":
@@ -526,6 +559,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                     error_label = customtkinter.CTkLabel(master=frame6, text="Invalid compounding periods input. Please enter a number greater than zero.", text_color="pink", font=("Roboto", 16))
                                     error_label.grid(row=3, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("periods", periods, "")
                                     return
                                 else:
                                     periods = int(string_to_num(periods))
@@ -535,6 +569,7 @@ def select(case):
                                         create_frame6(0, 2, frame3)
                                 error_label = customtkinter.CTkLabel(master=frame6, text="No compounding periods entered.", text_color="pink", font=("Roboto", 16))
                                 error_label.grid(row=3, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("periods")
                                 return
                                 
                             result = Financetest.compound_interest(annual_rate, years, interest_money, periods)
@@ -546,162 +581,227 @@ def select(case):
                         button4 = customtkinter.CTkButton(master=frame5, text="Calculate", command=calculate_compound_interest)
                         button4.grid(row=3, column=2, pady=10, padx=10)
 
-            combobox2 = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Simple Interest", "Compound Interest"], command=interest_selection)
+            interest_selection("Simple Interest")
+
+            combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Simple Interest", "Compound Interest"], command=interest_selection)
             combobox2.grid(row=4, column=0, pady=10, padx=10)
 
         ###############################################################################################################
+        case "Expenses":
+            def expense_selection(choice):
+                global frame2, frame3, frame4
 
-        case "Show expenses(table)":
-            create_frame2(1, 1, window)
-            frame2.grid_rowconfigure(0, weight=1)
-            frame2.grid_columnconfigure(0, weight=1)   
-            
-            frame3 = customtkinter.CTkFrame(master=window, fg_color="transparent", bg_color="transparent")
-            frame3.grid(row=0, column=1, pady=5, padx=5, sticky="new")
-            frame3.grid_columnconfigure(0, weight=0)
-            frame3.grid_columnconfigure(1, weight=0)
-            frame3.grid_columnconfigure(2, weight=0)
-            frame3.grid_columnconfigure(3, weight=0)
-            frame3.grid_rowconfigure(0, weight=0)
-
-            def add_expense(category, amount, date):
-                global frame4
+                if frame2 is not None and frame2.winfo_exists():
+                        frame2.destroy()
+                
+                if frame3 is not None and frame3.winfo_exists():
+                        frame3.destroy()
 
                 if frame4 is not None and frame4.winfo_exists():
-                    frame4.destroy()
+                        frame4.destroy()
 
-                if amount is not None and amount != "":
-                    if string_to_num(amount) is False or string_to_num(amount) <= 0:
-                        if frame4 is None or not frame4.winfo_exists():
-                            create_frame4(1, 2, window)
-                        error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero, and seperate decimals with a period.", text_color="pink", font=("Roboto", 16))
-                        error_label.grid(row=0, column=0, pady=10, padx=10)
-                        return
-                    else:
-                        amount = string_to_num(amount)
+                if frame1.grid_slaves(row=4, column=0):
+                    for widget in frame1.grid_slaves(row=4, column=0):
+                        widget.destroy()
 
-                elif amount is None or amount == "":
-                    if frame4 is None or not frame4.winfo_exists():
-                        create_frame4(1, 2, window)
-                    error_label = customtkinter.CTkLabel(master=frame4, text="No expense amount entered.", text_color="pink", font=("Roboto", 16))
-                    error_label.grid(row=0, column=0, pady=10, padx=10)
-                    return
+                if frame1.grid_slaves(row=5, column=0):
+                    for widget in frame1.grid_slaves(row=5, column=0):
+                        widget.destroy()
 
-                if date is not None and date != "":
-                    if not Financetest.validate_date(date):
-                        if frame4 is None or not frame4.winfo_exists():
-                            create_frame4(1, 2, window)
-                        error_label = customtkinter.CTkLabel(master=frame4, text="Invalid date format. Please enter date as DD.MM.YYYY.", text_color="pink", font=("Roboto", 16))
-                        error_label.grid(row=1, column=0, pady=10, padx=10)
-                        return
-                elif date is None or date == "":
-                    if frame4 is None or not frame4.winfo_exists():
-                        create_frame4(1, 2, window)
-                    error_label = customtkinter.CTkLabel(master=frame4, text="No date entered. Using current date: " + Financetest.current_date, text_color="pink", font=("Roboto", 16))
-                    error_label.grid(row=1, column=0, pady=10, padx=10)
-                    
-                if category is not None and category != "":
-                    category = category.lower()
-                elif category is None or category == "":
-                    if frame4 is None or not frame4.winfo_exists():
-                        create_frame4(1, 2, window)
-                    error_label = customtkinter.CTkLabel(master=frame4, text="No category entered. Using default category: misc.", text_color="pink", font=("Roboto", 16))
-                    error_label.grid(row=2, column=0, pady=10, padx=10)
-                    category = "misc."
+                match choice:
+                    case "Table":
+                        create_frame2(1, 1, window)
+                        frame2.grid_rowconfigure(0, weight=1)
+                        frame2.grid_columnconfigure(0, weight=1)   
+                        
+                        frame3 = customtkinter.CTkFrame(master=window, fg_color="transparent", bg_color="transparent")
+                        frame3.grid(row=0, column=1, pady=5, padx=5, sticky="new")
+                        frame3.grid_columnconfigure(0, weight=0)
+                        frame3.grid_columnconfigure(1, weight=0)
+                        frame3.grid_columnconfigure(2, weight=0)
+                        frame3.grid_columnconfigure(3, weight=0)
+                        frame3.grid_rowconfigure(0, weight=0)
 
-                date = Financetest.current_date if not date else date
-                Financetest.add_expense(amount, date, category)
-                Financetest.logtest.add_expense(category, amount, date)
+                        def add_expense(category, amount, date):
 
-                last_savings = float(Financetest.find_last_savings_value(date))
-                if date == Financetest.current_date:
-                    Financetest.update_savings(last_savings - float(amount), date)
-                else:
-                    Financetest.add_saving(last_savings - float(amount), date)
-                    
-                Financetest.logtest.update_savings(last_savings - float(amount), last_savings)
+                            if amount is not None and amount != "":
+                                if string_to_num(amount) is False or string_to_num(amount) <= 0:
+                                    if frame4 is None or not frame4.winfo_exists():
+                                        create_frame4(1, 2, window)
+                                    error_label = customtkinter.CTkLabel(master=frame4, text="Invalid expense input. Please enter a number greater than zero, and seperate decimals with a period.", text_color="pink", font=("Roboto", 16))
+                                    error_label.grid(row=0, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("expense", amount, "")
+                                    return
+                                else:
+                                    amount = string_to_num(amount)
 
-                item_id = Financetest.all_expense_lines[-1][1]
+                            elif amount is None or amount == "":
+                                if frame4 is None or not frame4.winfo_exists():
+                                    create_frame4(1, 2, window)
+                                error_label = customtkinter.CTkLabel(master=frame4, text="No expense amount entered.", text_color="pink", font=("Roboto", 16))
+                                error_label.grid(row=0, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("expense")
+                                return
 
-                table.insert(parent="", index=0, iid=item_id, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
+                            if date is not None and date != "":
+                                if not Financetest.validate_date(date):
+                                    if frame4 is None or not frame4.winfo_exists():
+                                        create_frame4(1, 2, window)
+                                    error_label = customtkinter.CTkLabel(master=frame4, text="Invalid date format. Please enter date as DD.MM.YYYY.", text_color="pink", font=("Roboto", 16))
+                                    error_label.grid(row=1, column=0, pady=10, padx=10)
+                                    Financetest.logtest.invalid_input("date format", date, "")
+                                    return
+                            elif date is None or date == "":
+                                if frame4 is None or not frame4.winfo_exists():
+                                    create_frame4(1, 2, window)
+                                error_label = customtkinter.CTkLabel(master=frame4, text="No date entered. Using current date: " + Financetest.current_date, text_color="pink", font=("Roboto", 16))
+                                error_label.grid(row=1, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("date")
+                                
+                            if category is not None and category != "":
+                                category = category.lower()
+                            elif category is None or category == "":
+                                if frame4 is None or not frame4.winfo_exists():
+                                    create_frame4(1, 2, window)
+                                error_label = customtkinter.CTkLabel(master=frame4, text="No category entered. Using default category: misc.", text_color="pink", font=("Roboto", 16))
+                                error_label.grid(row=2, column=0, pady=10, padx=10)
+                                Financetest.logtest.no_input("category")
+                                category = "misc."
 
-            button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: open_add_expense_window())
-            button3.grid(row=0, column=3, pady=10, padx=10, sticky="e")
+                            date = Financetest.current_date if not date else date
+                            Financetest.add_expense(amount, date, category)
+                            Financetest.logtest.add_expense(category, amount, date)
+
+                            last_savings = float(Financetest.find_last_savings_value(date))
+                            if date == Financetest.current_date:
+                                Financetest.update_savings(last_savings - float(amount), date)
+                            else:
+                                Financetest.add_saving(last_savings - float(amount), date)
+                                
+                            Financetest.logtest.update_savings(last_savings - float(amount), last_savings)
+
+                            item_id = Financetest.all_expense_lines[-1][1]
+
+                            table.insert(parent="", index=0, iid=item_id, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
+
+                        button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: open_add_expense_window())
+                        button3.grid(row=0, column=1, pady=10, padx=10, sticky="e")
 
 
-            table = ttk.Treeview(frame2, 
-                                columns=("Category", "Amount", "Day"), 
-                                show="headings", 
-                                height=len(Financetest.all_expense_lines) if len(Financetest.all_expense_lines) < 15 else 15,
-                                style="Treeview",
-                                selectmode='browse')
-            
-            vsb = ttk.Scrollbar(frame2, 
-                                orient="vertical", 
-                                style="TScrollbar",
-                                command=table.yview)
-            
-            table.configure(yscrollcommand=vsb.set)
-            
-            table.heading("Category", text="Category")
-            table.heading("Amount", text="Amount")
-            table.heading("Day", text="Day(date)")
-            table.tag_configure("oddrow", background="#333333")
-            table.tag_configure("evenrow", background="#232323")
-            table.tag_configure('fg', foreground='white')
-            
-            for i, x in enumerate(Financetest.all_expense_lines):
-                tag = "oddrow" if i % 2 == 0 else "evenrow"
-                item_id = x[1]
-                table.insert(parent="", index=0, iid=item_id, values=(x[3], x[0], x[2]), tags=('fg', tag))
-            
-            table.grid(row=0, column=0, sticky="nsew")
-            vsb.grid(row=0, column=1, sticky="ns")
-            
-            def open_add_expense_window():
-                # Open AddExpense window and pass GUItest's take_expense_data as the save callback
-                AddExpensetest.main(on_save=take_expense_data)
-                # Closes the extra process in the background
-                window.quit()
-            
-            def take_expense_data():
-                add_expense(AddExpensetest.get_category(), AddExpensetest.get_amount(), AddExpensetest.get_date())
-                AddExpensetest.window.destroy()
-            
-            def delete_expense(event=None):
-                x = table.selection()
-                if not x:
-                    return
-                
-                item_id = x[0]
-                Financetest.delete_expense(item_id)
-                table.delete(item_id)
-            
-            table.bind('<BackSpace>', delete_expense)
+                        table = ttk.Treeview(frame2, 
+                                            columns=("Category", "Amount", "Day"), 
+                                            show="headings", 
+                                            height=len(Financetest.all_expense_lines) if len(Financetest.all_expense_lines) < 15 else 15,
+                                            style="Treeview",
+                                            selectmode='browse')
+                        
+                        vsb = ttk.Scrollbar(frame2, 
+                                            orient="vertical", 
+                                            style="TScrollbar",
+                                            command=table.yview)
+                        
+                        table.configure(yscrollcommand=vsb.set)
+                        
+                        table.heading("Category", text="Category")
+                        table.heading("Amount", text="Amount")
+                        table.heading("Day", text="Day(date)")
+                        table.tag_configure("oddrow", background="#333333")
+                        table.tag_configure("evenrow", background="#232323")
+                        table.tag_configure('fg', foreground='white')
+                        
+                        for i, x in enumerate(Financetest.all_expense_lines):
+                            tag = "oddrow" if i % 2 == 0 else "evenrow"
+                            item_id = x[1]
+                            table.insert(parent="", index=0, iid=item_id, values=(x[3], x[0], x[2]), tags=('fg', tag))
+                        
+                        table.grid(row=0, column=0, sticky="nsew")
+                        vsb.grid(row=0, column=1, sticky="ns")
+                        
+                        def open_add_expense_window():
+                            # Open AddExpense window and pass GUItest's take_expense_data as the save callback
+                            AddExpensetest.main(on_save=take_expense_data)
+                            # Closes the extra process in the background
+                            window.quit()
+                        
+                        def take_expense_data():
+                            add_expense(AddExpensetest.get_category(), AddExpensetest.get_amount(), AddExpensetest.get_date())
+                            AddExpensetest.window.destroy()
+                        
+                        def delete_expense(event=None):
+                            x = table.selection()
+                            if not x:
+                                Financetest.logtest.dummy()
+                                return
+                            
+                            item_id = x[0]
+                            Financetest.delete_expense(item_id)
+                            table.delete(item_id)
+                        
+                        table.bind('<BackSpace>', delete_expense)
 
-        ###############################################################################################################
+                    case "Graph":
+                        create_frame2(1, 0, window)
+                        
+                        label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
+                        label3.grid(row=4, column=0, pady=10, padx=10)
 
-        case "Graph expenses":
+                        def month_selection(choice):
+                            
+                            if choice == "All months":
+                                fig = Financetest.monthly_expenses_graph()
+                            elif choice == "Current month":
+                                fig = Financetest.expenses_graph(float(Financetest.current_month))
+                            else:
+                                #Checks and creates an expense file for the selected month(graphs require expenses file to be there)
+                                Financetest.check_file(float("0" + choice), "expenses")
+                                
+                                fig = Financetest.expenses_graph(float(choice))
+                            canvas = FigureCanvasTkAgg(fig, master=frame2)
+                            canvas.draw()
+                            canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+
+                        month_selection("Current month")  # Show current month graph by default
+
+                        combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
+                        combobox2.grid(row=5, column=0, pady=10, padx=10)
+
+                    case "Pie Chart":
+                        pass
+
+            expense_selection("Table") # Show table by default
+
+            combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Table", "Graph", "Pie Chart"], command=expense_selection)
+            combobox2.grid(row=3, column=0, pady=10, padx=10)
+        
+        case "Logs":
             create_frame2(1, 0, window)
-            
-            label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
-            label3.grid(row=3, column=0, pady=10, padx=10)
 
+            text_widget = customtkinter.CTkTextbox(frame2, wrap="none", height=500, width=700, font=("Arial", 14))
+            text_widget.pack(padx=5, pady=5)
+
+            label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
+            label3.grid(row=4, column=0, pady=10, padx=10)
+
+            logs = []
             def month_selection(choice):
                 if choice == "All months":
-                    fig = Financetest.monthly_expenses_graph()
+                    logs = Financetest.get_logs("all")
                 elif choice == "Current month":
-                    fig = Financetest.expenses_graph(float(Financetest.current_month))
+                    logs = Financetest.get_logs(float(Financetest.current_month))
                 else:
-                    fig = Financetest.expenses_graph(float(choice))
-                canvas = FigureCanvasTkAgg(fig, master=frame2)
-                canvas.draw()
-                canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+                    logs = Financetest.get_logs(float(choice))
+                
+                text_widget.delete("1.0", "end") # Clears the text that was there before
+                # Adds the selected logs text
+                for log in logs:
+                    text_widget.insert(customtkinter.END, f"{log}\n\n")
+                
+                text_widget.see("end")
+                    
+            month_selection("Current month")  # Show current month graph by default
 
-            month_selection(Financetest.current_month)  # Show current month graph by default
-
-            combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
-            combobox2.grid(row=4, column=0, pady=10, padx=10)
+            combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_logs_months(), "All months"], command=month_selection)
+            combobox2.grid(row=5, column=0, pady=10, padx=10)
 
 ###############################################################################################################
 
@@ -729,8 +829,10 @@ def select(case):
             combobox2.grid(row=4, column=0, pady=10, padx=10)
 
 ###############################################################################################################
-combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", "Change values", "Projection calculations", "Interest", "Show expenses(table)", "Graph expenses", "Categories distribution"], command=select)
+combobox = customtkinter.CTkComboBox(master=frame1, values=["Expenses", "Savings", "Projection calculations", "Interest", "Change values", "Logs", "Categories distribution"], command=select)
 combobox.grid(row=2, column=0, pady=10, padx=10)
+
+select("Expenses")
 
 ###############################################################################################################
 def on_close():
