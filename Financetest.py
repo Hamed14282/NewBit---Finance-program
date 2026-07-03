@@ -363,7 +363,7 @@ def categories_distribution(month=None):
 
 
     ax.set_title("Categories")
-    ax.legend(legend_labels, loc="upper left", bbox_to_anchor=(-0.3, 1))
+    ax.legend(legend_labels, loc="upper left", bbox_to_anchor=(-0.3, 1), color='#d6d6d6')
     ax.set_ylabel("")
     return fig
 
