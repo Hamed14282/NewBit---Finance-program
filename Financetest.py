@@ -341,10 +341,10 @@ def write_lines(month, lines, type):
 def get_all_months():
     months = set()
 
-    files = glob.glob(f"data/{user}/*/*_expenses.csv")
+    files = glob.glob(f"data/{user}/*/*_savings.csv")
 
     for file_name in files:
-        month = os.path.basename(file_name).replace("_expenses.csv", "")
+        month = os.path.basename(file_name).replace("_savings.csv", "")
         months.add(month)
 
     return sorted(months, key=lambda x: datetime.strptime(x, "%m.%Y"))

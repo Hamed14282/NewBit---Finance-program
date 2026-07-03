@@ -34,51 +34,64 @@ def check_user_folder():
     if not os.path.exists(f"data/{user}"):
         os.makedirs(f"data/{user}")
 
-def get_all_users():
-    global users, users_list, key
-
-
-    #DECRYPT######################################################################
+def decrypt_file(path):
+    global key
     cypher = Fernet(key)
 
-    with open("data/users.csv", "rb") as encrypted_file:
+    with open(path, "rb") as encrypted_file:
         encrypted = encrypted_file.read()
 
     if not encrypted == b"":
         decrypted = cypher.decrypt(encrypted)
 
-        with open("data/users.csv", "wb") as decrypted_file:
+        with open(path, "wb") as decrypted_file:
             decrypted_file.write(decrypted)
+    else:
+        decrypted = b""
 
-    #######################################################################
+    return decrypted
 
+def encrypt_file(path):
+    global key
+    cypher = Fernet(key)
+
+    with open("data/users.csv", "rb") as decrypted_file:
+        decrypted = decrypted_file.read()
+
+    encrypted = cypher.encrypt(decrypted)
+
+    with open("data/users.csv", "wb") as encrypted_file:
+        encrypted_file.write(encrypted)
+
+def get_all_users():
+    global users, users_list, key
+
+
+    #DECRYPT###########################################
+
+    decrypted = decrypt_file("data/users.csv")
+
+    ###################################################
+    if not decrypted == b"":
         with open("data/users.csv", "r") as file:
                 reader = csv.reader(file)
                 for row in reader:
                     users.append(row)
                     users_list.append(row[0])
 
-    #REWRITE ENCRYPTED######################################################################
-        with open("data/users.csv", "wb") as encrypted_file:
-            encrypted_file.write(encrypted)
+    #REWRITE ENCRYPTED#################################
 
-    #######################################################################
+    encrypt_file("data/users.csv")
+
+    ###################################################
     
 def save_new_user(new_user):
     global users, key
     users.append(new_user)
 
-    #DECRYPT######################################################################
-    cypher = Fernet(key)
+    #DECRYPT###########################################
 
-    with open("data/users.csv", "rb") as encrypted_file:
-        encrypted = encrypted_file.read()
-
-    if not encrypted == b"":
-        decrypted = cypher.decrypt(encrypted)
-
-        with open("data/users.csv", "wb") as decrypted_file:
-            decrypted_file.write(decrypted)
+    decrypt_file("data/users.csv")
 
     #######################################################################
 
@@ -88,13 +101,7 @@ def save_new_user(new_user):
 
     #ENCRYPT######################################################################
 
-    with open("data/users.csv", "rb") as decrypted_file:
-        decrypted = decrypted_file.read()
-
-    encrypted = cypher.encrypt(decrypted)
-
-    with open("data/users.csv", "wb") as encrypted_file:
-        encrypted_file.write(encrypted)
+    encrypt_file("data/users.csv")
 
     #######################################################################
 

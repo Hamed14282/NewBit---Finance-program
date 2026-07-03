@@ -748,11 +748,15 @@ def select(case):
                         label3.grid(row=4, column=0, pady=10, padx=10)
 
                         def month_selection(choice):
+                            
                             if choice == "All months":
                                 fig = Financetest.monthly_expenses_graph()
                             elif choice == "Current month":
                                 fig = Financetest.expenses_graph(float(Financetest.current_month))
                             else:
+                                #Checks and creates an expense file for the selected month(graphs require expenses file to be there)
+                                Financetest.check_file(float("0" + choice), "expenses")
+                                
                                 fig = Financetest.expenses_graph(float(choice))
                             canvas = FigureCanvasTkAgg(fig, master=frame2)
                             canvas.draw()
