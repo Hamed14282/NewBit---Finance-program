@@ -738,8 +738,6 @@ def select(case):
                             table.delete(item_id)
                         
                         table.bind('<BackSpace>', delete_expense)
-                    
-                    ##########
 
                     case "Graph":
                         create_frame2(1, 0, window)
@@ -766,7 +764,10 @@ def select(case):
 
                         combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
                         combobox2.grid(row=5, column=0, pady=10, padx=10)
-            
+
+                    case "Pie Chart":
+                        pass
+
             expense_selection("Table") # Show table by default
 
             combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Table", "Graph", "Pie Chart"], command=expense_selection)
