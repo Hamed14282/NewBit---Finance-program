@@ -344,7 +344,7 @@ def categories_distribution(month=None):
     df_pie = df.groupby('D', as_index=False)['A'].sum()
     df_pie = df_pie.set_index('D')
 
-    fig, ax = plt.subplots(facecolor="#838383")
+    fig, ax = plt.subplots(facecolor="#212121")
     df_pie["A"].plot(
         kind="pie",
         ax=ax,
