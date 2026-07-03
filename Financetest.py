@@ -23,6 +23,12 @@ CHECKING
 -Check if data.txt is empty not throw an error
 -Check if the users list in users.csv matches with the available folders: delete users if not
 -Add synchronisation between data.txt and last savings value in *_savings.csv
+
+LOGS
+-Log when password is changed
+-When user is added
+-When user is deleted
+-When profile name is changed
 """
 
 #Number of constant variables in file

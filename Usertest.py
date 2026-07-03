@@ -146,23 +146,7 @@ def ask_password(current_user):
             window.destroy()
         
         else:
-            window1 = customtkinter.CTk()
-            window1.title("Error")
-            
-            frame1 = customtkinter.CTkFrame(master=window1)
-            frame1.grid(row=0, column=0, pady=5, padx=10)
-            
-            label1 = customtkinter.CTkLabel(master=frame1, text="Wrong password entered", font=("Arial", 20))
-            label1.grid(row=0, column=0, pady=5, padx=5)
-
-            def close():
-                # Closes every process
-                window.quit()
-                # Closes window
-                window.destroy()
-
-            window.protocol("WM_DELETE_WINDOW", close)
-            window1.mainloop()
+            popup_window("Error", "Wrong password entered")
 
     button1 = customtkinter.CTkButton(master=frame1, text="Login", command=lambda:pass_check(entry1.get()))
     button1.grid(row=0, column=2, pady=10, padx=10)
@@ -176,8 +160,53 @@ def ask_password(current_user):
     window.protocol("WM_DELETE_WINDOW", on_close)
     window.mainloop()
 
+def popup_window(type, message):
+    window1 = customtkinter.CTk()
+    window1.title(type)
+    
+    frame1 = customtkinter.CTkFrame(master=window1)
+    frame1.grid(row=0, column=0, pady=5, padx=10)
+    
+    label1 = customtkinter.CTkLabel(master=frame1, text=message, font=("Arial", 20))
+    label1.grid(row=0, column=0, pady=5, padx=5)
+
+    def close():
+        # Closes every process
+        window1.quit()
+        # Closes window
+        window1.destroy()
+
+    window1.protocol("WM_DELETE_WINDOW", close)
+    window1.mainloop()
+
+def check_password(user, old_pass, new_pass):
+    global users
+    pass1 = ""
+    
+    for user1 in users:
+        if user1[0] == user:
+            pass1 = user1[1]
+    
+    if not old_pass == pass1:
+        popup_window("Error", "Wrong password entered")
+
+    else:
+        change_password(user, new_pass)
+
+def change_password(user, new_pass):
+    global users
+    x = 0
+    for user1 in users:
+        if user1[0] == user:
+            users[x] = [user, new_pass]
+
+            popup_window("Info", "Password changed successfully")
+            break
+        
+        x += 1
+
 def choose():
-    global users, user
+    global users, user, temp_choice
     
     check_key()
     check_users_file()
@@ -196,6 +225,23 @@ def choose():
     label2.grid(row=1, column=0, pady=2, padx=10)
 
     def select(choice):
+
+        if frame1.grid_slaves(row=2, column=1):
+            for widget in frame1.grid_slaves(row=2, column=1):
+                widget.destroy()
+
+        if frame1.grid_slaves(row=2, column=2):
+            for widget in frame1.grid_slaves(row=2, column=2):
+                widget.destroy()
+
+        if frame1.grid_slaves(row=2, column=3):
+            for widget in frame1.grid_slaves(row=2, column=3):
+                widget.destroy()
+
+        if frame1.grid_slaves(row=3, column=2):
+            for widget in frame1.grid_slaves(row=3, column=2):
+                widget.destroy()
+
         match choice:
             case "Select Existing":
                 combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select-", *users_list], command=save)
@@ -234,15 +280,38 @@ def choose():
 
                 button1 = customtkinter.CTkButton(master=frame1, text="Login", command=on_login)
                 button1.grid(row=2, column=3, pady=10, padx=10)
+            
+            case "Delete User":
+                pass
+
+            case "Change Password":
+
+                combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select User-", *users_list], command=save)
+                combobox.grid(row=2, column=1, pady=10, padx=10)
+
+                entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter old password")
+                entry1.grid(row=2, column=2, pady=10, padx=10)
+
+                entry2 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter new password")
+                entry2.grid(row=3, column=2, pady=10, padx=10)
+
+                def change():
+                    old_password = entry1.get()
+                    new_password = entry2.get()
+
+                    check_password(temp_choice, old_password, new_password)
+
+                button1 = customtkinter.CTkButton(master=frame1, text="Apply", command=change)
+                button1.grid(row=2, column=3, pady=10, padx=10)
 
     if not users:
         select("Add New")
-        combobox = customtkinter.CTkComboBox(master=frame1, values=[ "Add New", "Select Existing"], command=select)
+        combobox = customtkinter.CTkComboBox(master=frame1, values=[ "Add New", "Select Existing", "Change Password", "Delete User"], command=select)
         combobox.grid(row=2, column=0, pady=10, padx=10)
 
     else:
         select("Select Existing") # Show list of existing users by default
-        combobox = customtkinter.CTkComboBox(master=frame1, values=["Select Existing", "Add New"], command=select)
+        combobox = customtkinter.CTkComboBox(master=frame1, values=["Select Existing", "Add New", "Change Password", "Delete User"], command=select)
         combobox.grid(row=2, column=0, pady=10, padx=10)
 
     def on_close():
