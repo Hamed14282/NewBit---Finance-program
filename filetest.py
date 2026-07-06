@@ -1,56 +1,54 @@
+import tkinter as tk
+from tkinter import ttk
 
-totalData = 2 #Number of variables in file
+root = tk.Tk()
+root.title("Merged Header Example")
 
-########################################################################################################
+# Create a frame for the merged header
+header_frame = ttk.Frame(root)
+header_frame.pack(fill="x")
 
-file = open("data.txt", "r")
+# Create the Treeview
+tree = ttk.Treeview(root, columns=("col1", "col2", "col3"), show="headings")
+tree.pack(fill="both", expand=True)
 
-lines = file.readlines()
+# Configure columns
+tree.heading("col1", text="A")
+tree.heading("col2", text="B")
+tree.heading("col3", text="C")
+tree.column("col1", width=50)
+tree.column("col2", width=50)
+tree.column("col3", width=50)
 
-file.close()
+# Create the merged header label
+# 'col1' + 'col2' are merged under "Merged Header"
+merged_label = ttk.Label(header_frame, text="Merged Header", font=("Arial", 10, "bold"))
+merged_label.pack(side="left")
 
-########################################################################################################
-"""
-file = open("data.txt", "w") #Open the file to make modifications
+# Create a frame for the merged header
+header_frame1 = ttk.Frame(root)
+header_frame1.pack(fill="x")
 
+# Create the Treeview
+tree1 = ttk.Treeview(root, columns=("col1", "col2", "col3"), show="headings")
+tree1.pack(fill="both", expand=True)
 
+# Configure columns
+tree1.heading("col1", text="A")
+tree1.heading("col2", text="B")
+tree1.heading("col3", text="C")
+tree1.column("col1", width=50)
+tree1.column("col2", width=50)
+tree1.column("col3", width=50)
 
-file.writelines(lines)
+# Create the merged header label
+# 'col1' + 'col2' are merged under "Merged Header"
+merged_label1 = ttk.Label(header_frame1, text="Merged Header1", font=("Arial", 10, "bold"))
+merged_label1.pack(side="left")
 
-file.close() #Close the file to save modifications
-"""
-########################################################################################################
+# Add a small spacer to align the second merged part if needed, 
+# or simply place the label above the specific columns visually.
+# For precise alignment, you might need to calculate pixel widths,
+# but visually stacking a label above the widget is the standard Tkinter approach.
 
-while len(lines) < totalData:
-    lines.append("\n")
-
-if lines[0].strip() == "":
-    initialIncome = float(input("Initial income missing, enter initial income: "))
-else:
-    initialIncome = float(lines[0].strip())
-
-if lines[1].strip() == "":
-    initialSavings = float(input("Initial savings missing, enter initial savings: "))
-else:
-    initialSavings = float(lines[1].strip())
-
-########################################################################################################
-
-file = open("data.txt", "w")
-
-lines[0] = str(initialIncome) + "\n"
-lines[1] = str(initialSavings) + "\n"
-
-file.writelines(lines)
-
-file.close()
-
-########################################################################################################
-
-file = open("data.txt") #Open the file to read it
-
-lines = file.readlines()
-
-print(lines[1])
-
-file.close() #Close at the end
+root.mainloop()   
