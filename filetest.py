@@ -49,3 +49,6 @@ tree.column("col3", width=50)
 # but visually stacking a label above the widget is the standard Tkinter approach.
 
 root.mainloop()   
+
+#maybe put everything in a function, then return the root
+# so in GUItest it would be Games_part = create_table(name, col1, col2)
