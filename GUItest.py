@@ -689,7 +689,7 @@ def select(case):
 
 
                         table = ttk.Treeview(frame2, 
-                                            columns=("Category", "Amount", "Day"), 
+                                            columns=("Category", "Expense (€)", "Date"), 
                                             show="headings", 
                                             height=len(Financetest.all_expense_lines) if len(Financetest.all_expense_lines) < 15 else 15,
                                             style="Treeview",
@@ -703,8 +703,8 @@ def select(case):
                         table.configure(yscrollcommand=vsb.set)
                         
                         table.heading("Category", text="Category")
-                        table.heading("Amount", text="Amount")
-                        table.heading("Day", text="Day(date)")
+                        table.heading("Expense (€)", text="Expense (€)")
+                        table.heading("Date", text="Date")
                         table.tag_configure("oddrow", background="#333333")
                         table.tag_configure("evenrow", background="#232323")
                         table.tag_configure('fg', foreground='white')
