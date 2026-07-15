@@ -117,7 +117,7 @@ def select(case):
     if frame3 is not None and frame3.winfo_exists():
         frame3.destroy()
     
-    global frame4
+    global frame4, frame1
     if frame4 is not None and frame4.winfo_exists():
         frame4.destroy()
     
@@ -764,6 +764,8 @@ def select(case):
 
                         combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
                         combobox2.grid(row=5, column=0, pady=10, padx=10)
+
+
 # ---------------------------------------------------------------------------------------------------------------------------
                     case "Pie Chart":
                         pass
@@ -793,6 +795,13 @@ def select(case):
                         # combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Table", "Graph", "Pie Chart"], command=expense_selection)
                         # combobox2.grid(row=3, column=0, pady=10, padx=10)
 # ---------------------------------------------------------------------------------------------------------------------------        
+######DO NOT DELETE
+            expense_selection("Table") # Show table by default
+
+            combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Table", "Graph", "Pie Chart"], command=expense_selection)
+            combobox2.grid(row=3, column=0, pady=10, padx=10)
+######DO NOT DELETE
+
         case "Logs":
             create_frame2(1, 0, window)
 
@@ -828,7 +837,7 @@ def select(case):
 
 
 ###############################################################################################################
-combobox = customtkinter.CTkComboBox(master=frame1, values=["Expenses", "Savings", "Projection calculations", "Interest", "Change values", "Logs", ], command=select)
+combobox = customtkinter.CTkComboBox(master=frame1, values=["Expenses", "Savings", "Projection calculations", "Interest", "Change values", "Logs"], command=select)
 combobox.grid(row=2, column=0, pady=10, padx=10)
 
 select("Expenses")
