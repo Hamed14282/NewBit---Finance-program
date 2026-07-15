@@ -55,7 +55,7 @@ from datetime import datetime
 from matplotlib.figure import Figure
 import logtest
 import pandas as pd
-from matplotlib import style 
+
 now = datetime.now()
 current_month = now.strftime("%m.%Y")
 current_day = now.strftime("%d")
@@ -311,19 +311,7 @@ def monthly_expenses_graph():
 
     return fig
 
-def get_all_lines(type):
-    all_lines = []
-
-    files = glob.glob(f"data/{user}/*/*_{type}.csv")
-
-    for file_name in files:
-        with open(file_name, "r") as f:
-            reader = csv.reader(f)
-            for row in reader:
-                all_lines.append(row)
-    return all_lines
-
-# -----------------------------------------------------
+########################################################################################################
 def categories_distribution(month=None):
     plt.style.use('seaborn-v0_8-darkgrid')
 
@@ -331,13 +319,13 @@ def categories_distribution(month=None):
         months = get_all_months()
         all_dfs = []
         for m in months:
-            filename = f"data/{m}_expenses.csv"
+            filename = f"data/{user}/{m}_expenses.csv"
             df = pd.read_csv(filename, header=None)
             df.columns = ["A", "B", "C", "D"]
             all_dfs.append(df)
         df = pd.concat(all_dfs)
     else:
-        filename = f"data/{month}_expenses.csv"
+        filename = f"data/{user}/{month}_expenses.csv"
         df = pd.read_csv(filename, header=None)
         df.columns = ["A", "B", "C", "D"]
 
@@ -361,9 +349,19 @@ def categories_distribution(month=None):
     ax.set_ylabel("")
     return fig
 
-# -----------------------------------------------------
+def get_all_lines(type):
+    all_lines = []
 
-def get_expense_lines(month):
+    files = glob.glob(f"data/{user}/*/*_{type}.csv")
+
+    for file_name in files:
+        with open(file_name, "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                all_lines.append(row)
+    return all_lines
+
+def get_lines(month, category, type):
     lines = []
     if type == "savings":
         check_file(month, "savings")
@@ -656,4 +654,4 @@ check_file(current_month, "savings")
 all_expense_lines = get_all_lines("expenses")
 all_savings_lines = get_all_lines("savings")
 
-########################################################################################################
+

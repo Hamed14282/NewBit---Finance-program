@@ -764,15 +764,35 @@ def select(case):
 
                         combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
                         combobox2.grid(row=5, column=0, pady=10, padx=10)
-
+# ---------------------------------------------------------------------------------------------------------------------------
                     case "Pie Chart":
                         pass
+                        # create_frame2(1, 0, window)
+                
+                        # label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
+                        # label3.grid(row=3, column=0, pady=10, padx=10)
 
-            expense_selection("Table") # Show table by default
+                        # def month_selection(choice):
+                        #     if choice == "All months":
+                        #         fig = Financetest.categories_distribution()
+                        #     elif choice == "Current month":
+                        #         fig = Financetest.categories_distribution(float(Financetest.current_month))
+                        #     else:
+                        #         fig = Financetest.categories_distribution(float(choice))
+                        #     canvas = FigureCanvasTkAgg(fig, master=frame2)
+                        #     canvas.draw()
+                        #     canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
 
-            combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Table", "Graph", "Pie Chart"], command=expense_selection)
-            combobox2.grid(row=3, column=0, pady=10, padx=10)
-        
+                        # month_selection(Financetest.current_month)
+
+                        # combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
+                        # combobox2.grid(row=4, column=0, pady=10, padx=10)
+
+                        # expense_selection("Table") # Show table by default
+
+                        # combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Table", "Graph", "Pie Chart"], command=expense_selection)
+                        # combobox2.grid(row=3, column=0, pady=10, padx=10)
+# ---------------------------------------------------------------------------------------------------------------------------        
         case "Logs":
             create_frame2(1, 0, window)
 
@@ -805,31 +825,10 @@ def select(case):
 
 ###############################################################################################################
 
-        case "Categories distribution":
-            create_frame2(1, 0, window)
-            Financetest.check_empty_files()
-    
-            label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
-            label3.grid(row=3, column=0, pady=10, padx=10)
 
-            def month_selection(choice):
-                if choice == "All months":
-                    fig = Financetest.categories_distribution()
-                elif choice == "Current month":
-                    fig = Financetest.categories_distribution(float(Financetest.current_month))
-                else:
-                    fig = Financetest.categories_distribution(float(choice))
-                canvas = FigureCanvasTkAgg(fig, master=frame2)
-                canvas.draw()
-                canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
-
-            month_selection(Financetest.current_month)
-
-            combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
-            combobox2.grid(row=4, column=0, pady=10, padx=10)
 
 ###############################################################################################################
-combobox = customtkinter.CTkComboBox(master=frame1, values=["Expenses", "Savings", "Projection calculations", "Interest", "Change values", "Logs", "Categories distribution"], command=select)
+combobox = customtkinter.CTkComboBox(master=frame1, values=["Expenses", "Savings", "Projection calculations", "Interest", "Change values", "Logs", ], command=select)
 combobox.grid(row=2, column=0, pady=10, padx=10)
 
 select("Expenses")
