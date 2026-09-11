@@ -9,6 +9,7 @@ users = []
 users_list = []
 temp_choice = ""
 key = ""
+decrypted = []
 
 def check_key():
     global key
@@ -35,7 +36,8 @@ def check_user_folder():
         os.makedirs(f"data/{user}")
 
 def decrypt_file(path):
-    global key
+    global key, decrypted
+    
     cypher = Fernet(key)
 
     with open(path, "rb") as encrypted_file:
@@ -64,10 +66,10 @@ def encrypt_file(path):
         encrypted_file.write(encrypted)
 
 def get_all_users():
-    global users, users_list, key
+    global users, users_list, key, decrypted
 
 
-    #DECRYPT###########################################
+    #DECRYPT########################################### not necessary?
 
     decrypted = decrypt_file("data/users.csv")
 
@@ -151,14 +153,31 @@ def check_password(user, old_pass):
 def change_password(user, new_pass):
     global users
     x = 0
+
     for user1 in users:
         if user1[0] == user:
             users[x] = [user, new_pass]
 
             popup_window("Info", "Password changed successfully")
-            break
+            
         
         x += 1
+
+    #DECRYPT###########################################
+
+    decrypt_file("data/users.csv")
+
+    #######################################################################
+
+    with open(f"data/users.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerows(users)
+
+    #ENCRYPT######################################################################
+
+    encrypt_file("data/users.csv")
+
+    #######################################################################
 
 def choose():
     global users, user, temp_choice
