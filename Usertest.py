@@ -158,9 +158,6 @@ def change_password(user, new_pass):
         if user1[0] == user:
             users[x] = [user, new_pass]
 
-            popup_window("Info", "Password changed successfully")
-            
-        
         x += 1
 
     #DECRYPT###########################################
@@ -178,6 +175,8 @@ def change_password(user, new_pass):
     encrypt_file("data/users.csv")
 
     #######################################################################
+    
+    popup_window("Info", "Password changed successfully")
 
 def choose():
     global users, user, temp_choice
