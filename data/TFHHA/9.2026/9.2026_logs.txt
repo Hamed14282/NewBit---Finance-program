@@ -1,0 +1,158 @@
+11.09.2026 - 20:33:56 |Auto| Created logs file for 9.2026
+11.09.2026 - 20:33:56 || Logged in as TFHHA
+11.09.2026 - 20:33:57 |Auto| Deleted data/TFHHA\7.2026\7.2026_expenses.csv file: empty
+11.09.2026 - 20:33:57 |Auto| Created expenses file for 9.2026
+11.09.2026 - 20:33:57 |Auto| Created savings file for 9.2026
+11.09.2026 - 20:33:57 |Auto| Increased savings amount from 1300.00 to 1863.00 euros by adding income of 563.0 euros for 01.09.2026
+11.09.2026 - 20:33:57 |Auto| Added savings of 1863.00 euros for 01.09.2026
+11.09.2026 - 20:34:30 || Logged out as TFHHA
+11.09.2026 - 20:44:13 || Logged in as TFHHA
+11.09.2026 - 20:44:13 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+11.09.2026 - 20:44:13 |Auto| Created expenses file for 9.2026
+11.09.2026 - 20:44:22 || Logged out as TFHHA
+11.09.2026 - 20:45:48 || Logged in as TFHHA
+11.09.2026 - 20:45:49 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+11.09.2026 - 20:45:49 |Auto| Created expenses file for 9.2026
+11.09.2026 - 20:46:50 || Logged out as TFHHA
+12.09.2026 - 17:27:49 || Logged in as TFHHA
+12.09.2026 - 17:27:49 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 17:27:49 |Auto| Created expenses file for 9.2026
+12.09.2026 - 17:28:04 || Logged out as TFHHA
+12.09.2026 - 17:29:31 || Logged in as TFHHA
+12.09.2026 - 17:29:31 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 17:29:32 |Auto| Created expenses file for 9.2026
+12.09.2026 - 17:29:45 || Logged out as TFHHA
+12.09.2026 - 17:36:43 || Logged in as TFHHA
+12.09.2026 - 17:36:43 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 17:36:43 |Auto| Created expenses file for 9.2026
+12.09.2026 - 17:37:01 || Logged out as TFHHA
+12.09.2026 - 18:12:46 || Logged in as TFHHA
+12.09.2026 - 18:12:46 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 18:12:46 |Auto| Created expenses file for 9.2026
+12.09.2026 - 18:12:56 || Logged out as TFHHA
+12.09.2026 - 19:13:00 || Logged in as TFHHA
+12.09.2026 - 19:13:00 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 19:13:00 |Auto| Created expenses file for 9.2026
+12.09.2026 - 19:31:20 || Logged in as TFHHA
+12.09.2026 - 19:31:20 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 19:31:20 |Auto| Created expenses file for 9.2026
+12.09.2026 - 19:32:32 || Logged out as TFHHA
+12.09.2026 - 19:33:50 || Logged out as TFHHA
+12.09.2026 - 19:37:41 || Logged in as TFHHA
+12.09.2026 - 19:37:41 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 19:37:41 |Auto| Created expenses file for 9.2026
+12.09.2026 - 19:37:52 || Logged out as TFHHA
+12.09.2026 - 19:41:26 || Logged in as TFHHA
+12.09.2026 - 19:41:26 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 19:41:27 |Auto| Created expenses file for 9.2026
+12.09.2026 - 19:43:47 || Logged out as TFHHA
+12.09.2026 - 19:44:23 || Logged in as TFHHA
+12.09.2026 - 19:44:24 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 19:44:24 |Auto| Created expenses file for 9.2026
+12.09.2026 - 19:46:41 || Logged out as TFHHA
+12.09.2026 - 19:46:58 || Logged in as TFHHA
+12.09.2026 - 19:46:58 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 19:46:58 |Auto| Created expenses file for 9.2026
+12.09.2026 - 19:49:34 || Logged out as TFHHA
+12.09.2026 - 19:51:04 || Logged in as TFHHA
+12.09.2026 - 19:51:04 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+12.09.2026 - 19:51:05 |Auto| Created expenses file for 9.2026
+12.09.2026 - 19:51:13 || Logged out as TFHHA
+14.09.2026 - 13:35:25 || Logged in as TFHHA
+14.09.2026 - 13:35:25 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 13:35:26 |Auto| Created expenses file for 9.2026
+14.09.2026 - 13:41:33 || Logged out as TFHHA
+14.09.2026 - 13:43:58 || Logged in as TFHHA
+14.09.2026 - 13:43:58 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 13:43:59 |Auto| Created expenses file for 9.2026
+14.09.2026 - 13:45:50 || Logged out as TFHHA
+14.09.2026 - 13:48:57 || Logged in as TFHHA
+14.09.2026 - 13:48:57 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 13:48:58 |Auto| Created expenses file for 9.2026
+14.09.2026 - 13:49:16 || Logged out as TFHHA
+14.09.2026 - 13:53:49 || Logged in as TFHHA
+14.09.2026 - 13:53:49 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 13:53:50 |Auto| Created expenses file for 9.2026
+14.09.2026 - 13:54:08 || Logged out as TFHHA
+14.09.2026 - 13:58:22 || Logged in as TFHHA
+14.09.2026 - 13:58:22 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 13:58:22 |Auto| Created expenses file for 9.2026
+14.09.2026 - 13:58:45 || Logged out as TFHHA
+14.09.2026 - 13:59:28 || Logged in as TFHHA
+14.09.2026 - 13:59:28 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 13:59:28 |Auto| Created expenses file for 9.2026
+14.09.2026 - 13:59:35 |Auto| Created expenses file for 7.2026
+14.09.2026 - 14:01:26 || Logged out as TFHHA
+14.09.2026 - 14:01:40 || Logged in as TFHHA
+14.09.2026 - 14:01:40 |Auto| Deleted data/TFHHA\7.2026\7.2026_expenses.csv file: empty
+14.09.2026 - 14:01:40 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 14:01:40 |Auto| Created expenses file for 9.2026
+14.09.2026 - 14:01:56 || Logged out as TFHHA
+14.09.2026 - 14:05:24 || Logged in as TFHHA
+14.09.2026 - 14:05:24 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 14:05:24 |Auto| Created expenses file for 9.2026
+14.09.2026 - 14:05:31 |Auto| Created expenses file for 7.2026
+14.09.2026 - 14:05:39 || Logged out as TFHHA
+14.09.2026 - 14:07:30 || Logged in as TFHHA
+14.09.2026 - 14:07:30 |Auto| Deleted data/TFHHA\7.2026\7.2026_expenses.csv file: empty
+14.09.2026 - 14:07:30 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 14:07:31 |Auto| Created expenses file for 9.2026
+14.09.2026 - 14:07:40 |Auto| Created expenses file for 7.2026
+14.09.2026 - 14:07:47 || Logged out as TFHHA
+14.09.2026 - 14:25:52 || Logged in as TFHHA
+14.09.2026 - 14:25:52 |Auto| Deleted data/TFHHA\7.2026\7.2026_expenses.csv file: empty
+14.09.2026 - 14:25:52 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 14:25:52 |Auto| Created expenses file for 9.2026
+14.09.2026 - 14:26:08 || Logged out as TFHHA
+14.09.2026 - 14:29:14 || Logged in as TFHHA
+14.09.2026 - 14:29:14 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 14:29:15 |Auto| Created expenses file for 9.2026
+14.09.2026 - 14:29:34 || Logged out as TFHHA
+14.09.2026 - 16:18:29 || Logged in as TFHHA
+14.09.2026 - 16:18:29 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 16:18:29 |Auto| Created expenses file for 9.2026
+14.09.2026 - 16:18:38 || Logged out as TFHHA
+14.09.2026 - 16:20:30 || Logged in as TFHHA
+14.09.2026 - 16:20:30 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 16:20:30 |Auto| Created expenses file for 9.2026
+14.09.2026 - 16:20:40 || Logged out as TFHHA
+14.09.2026 - 16:21:07 || Logged in as TFHHA
+14.09.2026 - 16:21:07 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 16:21:08 |Auto| Created expenses file for 9.2026
+14.09.2026 - 16:23:39 || Logged out as TFHHA
+14.09.2026 - 16:26:28 || Logged in as TFHHA
+14.09.2026 - 16:26:28 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 16:26:28 |Auto| Created expenses file for 9.2026
+14.09.2026 - 16:26:38 |Auto| Created expenses file for 7.2026
+14.09.2026 - 16:28:01 || Logged out as TFHHA
+15.09.2026 - 16:42:57 || Logged in as TFHHA
+15.09.2026 - 16:42:58 |Auto| Deleted data/TFHHA\7.2026\7.2026_expenses.csv file: empty
+15.09.2026 - 16:42:58 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+15.09.2026 - 16:42:58 |Auto| Created expenses file for 9.2026
+15.09.2026 - 16:43:11 |Auto| Created expenses file for 7.2026
+15.09.2026 - 16:43:56 || Logged out as TFHHA
+15.09.2026 - 16:45:44 || Logged in as TFHHA
+15.09.2026 - 16:45:44 |Auto| Deleted data/TFHHA\7.2026\7.2026_expenses.csv file: empty
+15.09.2026 - 16:45:44 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+15.09.2026 - 16:45:44 |Auto| Created expenses file for 9.2026
+15.09.2026 - 16:46:13 || Logged out as TFHHA
+15.09.2026 - 16:48:23 || Logged in as TFHHA
+15.09.2026 - 16:48:23 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+15.09.2026 - 16:48:23 |Auto| Created expenses file for 9.2026
+15.09.2026 - 16:48:40 |Auto| Created expenses file for 7.2026
+15.09.2026 - 16:49:18 || Logged out as TFHHA
+15.09.2026 - 16:50:31 || Logged in as TFHHA
+15.09.2026 - 16:50:31 |Auto| Deleted data/TFHHA\7.2026\7.2026_expenses.csv file: empty
+15.09.2026 - 16:50:31 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+15.09.2026 - 16:50:31 |Auto| Created expenses file for 9.2026
+15.09.2026 - 16:50:42 |Auto| Created expenses file for 7.2026
+15.09.2026 - 16:50:58 || Logged out as TFHHA
+15.09.2026 - 16:55:35 || Logged in as TFHHA
+15.09.2026 - 16:55:35 |Auto| Deleted data/TFHHA\7.2026\7.2026_expenses.csv file: empty
+15.09.2026 - 16:55:35 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+15.09.2026 - 16:55:35 |Auto| Created expenses file for 9.2026
+15.09.2026 - 16:58:52 || Logged out as TFHHA
+15.09.2026 - 17:18:58 || Logged in as TFHHA
+15.09.2026 - 17:18:58 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
+15.09.2026 - 17:18:58 |Auto| Created expenses file for 9.2026
+15.09.2026 - 17:21:00 || Logged out as TFHHA

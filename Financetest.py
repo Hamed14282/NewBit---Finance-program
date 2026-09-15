@@ -313,40 +313,82 @@ def monthly_expenses_graph():
 
 ########################################################################################################
 def categories_distribution(month=None):
-    plt.style.use('seaborn-v0_8-darkgrid')
 
-    if month is None:
-        months = get_all_months()
-        all_dfs = []
-        for m in months:
-            filename = f"data/{user}/{m}_expenses.csv"
-            df = pd.read_csv(filename, header=None)
-            df.columns = ["A", "B", "C", "D"]
-            all_dfs.append(df)
-        df = pd.concat(all_dfs)
+    if month == "All months" or month is None:
+
+        files = glob.glob(
+            f"data/{user}/*/*_expenses.csv"
+        )
+
     else:
-        filename = f"data/{user}/{month}_expenses.csv"
-        df = pd.read_csv(filename, header=None)
-        df.columns = ["A", "B", "C", "D"]
 
-    df_pie = df.groupby('D', as_index=False)['A'].sum()
-    df_pie = df_pie.set_index('D')
+        file_name = f"data/{user}/{month}/{month}_expenses.csv"
 
-    fig, ax = plt.subplots(facecolor="#212121")
-    df_pie["A"].plot(
+        files = [file_name]
+
+    df = pd.DataFrame()
+
+    for file_name in files:
+
+        temp_df = pd.read_csv(
+            file_name,
+            header=None,
+            names=["amount", "datetime", "date", "category"]
+        )
+
+        df = pd.concat(
+            [df, temp_df],
+            ignore_index=True
+        )
+
+    # Make sure amount is numeric
+    df["amount"] = pd.to_numeric(
+        df["amount"],
+        errors="coerce"
+    )
+
+    # Remove rows where amount could not be converted to a number
+    df = df.dropna(subset=["amount"])
+
+    df_pie = df.groupby(
+        "category",
+        as_index=False
+    )["amount"].sum()
+
+    df_pie = df_pie.set_index("category")
+
+    fig, ax = plt.subplots(figsize=(6, 4), facecolor="#232323")
+
+    df_pie["amount"].plot(
         kind="pie",
         ax=ax,
         labels=None,
         autopct=lambda pct: f"{pct:.1f}%" if pct > 5 else ""
     )
 
-    total = df_pie["A"].sum()
-    legend_labels = [f"{cat} ({val/total*100:.1f}%)" for cat, val in zip(df_pie.index, df_pie["A"])]
+    total = df_pie["amount"].sum()
 
+    legend_labels = [
+        f"{cat} ({val / total * 100:.1f}%)"
+        for cat, val in zip(
+            df_pie.index,
+            df_pie["amount"]
+        )
+    ]
 
-    ax.set_title("Categories")
-    ax.legend(legend_labels, loc="upper left", bbox_to_anchor=(-0.3, 1), color='#d6d6d6')
+    ax.set_title("Categories", color="#d6d6d6", fontsize=16)
+
+    ax.legend(
+    legend_labels,
+    loc="upper left",
+    bbox_to_anchor=(-0.5, 1),
+    facecolor="#232323",
+    edgecolor="#232323",
+    labelcolor="#d6d6d6"
+    )
+
     ax.set_ylabel("")
+
     return fig
 
 def get_all_lines(type):

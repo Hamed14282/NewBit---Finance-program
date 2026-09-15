@@ -1,0 +1,31 @@
+14.09.2026 - 13:28:46 |Auto| Created logs file for 9.2026
+14.09.2026 - 13:28:46 || Logged in as Butterfly
+14.09.2026 - 13:28:47 |Auto| Created expenses file for 9.2026
+14.09.2026 - 13:28:47 |Auto| Created savings file for 9.2026
+14.09.2026 - 13:28:47 |Auto| Increased savings amount from 53.00 to 616.00 euros by adding income of 563.0 euros for 01.09.2026
+14.09.2026 - 13:28:47 |Auto| Added savings of 616.00 euros for 01.09.2026
+14.09.2026 - 13:30:26 || Logged out as Butterfly
+14.09.2026 - 13:34:36 || Logged in as Butterfly
+14.09.2026 - 13:34:36 |Auto| Deleted data/Butterfly\9.2026\9.2026_expenses.csv file: empty
+14.09.2026 - 13:34:36 |Auto| Created expenses file for 9.2026
+14.09.2026 - 13:35:10 || Logged out as Butterfly
+15.09.2026 - 16:44:32 || Logged in as Butterfly
+15.09.2026 - 16:44:32 |Auto| Deleted data/Butterfly\9.2026\9.2026_expenses.csv file: empty
+15.09.2026 - 16:44:32 |Auto| Created expenses file for 9.2026
+15.09.2026 - 16:45:14 |Add Expense| Added expense: furniture, 15 euros, 03.09.2026
+15.09.2026 - 16:45:14 |Auto| Updated savings from 616.00 to 601.00 euros due to change in expense
+15.09.2026 - 16:45:29 || Logged out as Butterfly
+15.09.2026 - 17:05:03 || Logged in as Butterfly
+15.09.2026 - 17:05:56 |Add Expense| Added expense: decorations, 6 euros, 15.09.2026
+15.09.2026 - 17:05:56 |Auto| Updated savings from 601.00 to 595.00 euros due to change in expense
+15.09.2026 - 17:06:23 |Auto| Created expenses file for 8.2026
+15.09.2026 - 17:06:23 |Add Expense| Added expense: furniture, 80 euros, 15.08.2026
+15.09.2026 - 17:06:23 |Auto| Created savings file for 8.2026
+15.09.2026 - 17:06:23 |Auto| Added savings of 563.0 euros for 01.08.2026
+15.09.2026 - 17:06:23 |Auto| Updated savings from 563.00 to 483.00 euros due to change in expense
+15.09.2026 - 17:06:37 || Logged out as Butterfly
+15.09.2026 - 17:14:10 || Logged in as Butterfly
+15.09.2026 - 17:14:54 || Logged out as Butterfly
+15.09.2026 - 17:15:20 || Logged in as Butterfly
+15.09.2026 - 17:15:47 || Logged in as Butterfly
+15.09.2026 - 17:16:39 || Logged out as Butterfly

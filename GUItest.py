@@ -689,7 +689,7 @@ def select(case):
 
 
                         table = ttk.Treeview(frame2, 
-                                            columns=("Category", "Amount", "Day"), 
+                                            columns=("Category", "Expense (€)", "Date"), 
                                             show="headings", 
                                             height=len(Financetest.all_expense_lines) if len(Financetest.all_expense_lines) < 15 else 15,
                                             style="Treeview",
@@ -703,8 +703,8 @@ def select(case):
                         table.configure(yscrollcommand=vsb.set)
                         
                         table.heading("Category", text="Category")
-                        table.heading("Amount", text="Amount")
-                        table.heading("Day", text="Day(date)")
+                        table.heading("Expense (€)", text="Expense (€)")
+                        table.heading("Date", text="Date")
                         table.tag_configure("oddrow", background="#333333")
                         table.tag_configure("evenrow", background="#232323")
                         table.tag_configure('fg', foreground='white')
@@ -765,43 +765,50 @@ def select(case):
                         combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
                         combobox2.grid(row=5, column=0, pady=10, padx=10)
 
-
-# ---------------------------------------------------------------------------------------------------------------------------
                     case "Pie Chart":
-                        pass
-                        # create_frame2(1, 0, window)
-                
-                        # label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
-                        # label3.grid(row=3, column=0, pady=10, padx=10)
+                        create_frame2(1, 0, window)
+                                    
+                        label3 = customtkinter.CTkLabel(master=frame1, text="Select month:", font=("Roboto", 16))
+                        label3.grid(row=4, column=0, pady=10, padx=10)
 
-                        # def month_selection(choice):
-                        #     if choice == "All months":
-                        #         fig = Financetest.categories_distribution()
-                        #     elif choice == "Current month":
-                        #         fig = Financetest.categories_distribution(float(Financetest.current_month))
-                        #     else:
-                        #         fig = Financetest.categories_distribution(float(choice))
-                        #     canvas = FigureCanvasTkAgg(fig, master=frame2)
-                        #     canvas.draw()
-                        #     canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+                        def month_selection(choice):
 
-                        # month_selection(Financetest.current_month)
+                            if choice == "All months":
 
-                        # combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
-                        # combobox2.grid(row=4, column=0, pady=10, padx=10)
+                                fig = Financetest.categories_distribution("All months")
 
-                        # expense_selection("Table") # Show table by default
+                            elif choice == "Current month":
 
-                        # combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Table", "Graph", "Pie Chart"], command=expense_selection)
-                        # combobox2.grid(row=3, column=0, pady=10, padx=10)
-# ---------------------------------------------------------------------------------------------------------------------------        
-######DO NOT DELETE
+                                current_month = str(Financetest.current_month)
+
+                                month, year = current_month.split(".")
+
+                                current_month = f"{int(month)}.{year}"
+
+                                fig = Financetest.categories_distribution(current_month)
+
+                            else:
+
+                                fig = Financetest.categories_distribution(choice)
+
+                            canvas = FigureCanvasTkAgg(fig, master=frame2)
+                            canvas.draw()
+                            canvas.get_tk_widget().grid(
+                                row=0,
+                                column=0,
+                                sticky="nsew"
+                            )
+
+                        month_selection("Current month")  # Show current month graph by default
+
+                        combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
+                        combobox2.grid(row=5, column=0, pady=10, padx=10)
+
             expense_selection("Table") # Show table by default
 
             combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Table", "Graph", "Pie Chart"], command=expense_selection)
             combobox2.grid(row=3, column=0, pady=10, padx=10)
-######DO NOT DELETE
-
+        
         case "Logs":
             create_frame2(1, 0, window)
 
