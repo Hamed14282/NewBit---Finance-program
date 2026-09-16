@@ -54,6 +54,7 @@ import numpy as np
 from datetime import datetime
 from matplotlib.figure import Figure
 import logtest
+import pandas as pd
 
 now = datetime.now()
 current_month = now.strftime("%m.%Y")
@@ -309,6 +310,89 @@ def monthly_expenses_graph():
     ax.grid(True)
 
     return fig
+
+########################################################################################################
+
+def categories_distribution(month=None):
+
+    if month == "All months" or month is None:
+
+        files = glob.glob(
+            f"data/{user}/*/*_expenses.csv"
+        )
+
+    else:
+
+        file_name = f"data/{user}/{month}/{month}_expenses.csv"
+
+        files = [file_name]
+
+    df = pd.DataFrame()
+
+    for file_name in files:
+
+        temp_df = pd.read_csv(
+            file_name,
+            header=None,
+            names=["amount", "datetime", "date", "category"]
+        )
+
+        df = pd.concat(
+            [df, temp_df],
+            ignore_index=True
+        )
+
+    # Make sure amount is numeric
+    df["amount"] = pd.to_numeric(
+        df["amount"],
+        errors="coerce"
+    )
+
+    # Remove rows where amount could not be converted to a number
+    df = df.dropna(subset=["amount"])
+
+    df_pie = df.groupby(
+        "category",
+        as_index=False
+    )["amount"].sum()
+
+    df_pie = df_pie.set_index("category")
+
+    fig, ax = plt.subplots(figsize=(6, 4), facecolor="#232323")
+
+    df_pie["amount"].plot(
+        kind="pie",
+        ax=ax,
+        labels=None,
+        autopct=lambda pct: f"{pct:.1f}%" if pct > 5 else ""
+    )
+
+    total = df_pie["amount"].sum()
+
+    legend_labels = [
+        f"{cat} ({val / total * 100:.1f}%)"
+        for cat, val in zip(
+            df_pie.index,
+            df_pie["amount"]
+        )
+    ]
+
+    ax.set_title("Categories", color="#d6d6d6", fontsize=16)
+
+    ax.legend(
+    legend_labels,
+    loc="upper left",
+    bbox_to_anchor=(-0.5, 1),
+    facecolor="#232323",
+    edgecolor="#232323",
+    labelcolor="#d6d6d6"
+    )
+
+    ax.set_ylabel("")
+
+    return fig
+
+########################################################################################################
 
 def get_all_lines(type):
     all_lines = []
