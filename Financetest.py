@@ -7,6 +7,7 @@ Allow the user to select profiles (different users with different data files)
 -Allow users to change profile passwords (after confirming old passwords)
 -Allow users to delete profiles
 -Allow changing profiles from main page
+-Add a line in the expense graph to show the average expense during that month (per day? or based on the number of days before the point of reference?)
 
 Ability to change themes
 Make expense table editable
@@ -15,6 +16,7 @@ Make the format of logs better on the eyes
 CATEGORIES
 -Allow the data in the table to be categorized by user defined categories (food, transport, etc.)
 -Create a graph of expenses by category (pie chart)
+-Add a dropdown menu (like month selection) to choose from a list of existing categories (that the user wrote before) when adding an expense (instead of typing it in manually)
 
 UPDATING
 -Table update after adding expense (Oragnize the data in the table per month?)
@@ -26,8 +28,6 @@ CHECKING
 
 LOGS
 -Log when password is changed
--When user is added
--When user is deleted
 -When profile name is changed
 """
 
