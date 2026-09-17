@@ -333,22 +333,23 @@ def categories_distribution(month=None):
         temp_df = pd.read_csv(
             file_name,
             header=None,
-            names=["amount", "datetime", "date", "category"]
+            names=["amount", "datetime", "date", "category"],
+            dtype={"category": str}
         )
 
         df = pd.concat(
             [df, temp_df],
             ignore_index=True
         )
-
-    # Make sure amount is numeric
     df["amount"] = pd.to_numeric(
         df["amount"],
         errors="coerce"
     )
 
-    # Remove rows where amount could not be converted to a number
     df = df.dropna(subset=["amount"])
+
+    if df.empty:
+        return None
 
     df_pie = df.groupby(
         "category",
@@ -356,7 +357,7 @@ def categories_distribution(month=None):
     )["amount"].sum()
 
     df_pie = df_pie.set_index("category")
-
+    
     fig, ax = plt.subplots(figsize=(6, 4), facecolor="#232323")
 
     df_pie["amount"].plot(
