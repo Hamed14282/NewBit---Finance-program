@@ -1,4 +1,5 @@
 #pyinstaller --onefile --name Sepo --noconsole GUItest.py
+#auto-py-to-exe
 
 """ 
 TODO
