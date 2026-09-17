@@ -773,6 +773,10 @@ def select(case):
 
                         def month_selection(choice):
 
+                            # Clear previous graph/text
+                            for widget in frame2.winfo_children():
+                                widget.destroy()
+
                             if choice == "All months":
 
                                 fig = Financetest.categories_distribution("All months")
@@ -780,9 +784,7 @@ def select(case):
                             elif choice == "Current month":
 
                                 current_month = str(Financetest.current_month)
-
                                 month, year = current_month.split(".")
-
                                 current_month = f"{int(month)}.{year}"
 
                                 fig = Financetest.categories_distribution(current_month)
@@ -791,18 +793,38 @@ def select(case):
 
                                 fig = Financetest.categories_distribution(choice)
 
+                            # Check if there is data
+                            if fig is None:
+
+                                label_no_data = customtkinter.CTkLabel(
+                                    master=frame2,
+                                    text="No data available",
+                                    font=("Roboto", 18)
+                                )
+
+                                label_no_data.grid(
+                                    row=0,
+                                    column=0,
+                                    padx=20,
+                                    pady=20
+                                )
+
+                                return
+
+                            # Display graph
                             canvas = FigureCanvasTkAgg(fig, master=frame2)
                             canvas.draw()
+
                             canvas.get_tk_widget().grid(
                                 row=0,
                                 column=0,
                                 sticky="nsew"
                             )
 
-                        month_selection("Current month")  # Show current month graph by default
-
                         combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Current month", *Financetest.get_all_months(), "All months"], command=month_selection)
                         combobox2.grid(row=5, column=0, pady=10, padx=10)
+
+                        month_selection("Current month")  # Show current month graph by default                                                                                     
 
             expense_selection("Table") # Show table by default
 
