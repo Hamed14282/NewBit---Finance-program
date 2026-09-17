@@ -586,6 +586,8 @@ def validate_date(date_str):
 
 ########################################################################################################
 
+check_data_folder()
+
 logtest.Usertest.choose()
 user = logtest.Usertest.get_user()
 
@@ -596,7 +598,6 @@ if user == "" or user == None:
 check_file(current_month, "logs")
 logtest.login("logged in")
 
-check_data_folder()
 check_empty_files()
 check_data_file()
 
