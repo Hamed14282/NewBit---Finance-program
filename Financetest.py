@@ -322,7 +322,8 @@ def categories_distribution(month=None):
         )
 
     else:
-
+        check_file(month, "expenses")
+        
         file_name = f"data/{user}/{month}/{month}_expenses.csv"
 
         files = [file_name]
