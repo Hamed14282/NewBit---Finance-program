@@ -81,6 +81,9 @@ def check_user_id():
 
 def get_all_users():
     global users, users_list, user_ids_list, key, decrypted
+    users = []
+    users_list = []
+    user_ids_list = []
 
 
     #DECRYPT########################################### not necessary?
@@ -193,6 +196,41 @@ def change_password(user, new_pass):
     
     popup_window("Info", "Password changed successfully")
 
+    #Add log for changing password
+
+def change_username(old_username, new_username):
+    global users
+    x = 0
+
+    for user1 in users:
+        if user1[0] == old_username:
+            user1[0] = new_username
+            users[x] = user1
+
+        x += 1
+
+    #DECRYPT###########################################
+
+    decrypt_file("data/users.csv")
+
+    #######################################################################
+
+    with open(f"data/users.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerows(users)
+
+    #ENCRYPT######################################################################
+
+    encrypt_file("data/users.csv")
+
+    #######################################################################
+    
+    popup_window("Info", "Username changed successfully")
+
+    get_all_users()
+
+    #Add log for changing username
+
 def gen_id(r):
 
     id = ""
@@ -273,7 +311,7 @@ def choose():
                 button1 = customtkinter.CTkButton(master=frame1, text="Login", command=on_login)
                 button1.grid(row=2, column=3, pady=10, padx=10)
 
-            case "Add New":
+            case "Create New":
                 entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter new user")
                 entry1.grid(row=2, column=1, pady=10, padx=10)
 
@@ -302,8 +340,24 @@ def choose():
                 button1 = customtkinter.CTkButton(master=frame1, text="Login", command=on_login)
                 button1.grid(row=2, column=3, pady=10, padx=10)
             
-            case "Delete User":
-                pass
+            case "Change Profile Name":
+                global temp_choice
+
+                combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select User-", *users_list], command=save)
+                combobox.grid(row=2, column=1, pady=10, padx=10)
+
+                entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter new profile name")
+                entry1.grid(row=2, column=2, pady=10, padx=10)
+
+                def change():
+                    old_username = temp_choice
+                    new_username = entry1.get()
+
+                    change_username(old_username, new_username)
+
+                button1 = customtkinter.CTkButton(master=frame1, text="Apply", command=change)
+                button1.grid(row=2, column=3, pady=10, padx=10)
+
 
             case "Change Password":
 
@@ -326,14 +380,18 @@ def choose():
                 button1 = customtkinter.CTkButton(master=frame1, text="Apply", command=change)
                 button1.grid(row=2, column=3, pady=10, padx=10)
 
+
+            case "Delete User":
+                pass
+
     if not users:
         select("Add New")
-        combobox = customtkinter.CTkComboBox(master=frame1, values=[ "Add New", "Select Existing", "Change Password", "Delete User"], command=select)
+        combobox = customtkinter.CTkComboBox(master=frame1, values=[ "Create New", "Select Existing", "Change Profile Name", "Change Password", "Delete User"], command=select)
         combobox.grid(row=2, column=0, pady=10, padx=10)
 
     else:
         select("Select Existing") # Show list of existing users by default
-        combobox = customtkinter.CTkComboBox(master=frame1, values=["Select Existing", "Add New", "Change Password", "Delete User"], command=select)
+        combobox = customtkinter.CTkComboBox(master=frame1, values=["Select Existing", "Create New", "Change Profile Name", "Change Password", "Delete User"], command=select)
         combobox.grid(row=2, column=0, pady=10, padx=10)
 
     def on_close():
