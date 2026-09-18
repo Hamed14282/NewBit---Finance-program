@@ -50,3 +50,16 @@
 16.09.2026 - 16:25:49 |Auto| Deleted data/TFHHA\9.2026\9.2026_expenses.csv file: empty
 16.09.2026 - 16:25:49 |Auto| Created expenses file for 9.2026
 16.09.2026 - 16:29:36 || Logged out as TFHHA
+18.09.2026 - 12:58:39 || Logged in as TFHHA
+18.09.2026 - 12:58:39 |Auto| Deleted data/Gw4l229rUBjRxNX\9.2026\9.2026_expenses.csv file: empty
+18.09.2026 - 12:58:39 |Auto| Created expenses file for 9.2026
+18.09.2026 - 12:58:58 || Logged out as TFHHA
+18.09.2026 - 13:02:04 || Logged in as TFHHA
+18.09.2026 - 13:02:04 |Auto| Deleted data/Gw4l229rUBjRxNX\9.2026\9.2026_expenses.csv file: empty
+18.09.2026 - 13:02:04 |Auto| Created expenses file for 9.2026
+18.09.2026 - 13:02:21 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 13:02:21 |Add Expense| Added expense: something, 300 euros, 18.09.2026
+18.09.2026 - 13:02:21 |Auto| Updated savings from 1863.00 to 1563.00 euros due to change in expense
+18.09.2026 - 13:02:56 || Logged out as TFHHA
+18.09.2026 - 13:03:08 || Logged in as TFHHA
+18.09.2026 - 13:03:20 || Logged out as TFHHA

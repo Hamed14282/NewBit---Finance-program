@@ -110,8 +110,8 @@ def check_file(month, type):
         format = ".txt"
 
     
-    if not os.path.exists(f"data/{user}/{float(month)}/{float(month)}_{type}{format}"):
-        file = open(f"data/{user}/{float(month)}/{float(month)}_{type}{format}", "x")
+    if not os.path.exists(f"data/{user_id}/{float(month)}/{float(month)}_{type}{format}"):
+        file = open(f"data/{user_id}/{float(month)}/{float(month)}_{type}{format}", "x")
         file.close()
         logtest.create_file(type, float(month))
         if type == "savings":
@@ -127,12 +127,12 @@ def check_file(month, type):
 def check_data_file():
     global income, savings, spendings
     
-    if not os.path.exists(f"data/{user}/data.txt"):
-        file = open(f"data/{user}/data.txt", "x")
+    if not os.path.exists(f"data/{user_id}/data.txt"):
+        file = open(f"data/{user_id}/data.txt", "x")
         file.close()
 
 def get_main_data():
-    with open(f"data/{user}/data.txt", "r") as f:
+    with open(f"data/{user_id}/data.txt", "r") as f:
             lines = f.readlines()
             if lines == None or lines == "":
                 income = float(lines[0].strip())
@@ -140,7 +140,7 @@ def get_main_data():
                 spendings = float(lines[2].strip())
                 
 def check_empty_files():
-    files = glob.glob(f"data/{user}/*/*_expenses.csv") + glob.glob(f"data/{user}/*/*_savings.csv") + glob.glob(f"data/{user}/*/*_logs.txt")
+    files = glob.glob(f"data/{user_id}/*/*_expenses.csv") + glob.glob(f"data/{user_id}/*/*_savings.csv") + glob.glob(f"data/{user_id}/*/*_logs.txt")
 
     for file_name in files:
         with open(file_name, "r") as f:
@@ -151,8 +151,8 @@ def check_empty_files():
             logtest.delete_empty_file(file_name)
 
 def check_month_folder(month):
-    if not os.path.exists(f"data/{user}/{float(month)}"):
-        os.makedirs(f"data/{user}/{float(month)}")
+    if not os.path.exists(f"data/{user_id}/{float(month)}"):
+        os.makedirs(f"data/{user_id}/{float(month)}")
 
 def check_data_folder():
     if not os.path.exists("data"):
@@ -261,7 +261,7 @@ def monthly_expenses_graph():
     temp = [] # to store different values of the same month and check which is the leatest
     savings_values = [] # to store the last savings value of each month
 
-    files = glob.glob(f"data/{user}/*/*_expenses.csv")
+    files = glob.glob(f"data/{user_id}/*/*_expenses.csv")
 
     for file_name in files:
         month = os.path.basename(file_name).replace("_expenses.csv", "")
@@ -274,7 +274,7 @@ def monthly_expenses_graph():
 
         exp[month] = total
 
-    files = glob.glob(f"data/{user}/*/*_savings.csv")
+    files = glob.glob(f"data/{user_id}/*/*_savings.csv")
 
     for file_name in files:
         month = os.path.basename(file_name).replace("_savings.csv", "")
@@ -319,13 +319,13 @@ def categories_distribution(month=None):
     if month == "All months" or month is None:
 
         files = glob.glob(
-            f"data/{user}/*/*_expenses.csv"
+            f"data/{user_id}/*/*_expenses.csv"
         )
 
     else:
         check_file(month, "expenses")
         
-        file_name = f"data/{user}/{month}/{month}_expenses.csv"
+        file_name = f"data/{user_id}/{month}/{month}_expenses.csv"
 
         files = [file_name]
 
@@ -400,7 +400,7 @@ def categories_distribution(month=None):
 def get_all_lines(type):
     all_lines = []
 
-    files = glob.glob(f"data/{user}/*/*_{type}.csv")
+    files = glob.glob(f"data/{user_id}/*/*_{type}.csv")
 
     for file_name in files:
         with open(file_name, "r") as f:
@@ -415,26 +415,26 @@ def get_lines(month, category, type):
         check_file(month, "savings")
 
     if category == "":       
-            with open(f"data/{user}/{float(month)}/{float(month)}_{type}.csv", "r") as file:
+            with open(f"data/{user_id}/{float(month)}/{float(month)}_{type}.csv", "r") as file:
                 reader = csv.reader(file)
                 for row in reader:
                     lines.append(row)
     else:
-        with open(f"data/{user}/{float(month)}/{float(month)}_{category}_{type}.csv", "r") as file:
+        with open(f"data/{user_id}/{float(month)}/{float(month)}_{category}_{type}.csv", "r") as file:
                 reader = csv.reader(file)
                 for row in reader:
                     lines.append(row)
     return lines
 
 def write_lines(month, lines, type):
-    with open(f"data/{user}/{float(month)}/{float(month)}_{type}.csv", "w", newline="") as file:
+    with open(f"data/{user_id}/{float(month)}/{float(month)}_{type}.csv", "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(lines)
 
 def get_all_months():
     months = set()
 
-    files = glob.glob(f"data/{user}/*/*_savings.csv")
+    files = glob.glob(f"data/{user_id}/*/*_savings.csv")
 
     for file_name in files:
         month = os.path.basename(file_name).replace("_savings.csv", "")
@@ -446,7 +446,7 @@ def get_logs(month):
     logs = []
 
     if month == "all":
-        files = glob.glob(f"data/{user}/*/*_logs.txt")
+        files = glob.glob(f"data/{user_id}/*/*_logs.txt")
         for file in files:
             with open(file, "r", encoding="utf-8") as file:
                 for row in file:
@@ -457,7 +457,7 @@ def get_logs(month):
         return logs
     
     else:
-        with open(f"data/{user}/{month}/{month}_logs.txt", "r", encoding="utf-8") as file:
+        with open(f"data/{user_id}/{month}/{month}_logs.txt", "r", encoding="utf-8") as file:
             for row in file:
                 logs.append(row.strip())
 
@@ -468,7 +468,7 @@ def get_logs(month):
 def get_logs_months():
     months = set()
 
-    files = glob.glob(f"data/{user}/*/*_logs.txt")
+    files = glob.glob(f"data/{user_id}/*/*_logs.txt")
 
     for file_name in files:
         month = os.path.basename(file_name).replace("_logs.txt", "")
@@ -541,25 +541,25 @@ def delete_expense(id):
     all_expense_lines.remove(line)
 
 def save_data():
-    with open(f"data/{user}/data.txt", "w") as file:
+    with open(f"data/{user_id}/data.txt", "w") as file:
         lines[0] = str(income) + "\n"
         lines[1] = str(savings) + "\n"
         lines[2] = str(spendings) + "\n"
         file.writelines(lines)
 
 def save_income():
-    with open(f"data/{user}/data.txt", "w") as file:
+    with open(f"data/{user_id}/data.txt", "w") as file:
         lines[0] = str(income) + "\n"
         file.writelines(lines)
     
 def save_savings(date):
-    with open(f"data/{user}/data.txt", "w") as file:
+    with open(f"data/{user_id}/data.txt", "w") as file:
         lines[1] = str(savings) + "\n"
         file.writelines(lines)
     add_saving(savings, date)
 
 def save_spendings():
-    with open(f"data/{user}/data.txt", "w") as file:
+    with open(f"data/{user_id}/data.txt", "w") as file:
         lines[2] = str(spendings) + "\n"
         file.writelines(lines)
 
@@ -590,11 +590,14 @@ def validate_date(date_str):
 check_data_folder()
 
 logtest.Usertest.choose()
+
 user = logtest.Usertest.get_user()
 
 # Closes the program if no user is selected
 if user == "" or user == None:
     sys.exit()
+
+user_id = logtest.Usertest.get_user_id()
 
 check_file(current_month, "logs")
 logtest.login("logged in")
@@ -605,7 +608,7 @@ check_data_file()
 ########################################################################################################
 
 #read at retrieve main data
-with open(f"data/{user}/data.txt", "r") as file:
+with open(f"data/{user_id}/data.txt", "r") as file:
     lines = file.readlines()
 
 ########################################################################################################

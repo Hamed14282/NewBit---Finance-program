@@ -1,5 +1,6 @@
 import csv
 import os
+import random
 from cryptography.fernet import Fernet
 
 import customtkinter
@@ -7,6 +8,8 @@ import customtkinter
 user = ""
 users = []
 users_list = []
+user_id = ""
+user_ids_list = []
 temp_choice = ""
 key = ""
 decrypted = []
@@ -22,8 +25,12 @@ def check_key():
 
 def get_user():
     global user
-    user1 = user
-    return user1
+    return user
+
+def get_user_id():
+    global user_id
+    check_user_id()
+    return user_id
 
 def check_users_file():
     if not os.path.exists("data/users.csv"):
@@ -31,9 +38,9 @@ def check_users_file():
         file.close()
 
 def check_user_folder():
-    global user
-    if not os.path.exists(f"data/{user}"):
-        os.makedirs(f"data/{user}")
+    global user_id
+    if not os.path.exists(f"data/{user_id}"):
+        os.makedirs(f"data/{user_id}")
 
 def decrypt_file(path):
     global key, decrypted
@@ -65,8 +72,15 @@ def encrypt_file(path):
     with open("data/users.csv", "wb") as encrypted_file:
         encrypted_file.write(encrypted)
 
+def check_user_id():
+    global user_id, users
+
+    for user1 in users:
+        if user1[0] == user:
+            user_id = user1[2]
+
 def get_all_users():
-    global users, users_list, key, decrypted
+    global users, users_list, user_ids_list, key, decrypted
 
 
     #DECRYPT########################################### not necessary?
@@ -80,6 +94,7 @@ def get_all_users():
                 for row in reader:
                     users.append(row)
                     users_list.append(row[0])
+                    user_ids_list.append(row[2])
 
     #REWRITE ENCRYPTED#################################
 
@@ -178,6 +193,27 @@ def change_password(user, new_pass):
     
     popup_window("Info", "Password changed successfully")
 
+def gen_id(r):
+
+    id = ""
+
+    set = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+    
+    for i in range(r):
+        random_num = random.randint(0, len(set)-1)
+        id += str(set[random_num])
+
+    return id
+
+def check_id(id):
+    global user_ids_list
+
+    for name in user_ids_list:
+        if name == id:
+            return True
+
+        return False
+
 def choose():
     global users, user, temp_choice
     
@@ -241,14 +277,20 @@ def choose():
                 entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter new user")
                 entry1.grid(row=2, column=1, pady=10, padx=10)
 
-                entry2 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter password")
+                entry2 = customtkinter.CTkEntry(master=frame1, placeholder_text="Create password")
                 entry2.grid(row=2, column=2, pady=10, padx=10)
 
                 def on_login():
+                    id = gen_id(15)
+
+                    while check_id(id) == True:
+                        id = gen_id(15)
+
+
                     new_user_value = entry1.get()
                     password = entry2.get()
 
-                    save_new_user([new_user_value, password])
+                    save_new_user([new_user_value, password, id])
                     save_selection(new_user_value)
                     check_user_folder()
 
