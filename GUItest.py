@@ -658,9 +658,9 @@ def select(case):
                                 error_label.grid(row=1, column=0, pady=10, padx=10)
                                 Financetest.logtest.no_input("date")
                                 
-                            if category is not None and category != "":
+                            if category is not None and category != "" and category != "Enter Category (misc.)":
                                 category = category.lower()
-                            elif category is None or category == "":
+                            elif category is None or category == "" or category == "Enter Category (misc.)":
                                 if frame4 is None or not frame4.winfo_exists():
                                     create_frame4(1, 2, window)
                                 error_label = customtkinter.CTkLabel(master=frame4, text="No category entered. Using default category: misc.", text_color="pink", font=("Roboto", 16))
@@ -684,7 +684,7 @@ def select(case):
 
                             table.insert(parent="", index=0, iid=item_id, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
 
-                        button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: open_add_expense_window())
+                        button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: open_add_expense_window(), )
                         button3.grid(row=0, column=1, pady=10, padx=10, sticky="e")
 
 
@@ -719,7 +719,8 @@ def select(case):
                         
                         def open_add_expense_window():
                             # Open AddExpense window and pass GUItest's take_expense_data as the save callback
-                            AddExpensetest.main(on_save=take_expense_data)
+                            AddExpensetest.main(all_categories=Financetest.get_all_categories(), on_save=take_expense_data)
+
                             # Closes the extra process in the background
                             window.quit()
                         

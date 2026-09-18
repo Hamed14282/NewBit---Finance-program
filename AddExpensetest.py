@@ -4,18 +4,27 @@ from datetime import datetime
 # Module-level references so other modules can access the window, frame and getters
 window = None
 frame1 = None
+temp_category = ""
 
 now = datetime.now()
 current_date = now.strftime("%d.%m.%Y")
 
-def main(on_save=None):
+def save_category(select):
+    global temp_category
+    temp_category = select
+
+
+def main(all_categories=None, on_save=None):
+    global window, frame1, entry_cat, entry_amt, entry_date, temp_category
+
     """Create and show the Add Expense window.
 
     Args:
+        all_categories (list): List of all expense categories.
         on_save (callable|None): Optional callback called when the Save button
             is pressed. If provided it will be used as the button command.
     """
-    global window, frame1, entry_cat, entry_amt, entry_date
+    
 
     window = customtkinter.CTk()
     window.title("Add Expense")
@@ -23,8 +32,11 @@ def main(on_save=None):
     frame1 = customtkinter.CTkFrame(master=window)
     frame1.grid(row=0, column=0, pady=10, padx=10)
 
-    entry_cat = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter Category (misc.)")
-    entry_cat.grid(row=0, column=0, pady=10, padx=10)
+    if temp_category != "":
+        temp_category = ""  # Reset temp_category if it has a value
+
+    combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Enter Category (misc.)", *all_categories], command=save_category)
+    combobox2.grid(row=0, column=0, pady=10, padx=10)
 
     entry_amt = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter Amount")
     entry_amt.grid(row=0, column=1, pady=10, padx=10)
@@ -46,12 +58,10 @@ def main(on_save=None):
 
 
 def get_category():
-    return entry_cat.get()
-
+    return temp_category
 
 def get_amount():
     return entry_amt.get()
-
 
 def get_date():
     return entry_date.get()

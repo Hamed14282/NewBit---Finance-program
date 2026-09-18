@@ -74,6 +74,7 @@ all_expense_lines = []
 temp_expense_lines = []
 savings_lines = []
 all_savings_lines = []
+all_categories = []
 days = []
 expenses = []
 
@@ -138,6 +139,23 @@ def get_main_data():
                 income = float(lines[0].strip())
                 savings = float(lines[1].strip())
                 spendings = float(lines[2].strip())
+
+def get_all_categories():
+    global all_expense_lines, all_categories
+    exists = False
+
+    for expense_line in all_expense_lines:
+        exists = False
+
+        for category in all_categories:
+            if category == expense_line[3]:
+                exists = True
+
+        if exists == False:
+            all_categories.append(expense_line[3].lower())
+
+    return all_categories
+
                 
 def check_empty_files():
     files = glob.glob(f"data/{user_id}/*/*_expenses.csv") + glob.glob(f"data/{user_id}/*/*_savings.csv") + glob.glob(f"data/{user_id}/*/*_logs.txt")
