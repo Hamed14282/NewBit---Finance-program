@@ -5,12 +5,25 @@ from datetime import datetime
 window = None
 frame1 = None
 temp_category = ""
+create_cat = False
+entry_cat = None
 
 now = datetime.now()
 current_date = now.strftime("%d.%m.%Y")
 
 def save_category(select):
-    global temp_category
+    global temp_category, create_cat, entry_cat
+
+    if select == "New Category":
+        create_cat = True
+        entry_cat = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter New Category")
+        entry_cat.grid(row=1, column=0, pady=10, padx=10)
+    else:
+        create_cat = False
+        if frame1.grid_slaves(row=1, column=0):
+            for widget in frame1.grid_slaves(row=1, column=0):
+                widget.destroy()
+
     temp_category = select
 
 
@@ -35,7 +48,7 @@ def main(all_categories=None, on_save=None):
     if temp_category != "":
         temp_category = ""  # Reset temp_category if it has a value
 
-    combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Enter Category (misc.)", *all_categories], command=save_category)
+    combobox2 = customtkinter.CTkComboBox(master=frame1, values=["Enter Category", *all_categories, "New Category"], command=save_category)
     combobox2.grid(row=0, column=0, pady=10, padx=10)
 
     entry_amt = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter Amount")
@@ -58,7 +71,12 @@ def main(all_categories=None, on_save=None):
 
 
 def get_category():
-    return temp_category
+    global temp_category, entry_cat
+
+    if create_cat:
+        return entry_cat.get()
+    else:
+        return temp_category
 
 def get_amount():
     return entry_amt.get()

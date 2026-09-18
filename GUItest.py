@@ -658,9 +658,9 @@ def select(case):
                                 error_label.grid(row=1, column=0, pady=10, padx=10)
                                 Financetest.logtest.no_input("date")
                                 
-                            if category is not None and category != "" and category != "Enter Category (misc.)":
+                            if category is not None and category != "" and category != "Enter Category":
                                 category = category.lower()
-                            elif category is None or category == "" or category == "Enter Category (misc.)":
+                            elif category is None or category == "" or category == "Enter Category":
                                 if frame4 is None or not frame4.winfo_exists():
                                     create_frame4(1, 2, window)
                                 error_label = customtkinter.CTkLabel(master=frame4, text="No category entered. Using default category: misc.", text_color="pink", font=("Roboto", 16))

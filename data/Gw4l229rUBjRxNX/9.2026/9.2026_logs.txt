@@ -139,3 +139,51 @@
 18.09.2026 - 20:13:20 |Auto| Updated savings from 1304.00 to 1403.00 euros due to change in expense
 18.09.2026 - 20:13:21 |Table| Deleted expense: games, 45 euros, 18.09.2026
 18.09.2026 - 20:13:21 |Auto| Updated savings from 1403.00 to 1448.00 euros due to change in expense
+18.09.2026 - 20:19:36 || Logged in as TFHHA
+18.09.2026 - 20:21:57 || Logged in as TFHHA
+18.09.2026 - 20:22:10 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:22:10 |Add Expense| Added expense: bingus, 667 euros, 18.09.2026
+18.09.2026 - 20:22:10 |Auto| Updated savings from 1448.00 to 781.00 euros due to change in expense
+18.09.2026 - 20:25:00 || Logged in as TFHHA
+18.09.2026 - 20:25:08 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:25:08 |Add Expense| Added expense: games, 1 euros, 18.09.2026
+18.09.2026 - 20:25:08 |Auto| Updated savings from 781.00 to 780.00 euros due to change in expense
+18.09.2026 - 20:25:11 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:25:11 |Add Expense| No category entered. Using default category: misc.
+18.09.2026 - 20:25:11 |Add Expense| Added expense: misc., 2 euros, 18.09.2026
+18.09.2026 - 20:25:11 |Auto| Updated savings from 780.00 to 778.00 euros due to change in expense
+18.09.2026 - 20:25:18 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:25:18 |Add Expense| Added expense: something, 3 euros, 18.09.2026
+18.09.2026 - 20:25:18 |Auto| Updated savings from 778.00 to 775.00 euros due to change in expense
+18.09.2026 - 20:25:28 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:25:28 |Add Expense| Added expense: bingus, 4 euros, 18.09.2026
+18.09.2026 - 20:25:28 |Auto| Updated savings from 775.00 to 771.00 euros due to change in expense
+18.09.2026 - 20:25:50 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:25:50 |Add Expense| Added expense: loco chicken, 5 euros, 18.09.2026
+18.09.2026 - 20:25:50 |Auto| Updated savings from 771.00 to 766.00 euros due to change in expense
+18.09.2026 - 20:25:57 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:25:57 |Add Expense| Added expense: loco chicken, 6 euros, 18.09.2026
+18.09.2026 - 20:25:57 |Auto| Updated savings from 766.00 to 760.00 euros due to change in expense
+18.09.2026 - 20:26:06 || Logged out as TFHHA
+18.09.2026 - 20:28:36 || Logged in as TFHHA
+18.09.2026 - 20:28:54 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:28:54 |Add Expense| Added expense: something, 2 euros, 18.09.2026
+18.09.2026 - 20:28:54 |Auto| Updated savings from 760.00 to 758.00 euros due to change in expense
+18.09.2026 - 20:29:03 || Logged out as TFHHA
+18.09.2026 - 20:30:40 || Logged in as TFHHA
+18.09.2026 - 20:30:54 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:30:54 |Add Expense| Added expense: something, 12 euros, 18.09.2026
+18.09.2026 - 20:30:55 |Auto| Updated savings from 758.00 to 746.00 euros due to change in expense
+18.09.2026 - 20:31:08 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:31:08 |Add Expense| Added expense: bingus, 34 euros, 18.09.2026
+18.09.2026 - 20:31:08 |Auto| Updated savings from 746.00 to 712.00 euros due to change in expense
+18.09.2026 - 20:31:10 || Logged out as TFHHA
+18.09.2026 - 20:33:36 || Logged in as TFHHA
+18.09.2026 - 20:33:51 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:33:51 |Add Expense| Added expense: loco chicken, 7 euros, 18.09.2026
+18.09.2026 - 20:33:51 |Auto| Updated savings from 712.00 to 705.00 euros due to change in expense
+18.09.2026 - 20:33:56 |Add Expense| No date entered. Using current date: 18.09.2026
+18.09.2026 - 20:33:56 |Add Expense| No category entered. Using default category: misc.
+18.09.2026 - 20:33:56 |Add Expense| Added expense: misc., 8 euros, 18.09.2026
+18.09.2026 - 20:33:56 |Auto| Updated savings from 705.00 to 697.00 euros due to change in expense
+18.09.2026 - 20:33:59 || Logged out as TFHHA
