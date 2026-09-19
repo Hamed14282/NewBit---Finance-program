@@ -3,8 +3,6 @@
 
 """ 
 TODO
-Allow the user to select profiles (different users with different data files)
--Allow users to change the name of user profiles (maybe attach ID to each profile to not mix up)
 -Allow users to delete profiles
 -Allow changing profiles from main page
 -Add a line in the expense graph to show the average expense during that month (per day? or based on the number of days before the point of reference?)

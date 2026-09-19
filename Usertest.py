@@ -79,6 +79,65 @@ def check_user_id():
         if user1[0] == user:
             user_id = user1[2]
 
+def check_user_id(user):
+    global users
+
+    for user1 in users:
+        if user1[0] == user:
+            user_id = user1[2]
+
+    return user_id
+
+def delete_user(user_id):
+    global users, users_list, user_ids_list, temp_choice
+
+    #Removes User from users.csv ######################################################################
+
+    x = 0
+
+    for user1 in users:
+        if user1[2] == user_id:
+            del users[x]
+
+        x += 1
+
+    #DECRYPT###########################################
+
+    decrypt_file("data/users.csv")
+
+    #######################################################################
+
+    with open(f"data/users.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerows(users)
+
+    #ENCRYPT######################################################################
+
+    encrypt_file("data/users.csv")
+
+    #Removes User from users list ######################################################################
+
+    for user1 in users_list:
+        if user1 == temp_choice:
+            users_list.remove(user1)
+
+    #Removes User ID from list ######################################################################
+
+    for id in user_ids_list:
+        if id == user_id:
+            user_ids_list.remove(id)
+
+    #Removes User data folder ######################################################################
+
+    if os.path.exists(f"data/{user_id}"):
+        for root, dirs, files in os.walk(f"data/{user_id}", topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+                
+        os.rmdir(f"data/{user_id}")
+
 def get_all_users():
     global users, users_list, user_ids_list, key, decrypted
     users = []
@@ -382,7 +441,33 @@ def choose():
 
 
             case "Delete User":
-                pass
+                combobox = customtkinter.CTkComboBox(master=frame1, values=["-Select User-", *users_list], command=save)
+                combobox.grid(row=2, column=1, pady=10, padx=10)
+
+                entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter password")
+                entry1.grid(row=2, column=2, pady=10, padx=10)
+
+                entry2 = customtkinter.CTkEntry(master=frame1, placeholder_text="Enter password again")
+                entry2.grid(row=3, column=2, pady=10, padx=10)
+
+                def delete():
+                    pass1 = entry1.get()
+                    pass2 = entry2.get()
+
+                    if pass1 == pass2 and check_password(temp_choice, pass1):
+
+                            delete_user(check_user_id(temp_choice))
+
+                            popup_window("Info", "User deleted successfully")
+
+                    elif pass1 == pass2 and not check_password(temp_choice, pass1):
+                        popup_window("Error", "Invalid password")
+
+                    else:
+                        popup_window("Error", "Passwords do not match")
+
+                button1 = customtkinter.CTkButton(master=frame1, text="Delete User", command=delete)
+                button1.grid(row=2, column=3, pady=10, padx=10)
 
     if not users:
         select("Add New")
