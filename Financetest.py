@@ -21,6 +21,8 @@ UPDATING
 -Table update after adding expense (Oragnize the data in the table per month?)
 
 CHECKING
+-Check if profile names are the same and throw an error and ask to choose a different name
+-Password safety requirements (minimum length, special characters, etc.)?
 -Check if data.txt is empty not throw an error
 -Check if the users list in users.csv matches with the available folders: delete users if not
 -Add synchronisation between data.txt and last savings value in *_savings.csv

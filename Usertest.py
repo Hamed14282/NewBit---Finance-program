@@ -29,7 +29,7 @@ def get_user():
 
 def get_user_id():
     global user_id
-    check_user_id()
+    check_user_id1()
     return user_id
 
 def check_users_file():
@@ -72,7 +72,7 @@ def encrypt_file(path):
     with open("data/users.csv", "wb") as encrypted_file:
         encrypted_file.write(encrypted)
 
-def check_user_id():
+def check_user_id1():
     global user_id, users
 
     for user1 in users:
@@ -212,7 +212,7 @@ def popup_window(type, message):
     window1.protocol("WM_DELETE_WINDOW", close)
     window1.mainloop()
 
-def check_password(user, old_pass):
+def check_password(user, old_pass, display_error):
     global users
     pass1 = ""
     
@@ -221,7 +221,8 @@ def check_password(user, old_pass):
             pass1 = user1[1]
     
     if not old_pass == pass1:
-        popup_window("Error", "Wrong password entered")
+        if display_error:
+            popup_window("Error", "Wrong password entered")
         return False
     
     else:
@@ -230,10 +231,11 @@ def check_password(user, old_pass):
 def change_password(user, new_pass):
     global users
     x = 0
+    id = check_user_id(user)
 
     for user1 in users:
         if user1[0] == user:
-            users[x] = [user, new_pass]
+            users[x] = [user, new_pass, id]
 
         x += 1
 
@@ -358,7 +360,7 @@ def choose():
                 
                 def on_login():
                     
-                    if check_password(temp_choice, entry1.get()):
+                    if check_password(temp_choice, entry1.get(), display_error=True):
                         save_selection(temp_choice)
                         check_user_folder()
 
@@ -391,10 +393,7 @@ def choose():
                     save_selection(new_user_value)
                     check_user_folder()
 
-                    # Closes every process
-                    window.quit()
-                    # Closes window
-                    window.destroy()
+                    select("Select Existing")
 
                 button1 = customtkinter.CTkButton(master=frame1, text="Login", command=on_login)
                 button1.grid(row=2, column=3, pady=10, padx=10)
@@ -413,6 +412,8 @@ def choose():
                     new_username = entry1.get()
 
                     change_username(old_username, new_username)
+
+                    select("Change Profile Name")
 
                 button1 = customtkinter.CTkButton(master=frame1, text="Apply", command=change)
                 button1.grid(row=2, column=3, pady=10, padx=10)
@@ -433,8 +434,10 @@ def choose():
                     old_password = entry1.get()
                     new_password = entry2.get()
 
-                    if check_password(temp_choice, old_password):
+                    if check_password(temp_choice, old_password, display_error=True):
                         change_password(temp_choice, new_password)
+
+                        select("Change Password")
 
                 button1 = customtkinter.CTkButton(master=frame1, text="Apply", command=change)
                 button1.grid(row=2, column=3, pady=10, padx=10)
@@ -454,13 +457,15 @@ def choose():
                     pass1 = entry1.get()
                     pass2 = entry2.get()
 
-                    if pass1 == pass2 and check_password(temp_choice, pass1):
+                    if pass1 == pass2 and check_password(temp_choice, pass1, display_error=False):
 
                             delete_user(check_user_id(temp_choice))
 
                             popup_window("Info", "User deleted successfully")
 
-                    elif pass1 == pass2 and not check_password(temp_choice, pass1):
+                            select("Delete User")
+
+                    elif pass1 == pass2 and not check_password(temp_choice, pass1, display_error=False):
                         popup_window("Error", "Invalid password")
 
                     else:

@@ -187,3 +187,7 @@
 18.09.2026 - 20:33:56 |Add Expense| Added expense: misc., 8 euros, 18.09.2026
 18.09.2026 - 20:33:56 |Auto| Updated savings from 705.00 to 697.00 euros due to change in expense
 18.09.2026 - 20:33:59 || Logged out as TFHHA
+20.09.2026 - 10:31:01 || Logged in as TFHHA
+20.09.2026 - 10:32:00 || Logged out as TFHHA
+20.09.2026 - 10:32:28 || Logged in as TFHHA
+20.09.2026 - 10:33:32 || Logged out as TFHHA
