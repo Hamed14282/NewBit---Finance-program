@@ -390,9 +390,9 @@ def choose():
                     password = entry2.get()
 
                     save_new_user([new_user_value, password, id])
-                    save_selection(new_user_value)
                     check_user_folder()
 
+                    get_all_users()
                     select("Select Existing")
 
                 button1 = customtkinter.CTkButton(master=frame1, text="Login", command=on_login)
@@ -475,7 +475,7 @@ def choose():
                 button1.grid(row=2, column=3, pady=10, padx=10)
 
     if not users:
-        select("Add New")
+        select("Create New")
         combobox = customtkinter.CTkComboBox(master=frame1, values=[ "Create New", "Select Existing", "Change Profile Name", "Change Password", "Delete User"], command=select)
         combobox.grid(row=2, column=0, pady=10, padx=10)
 

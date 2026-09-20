@@ -98,6 +98,16 @@ def string_to_num(s):
     except ValueError:
         return False
 
+def reset_app():
+
+    Financetest.logtest.login("logged out")
+    # Closes every process
+    window.quit()
+    # Closes window
+    window.destroy()
+
+    exec(open("GUItest.py").read())
+    
 ###############################################################################################################
 
 label = customtkinter.CTkLabel(master=frame1, text="Finance app", font=("Roboto", 30))
@@ -105,6 +115,9 @@ label.grid(row=0, column=0, pady=10, padx=10)
 
 label2 = customtkinter.CTkLabel(master=frame1, text="Select an option:", font=("Roboto", 16))
 label2.grid(row=1, column=0, pady=10, padx=10)
+
+button1 = customtkinter.CTkButton(master=frame1, text="Choose profile", command=lambda: reset_app())
+button1.grid(row=10, column=0, pady=10, padx=10)
 
 ###############################################################################################################
 
@@ -684,7 +697,7 @@ def select(case):
 
                             table.insert(parent="", index=0, iid=item_id, values=(category, amount, date), tags=('fg', "oddrow" if len(table.get_children()) % 2 == 0 else "evenrow"))
 
-                        button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: open_add_expense_window(), )
+                        button3 = customtkinter.CTkButton(master=frame3, text="Add expense", command=lambda: open_add_expense_window())
                         button3.grid(row=0, column=1, pady=10, padx=10, sticky="e")
 
 

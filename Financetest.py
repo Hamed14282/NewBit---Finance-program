@@ -3,9 +3,9 @@
 
 """ 
 TODO
--Allow users to delete profiles
 -Allow changing profiles from main page
 -Add a line in the expense graph to show the average expense during that month (per day? or based on the number of days before the point of reference?)
+-Allow distinction between sources of income and different fixed expenses
 
 Ability to change themes
 Make expense table editable
@@ -210,6 +210,10 @@ def total_monthly_expenses():
         total += float(x[0])
         
     print(f"Total expenses this month {total}\n")
+
+#float value of avg. spendings per month
+def average_monthly_spendings(month):
+    expense_lines = get_lines(float(month))
 
 def expenses_graph(month):
     exp = {}
