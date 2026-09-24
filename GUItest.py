@@ -98,16 +98,21 @@ def string_to_num(s):
     except ValueError:
         return False
 
-def reset_app():
+#TEMPORARY##############################################################################################################
 
-    Financetest.logtest.login("logged out")
-    # Closes every process
-    window.quit()
-    # Closes window
-    window.destroy()
+# def reset_app():
 
-    exec(open("GUItest.py").read())
-    
+#     Financetest.logtest.login("logged out")
+#     # Closes every process
+#     window.quit()
+#     # Closes window
+#     window.destroy()
+
+#     exec(open("GUItest.py").read())
+
+# button1 = customtkinter.CTkButton(master=frame1, text="Choose profile", command=lambda: reset_app())
+# button1.grid(row=10, column=0, pady=10, padx=10)
+
 ###############################################################################################################
 
 label = customtkinter.CTkLabel(master=frame1, text="Finance app", font=("Roboto", 30))
@@ -115,9 +120,6 @@ label.grid(row=0, column=0, pady=10, padx=10)
 
 label2 = customtkinter.CTkLabel(master=frame1, text="Select an option:", font=("Roboto", 16))
 label2.grid(row=1, column=0, pady=10, padx=10)
-
-button1 = customtkinter.CTkButton(master=frame1, text="Choose profile", command=lambda: reset_app())
-button1.grid(row=10, column=0, pady=10, padx=10)
 
 ###############################################################################################################
 

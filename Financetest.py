@@ -211,10 +211,6 @@ def total_monthly_expenses():
         
     print(f"Total expenses this month {total}\n")
 
-#float value of avg. spendings per month
-def average_monthly_spendings(month):
-    expense_lines = get_lines(float(month))
-
 def expenses_graph(month):
     exp = {}
     sav = {}
